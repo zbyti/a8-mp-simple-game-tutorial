@@ -35,7 +35,7 @@ Powyższy skryp ustawia lokalne zmienne systemowe **mp**, **madds**, **base**, *
 * **mp** ścieżka do pliku binarnego kompilatora Mad Pascala
 * **mads** ścieżka do pliku binarnego assemblera MADS
 * **base** zestaw bibiotek niezbędnych do prawidłowej kompilacji przez MADS źródeł wygenerowanych przez MP
-* **name** nazwa pliku .pas zawierającego nasz główny kod
+* **name** nazwa pliku `.pas` zawierającego nasz główny kod
 
 Wraz z używaniem powyższe stanie się dla Ciebie bardziej jasne, na ten moment zodowólmy się, że powyższe działa :]
 
