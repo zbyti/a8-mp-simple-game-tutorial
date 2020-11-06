@@ -28,8 +28,8 @@ Ninejszy tutorial będzie małym podsumowaniem mojej wiedzy zdobytej od kwietnia
 * [Mapping The Atari - Revised Edition](https://www.atariarchives.org/mapping/) The comprehensive sourcebook and memory guide
 * [De Re Atari](https://www.atariarchives.org/dere/) A Guide to Effective Programming
 * [Atari Graphics & Arcade Game Design](https://www.atariarchives.org/agagd/)
-* [Player/Missile](https://playermissile.com/#tutorials) Player/Missile Tutorials.
-* [Atariki](http://atariki.krap.pl/index.php/Strona_g%C5%82%C3%B3wna) Internetowa Encyklopedia atari.area!
+* [Player/Missile](https://playermissile.com/#tutorials) Player/Missile Tutorials
+* [Atariki](http://atariki.krap.pl/index.php/Strona_g%C5%82%C3%B3wna) Internetowa Encyklopedia atari.area
 
 
 ## Inne:
