@@ -32,10 +32,10 @@ fi
 
 Powyższy skryp ustawia lokalne zmienne systemowe **mp**, **madds**, **base**, **name**, które aktywne są tylko tak długo, jak długo żyje sesja terinala w którym odpalilismy skrypt. Wjaśnijmy sobie co oznaczają owe zmienne:
 
-* mp - ścieżka do pliku binarnego kompilatora Mad Pascala
-* mads - ścieżka do pliku binarnego assemblera MADS
-* base - zestaw bibiotek niezbędnych do prawidłowej kompilacji przez MADS źródeł wygenerowanych przez MP
-* name - nazwa pliku .pas zawierającego nasz główny kod
+* **mp** ścieżka do pliku binarnego kompilatora Mad Pascala
+* **mads** ścieżka do pliku binarnego assemblera MADS
+* **base** zestaw bibiotek niezbędnych do prawidłowej kompilacji przez MADS źródeł wygenerowanych przez MP
+* **name** nazwa pliku .pas zawierającego nasz główny kod
 
 Wraz z używaniem powyższe stanie się dla Ciebie bardziej jasne, na ten moment zodowólmy się, że powyższe działa :]
 
