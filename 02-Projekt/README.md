@@ -10,7 +10,7 @@ Teraz możemy popracować nad zestawem znaków. Tutaj nie będę udawał, że po
 
 ![proto_01.png](gfx/proto_01.png)
 
-Wygląda już bajerancko, jednakże jesteśmy wciąż na etapie koncepcji dlatego folugjemy swojej fantazji dalej :]
+Wygląda już bajerancko, jednakże jesteśmy wciąż na etapie koncepcji dlatego folgujmy swojej fantazji dalej :]
 
 ![proto_02.png](gfx/proto_02.png)
 
