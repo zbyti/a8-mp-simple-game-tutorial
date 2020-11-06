@@ -20,6 +20,4 @@ Kaz wykonał także planszę tytułową do gry, więc wykorzystajmy ją by mieć
 
 ![proto_03.jpg](gfx/proto_03.jpg)
 
-Niejasno pamiętam czy te pasy miały być pionowe czy ukośne ale to zdecydowanie nieistotne w tej chwili.
-
 Nie będę opisywał gameplayu bo wynika on z obrazków, ile z tego wykonamy to zależeć będzie tylko od naszej determinacji, może cześć zostawię Ci do wykoania samodzielnie? Zobaczymy :]
