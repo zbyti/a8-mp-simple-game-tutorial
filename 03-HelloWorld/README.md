@@ -30,7 +30,7 @@ else
 fi
 ```
 
-Powyższy skryp ustawia lokalne zmienne systemowe **mp**, **madds**, **base**, **name**, które aktywne są tylko tak długo, jak długo żyje sesja terinala w którym odpalilismy skrypt. Wjaśnijmy sobie co oznaczają owe zmienne:
+Powyższy skryp ustawia lokalne zmienne systemowe **mp**, **mads**, **base**, **name**, które aktywne są tylko tak długo, jak długo żyje sesja terinala w którym odpalilismy skrypt. Wjaśnijmy sobie co oznaczają owe zmienne:
 
 * **mp** ścieżka do pliku binarnego kompilatora Mad Pascala
 * **mads** ścieżka do pliku binarnego assemblera MADS
