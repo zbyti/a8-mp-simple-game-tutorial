@@ -1,0 +1,204 @@
+mads 2.1.1
+   204 					opt l+
+   106
+   107 				.print 'ZPAGE: ',fxptr,'..',zpend-1
+   107 				ZPAGE: $0080..$00D7
+   108
+   109 				.print 'RTLIB: ',RTLIB,'..',*-1
+   109 				RTLIB: $2000..$1FFF
+   110
+   111 				; ------------------------------------------------------------
+   112
+   113 2000			START
+   114 2000 BA				tsx
+   115 2001 8E 38 20			stx MAIN.@halt+1
+   116
+   117 					.ifdef fmulinit
+   118 					fmulinit
+   119 					eif
+   120
+   121 = 0005			VLEN	= VARDATASIZE-VARINITSIZE
+   122 = 2053			VADR	= DATAORIGIN+VARINITSIZE
+   123
+   124 					ift VADR > $BFFF
+   125 					ert 'Invalid memory address range ',VADR
+   126 					eli (VLEN>0) && (VLEN<=256)
+   127 2004 A2 FB			ldx #256-VLEN
+   128 2006 A9 00			lda #$00
+   129 2008 9D 58 1F E8 D0 FA		sta:rne VADR+VLEN-256,x+
+   130 					eli VLEN>0
+   131 					@fill #VADR #VLEN #$00
+   132 					eif
+   133
+   134 200E A9 58 85 82 A9 20 + 	mwa #PROGRAMSTACK psptr
+   135
+   136 					.ifdef MAIN.@DEFINES.ROMOFF
+   137 					icl 'atari\romoff.asm'
+   138 					.endif
+   139
+   140 2016 A2 0F			ldx #$0F					; DOS II+/D ParamStr
+   141 2018 BD 40 03 9D 3D 20 + 	mva:rpl $340,x MAIN.IOCB@COPY,x-
+   142
+   143 2021 E8				inx						; X = 0
+   144 2022 86 90			stx bp						; BP = 0
+   145
+   146 2024 8E 08 D2			stx audctl					; reset POKEY
+   147 2027 A9 03			lda #3
+   148 2029 8D 0F D2			sta skctl
+   149
+   150 202C CA				dex						; X = 255
+   151
+   152 202D				UNITINITIALIZATION
+Macro: UNITINITIALIZATION [Source: main.a65]
+   153
+   154 202D			.local	MAIN						; PROCEDURE
+   155
+   156 202D 4C 34 20			jmp l_0007
+   157
+   158 				; ------------------------------------------------------------
+   159
+   160 2030			.local	SYSTEM						; UNIT
+   161
+   162 				; ------------------------------------------------------------
+   163
+   164 = 0101			__PORTB_BANKS	= $0101
+   165 = 0648			M_PI_2	= $0648
+   166 = 0192			D_PI_2	= $0192
+   167 = 0004			D_PI_180	= $04
+   168 = 0000			MGTIA	= $00
+   169 = 0080			MVBXE	= $80
+   170 = 0000			VBXE_XDLADR	= $00
+   171 = 0100			VBXE_BCBADR	= $0100
+   172 = 1000			VBXE_MAPADR	= $1000
+   173 = 5000			VBXE_OVRADR	= $5000
+   174 = B000			VBXE_WINDOW	= $B000
+   175 = 0000			IDLI	= $00
+   176 = 0001			IVBL	= $01
+   177 = 00FE			CH_DELCHR	= $FE
+   178 = 009B			CH_ENTER	= $9B
+   179 = 001B			CH_ESC	= $1B
+   180 = 001C			CH_CURS_UP	= $1C
+   181 = 001D			CH_CURS_DOWN	= $1D
+   182 = 001E			CH_CURS_LEFT	= $1E
+   183 = 001F			CH_CURS_RIGHT	= $1F
+   184 = 007F			CH_TAB	= $7F
+   185 = 009B			CH_EOL	= $9B
+   186 = 007D			CH_CLR	= $7D
+   187 = 00FD			CH_BELL	= $FD
+   188 = 007E			CH_DEL	= $7E
+   189 = 009C			CH_DELLINE	= $9C
+   190 = 009D			CH_INSLINE	= $9D
+   191 = 0000			COLOR_BLACK	= $00
+   192 = 000E			COLOR_WHITE	= $0E
+   193 = 0032			COLOR_RED	= $32
+   194 = 0096			COLOR_CYAN	= $96
+   195 = 0068			COLOR_VIOLET	= $68
+   196 = 00C4			COLOR_GREEN	= $C4
+   197 = 0074			COLOR_BLUE	= $74
+   198 = 00EE			COLOR_YELLOW	= $EE
+   199 = 0028			COLOR_ORANGE	= $28
+   200 = 00E4			COLOR_BROWN	= $E4
+   201 = 003C			COLOR_LIGHTRED	= $3C
+   202 = 0004			COLOR_GRAY1	= $04
+   203 = 0006			COLOR_GRAY2	= $06
+   204 = 000A			COLOR_GRAY3	= $0A
+   205 = 00CC			COLOR_LIGHTGREEN	= $CC
+   206 = 007C			COLOR_LIGHTBLUE	= $7C
+   207 = 0004			FMOPENREAD	= $04
+   208 = 0008			FMOPENWRITE	= $08
+   209 = 0009			FMOPENAPPEND	= $09
+   210 = 000C			FMOPENREADWRITE	= $0C
+   211 = 204D			SCREENWIDTH	= DATAORIGIN+$0000
+   212 = 204F			SCREENHEIGHT	= DATAORIGIN+$0002
+   213 = 2051			DATESEPARATOR	= DATAORIGIN+$0004
+   214 = D014			TVSYSTEM	= $D014
+   215 = D20A			RND	= $D20A
+   216 = 02C0			adr.PALETTE	= $02C0
+   217 2030			.var PALETTE	= adr.PALETTE .word
+   218 = D012			adr.HPALETTE	= $D012
+   219 2030			.var HPALETTE	= adr.HPALETTE .word
+   220 = 2052			FILEMODE	= DATAORIGIN+$0005
+   221 = 2053			GRAPHMODE	= DATAORIGIN+$0006
+   222 = 2054			IORESULT	= DATAORIGIN+$0007
+   223 = 2055			EOLN	= DATAORIGIN+$0008
+   224 = 2056			RNDSEED	= DATAORIGIN+$0009
+   225
+   226 = 2030 C0 02		PALETTE
+   226 = 2032 12 D0		HPALETTE
+   226 				.endl							; UNIT SYSTEM
+   227 2034			l_0007
+   228
+   229 				; --- RepeatUntilProlog
+   230 2034			l_0057
+   231
+   232 				; optimize OK (main.pas), line = 4
+   233
+   234 2034 4C 34 20			jmp l_0057
+   235 2037			@exit
+   236
+   237 2037 A2 00		@halt	ldx #$00
+   238 2039 9A				txs
+   239 					.ifdef MAIN.@DEFINES.ROMOFF
+   240 					inc portb
+   241 					.endif
+   242
+   243 203A A0 01			ldy #$01
+   244
+   245 203C 60				rts
+   246
+   247 				; ------------------------------------------------------------
+   248
+   249 203D 00 00 00 00 00 00 + IOCB@COPY	:16 brk
+   250
+   251 				; ------------------------------------------------------------
+   252
+   253 204D			.local	@DEFINES
+   254 204D			ATARI
+   255 				.endl
+   256
+   257 204D			.local	@RESOURCE
+   258 				.endl
+   259
+   260 				.endl							; MAIN
+   261
+   262 				; ------------------------------------------------------------
+   263 				; ------------------------------------------------------------
+   264
+   265 				.macro	UNITINITIALIZATION
+   266 				
+   267 					.ifdef MAIN.SYSTEM.@UnitInit
+   268 					jsr MAIN.SYSTEM.@UnitInit
+   269 					eif
+   270 				.endm
+   271
+   272 				; ------------------------------------------------------------
+   273
+   274 					ift .SIZEOF(MAIN.SYSTEM) > 0
+   275 					.print 'SYSTEM: ',MAIN.SYSTEM,'..',MAIN.SYSTEM+.SIZEOF(MAIN.SYSTEM)-1
+   275 				SYSTEM: $2030..$2033
+   276 					eif
+   277
+   278 					.print 'CODE: ',CODEORIGIN,'..',MAIN.@RESOURCE-1
+   278 				CODE: $2000..$204C
+   279
+   280 				; ------------------------------------------------------------
+   281
+   282 204D			DATAORIGIN
+   283 204D 28 00 18 00 2D 0C	.by  $28 $00 $18 $00 $2D $0C
+   284
+   285 = 0006			VARINITSIZE	= *-DATAORIGIN
+   286 = 000B			VARDATASIZE	= 11
+   287
+   288 = 2058			PROGRAMSTACK	= DATAORIGIN+VARDATASIZE
+   289
+   290 					.print 'DATA: ',DATAORIGIN,'..',PROGRAMSTACK
+   290 				DATA: $204D..$2058
+   291
+   292 02E0-02E1> 00 20			run START
+   293
+   294 				; ------------------------------------------------------------
+   295
+   296 				.macro	STATICDATA
+   297 				.endm
+   298
+   299 					end

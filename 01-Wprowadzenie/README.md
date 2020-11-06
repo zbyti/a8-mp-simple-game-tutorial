@@ -19,6 +19,7 @@ Ninejszy tutorial będzie małym podsumowaniem mojej wiedzy zdobytej od kwietnia
 
 * [emulator](https://atari800.github.io) Jako linuksiarz preferuję Atari800 ale możesz użyć dowolnie inny.
 * [kompilator](http://mads.atari8.info/doc/madpascal.html) W tym tutku będę posługiwał się Mad Pascalem ale zawarte tutaj informacje są przenośne więc możesz użyć dowolnie innego języka na małe Atari ponieważ nie będę używał bibliotek specyficznych dla MP.
+* [assembler](http://mads.atari8.info/mads.html) assembler dla naszego kodu wygenerowanego przez MP.
 * [Graph2Font](http://g2f.atari8.info/instrukcja.html) świetny program graficzny.
 * [Atari FontMaker](https://sourceforge.net/projects/atari-fontmaker) nieodzowny dla każdego twórcy gier edytor znaków.
 
