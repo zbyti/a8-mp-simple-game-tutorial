@@ -1,6 +1,6 @@
 # 1. Wprowadzenie
 
-Ninejszy tutorial będzie małym podsumowaniem mojej wiedzy zdobytej od kwietnia do listopada roku 2020 o komputerze **Atari 800XL**. Nie ma tego wiele bo nie była to systematyczna nauka, uważam jednak, że wiedzy wystarczy mi do napsiania prostej gry na ten komputer. Sprawdźmy! :]
+Ninejszy tutorial będzie małym podsumowaniem mojej wiedzy zdobytej od kwietnia do listopada roku 2020 o komputerze **Atari 800XL**. Nie ma tego wiele bo nie była to systematyczna nauka, uważam jednak, że wiedzy wystarczy mi do napsiania prostej gry na ten komputer. Sprawdźmy!
 
 ## Czego się nauczymy?
 
