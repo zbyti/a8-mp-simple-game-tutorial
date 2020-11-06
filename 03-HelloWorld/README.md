@@ -7,7 +7,7 @@ begin
   repeat until false;
 end.
 ```
-To bardzo prosty kod, składa się z obowiązkowej procedury `begin ... end.` w której ciele znajdujemy wieczną pętle `repeat ... until`.
+To bardzo prosty kod, składa się z obowiązkowej procedury `begin ... end.` w której ciele znajdujemy wieczną pętlę `repeat ... until`.
 
 Napiszmy sobie jeszcze prosty skrypt budujący z powyższego kodu wykonywalny plik **XEX**:
 
