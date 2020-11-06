@@ -9,7 +9,7 @@ end.
 ```
 To bardzo prosty kod, składa się z obowiązkowej procedury `begin ... end.` w której ciele znajdujemy wieczną pętlę `repeat ... until`.
 
-Napiszmy sobie jeszcze prosty skrypt budujący z powyższego kodu wykonywalny plik **XEX** [^1]
+Napiszmy sobie jeszcze prosty skrypt budujący z powyższego kodu wykonywalny plik **XEX**:
 
 ```bash
 #!/bin/bash
@@ -41,5 +41,7 @@ Wraz z używaniem powyższe stanie się dla Ciebie bardziej jasne, na ten moment
 
 Po uruchomieniu skryptu w katalogou projektu pojawi się podkatalog `output`, powinieneś zneleźć w nim pliki binarny możliwy do uruchomienia na Atari `main.xex`. Pozostaje go już tylko uruchomić, np.: `atari800 output/main.xex`.
 
-[^1]:>[COM](http://atariki.krap.pl/index.php/COM) to format pliku zawierającego pliki wykonywalne dla ośmiobitowego Atari. Pliki o tym formacie występują też z rozszerzeniami EXE (głównie na Atari), oraz XEX (głównie do użycia w emulatorach). W wyniku niepełnej standaryzacji zamiennie stosuje się rozszerzenia .COM i .EXE, choć pierwotnie zakładano rozszerzenie .COM (command) dla plików rozszerzeń przeznaczonych dla procesora komend DOS-u oraz .EXE jako plików wykonywalnych (executable) czyli właściwych (użytkowych) programów.
+## Słowniczek pojęć:
 
+* [**XEX**](http://atariki.krap.pl/index.php/COM)
+>COM to format pliku zawierającego pliki wykonywalne dla ośmiobitowego Atari. Pliki o tym formacie występują też z rozszerzeniami EXE (głównie na Atari), oraz XEX (głównie do użycia w emulatorach). W wyniku niepełnej standaryzacji zamiennie stosuje się rozszerzenia .COM i .EXE, choć pierwotnie zakładano rozszerzenie .COM (command) dla plików rozszerzeń przeznaczonych dla procesora komend DOS-u oraz .EXE jako plików wykonywalnych (executable) czyli właściwych (użytkowych) programów.
