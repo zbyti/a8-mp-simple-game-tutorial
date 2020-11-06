@@ -14,7 +14,7 @@ Wygląda już bajerancko, jednakże jesteśmy wciąż na etapie koncepcji dlateg
 
 ![proto_02.png](gfx/proto_02.png)
 
-Tak, wygląda, że to jest to! Gra to będzi scroll w prawo z generacją tunelu i omijaniem przeszkod, może nawet będziemy je zestrzeliwać? Zobaczymy jak dobrze pójdzie nam kodowanie.
+Tak, wygląda, że to jest to! Gra to będzi scroll w prawo z generacją tunelu i omijaniem przeszkod, może nawet będziemy je zestrzeliwać? Zobaczymy jak dobrze pójdzie nam kodowanie...
 
 Kaz wykonał także planszę tytułową do gry, więc wykorzystajmy ją by mieć natchnienie do dalszej pracy:
 
