@@ -4,7 +4,7 @@
 
 Czas na mała lobotomię, materiał podzieliłm na dwie cześci: teoretyczną i praktyczną.
 
-Może zauważyłeś, że nasz komputer może i ma 64KB pamięci podstawowej ale Dr. Frankenstein by go ożywić wszczepił mu fałszywe wspomnienia pod postacią *systemu opercyjnego* i sporo z tej pamięci zajął dla siebie. Teraz nasza kolej na małą incepcję :D
+Może zauważyłeś, że nasz komputer ma 64KB pamięci podstawowej ale Dr. Frankenstein by go ożywić wszczepił mu fałszywe wspomnienia pod postacią *systemu opercyjnego* i sporo z tej pamięci zajął dla siebie. Teraz nasza kolej na małą incepcję :D
 
 O ile odzyskanie pamięci od adresu $a000-$bfff jest względnie łatwe bo można komputer uruchomić w takim trybie (z wyłączonym Basic-iem) to oduczenie go jak żyć *po steremu* nastręcza trochę więcej pracy - całe szczęście niezbyt dużo :]
 
