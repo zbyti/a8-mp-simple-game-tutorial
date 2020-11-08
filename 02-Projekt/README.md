@@ -1,4 +1,4 @@
-# Projekt
+# 2. Projekt
 
 Zaprototypujmy grę przy użyciu Atari FontMaker:
 
