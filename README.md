@@ -4,3 +4,4 @@
 2. [Projekt](02-Projekt/README.md)
 3. [Hello World](03-HelloWorld/README.md)
 4. [System Off - teoria](04-SystemOff-teoria/README.md)
+5. [System Off - praktyka](05-SystemOff-praktyka/README.md)
