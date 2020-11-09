@@ -88,7 +88,7 @@ Wyróżnić możemy trzy części naszej biblioteki:
 * **implementacja** obowiązkowo należy tutaj napisać procedury i funckje które zadeklarowaliśmy w interfejsie ale można również zadeklarować stałe, zmienne oraz napisać procedury i funckje pomocnicze, niewidoczne na zewnątrz biblioteki.
 * **initcjalizacja** możemy nadać wartość początkową pewnym zmiennym itd.
 
-Oczywiście powyższe zmienne **NMIWN** itd. nie muszą być *publiczne* ale z powodu świadomej rezygnacji z dostarczanego przez **MP** unitu `atari` rejestry sprzętowe postanowiłem na wszelki wypadek pozosawić gotowe do użycia bez ponownej ich deklaracji, nawet jak do ich obsługi napisane są odpowiednie procedury i funkcje.
+Oczywiście powyższe zmienne **NMIWN** itd. nie muszą być *publiczne* ale z powodu świadomej rezygnacji z dostarczanego przez **MP** unitu `atari` rejestry sprzętowe postanowiłem na wszelki wypadek pozostawić gotowe do użycia bez ponownej ich deklaracji, nawet jak do ich obsługi napisane są odpowiednie procedury i funkcje.
 
 Jak widzimy są tutaj wszystkie elementy niezbędne aby wygodnie wyłączyć system i zarządzać przerwaniami **NMI**. Możliwe, że to mogą być już wszystkie wstawki *asm* w naszej przyszłej grze, dla porządku wspomnę czym jest to na co patrzysz:
 
