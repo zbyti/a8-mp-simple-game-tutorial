@@ -57,7 +57,7 @@ Pozostaje już tylko *rozebrać z uwagą* ;) ten program, bez wdawania się w oc
 ## Z grubsza:
 
 * `program Game;` nieobowiązkowe, ale mile widziane.
-* `var PORTB: byte absolute $D301;` przykład deklaracji zemiennej typu **BYTE** zamapowanej jawnie na adres w pamięci komputera.
+* `var PORTB: byte absolute $D301;` przykład deklaracji zemiennej typu **BYTE** zamapowanej jawnie na konkretny adres w pamięci komputera.
 * `var vdslst: ^word;` zmienna będąca wskaźnikiem typu word (2 bajty). Kompilator sam zadecyduje gdzie będzie znajdować się w pamięci komputera.
 * `assembler` modyfikator procedury informujący, że ciało (w tym przypadku procedury) będzie napisane w MADS.
 * `interrupt` modyfikator informujący, że procedurę należy zakończyć rozkazem **RTI** (powrót z przerwania) a nie zwyczajowym **RTS** powrót z podprocedury.
