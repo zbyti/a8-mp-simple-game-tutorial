@@ -29,7 +29,7 @@ Jak widać emulator podaje, że aktywna **DL** mieści się pod adresem `$9c20` 
 
 Z ważnych informacji nalezy jeszcze wspomnieć, że **DL**:
 * nie może być dłuższa niż **1KB**
-* licznik pobieranie rozkazów zmienia tylko dziesięć najmłodszych bitów licznika; w związku z tym przekroczeniu granicy 1 KB pobieranie dalszych rozkazów DL jest kontynuowane od początku bloku 1 K
+* licznik pobieranie rozkazów zmienia tylko dziesięć najmłodszych w związku z tym po przekroczeniu granicy 1 KB pobieranie dalszych rozkazów DL jest kontynuowane od początku bloku 1 K
 * licznik **LMS** jest **12-bit**, więc zadresować jako pamięc ekranu możemy jednorazowo tylko **4KB**, z tego powodu np. w trybie **ANTIC F** instrukcja **LMS** pojawia zazwyczaj dwukrotnie.
 
 Nie pozostaje nam nic innego jak napisać własną bibliotekę graficzną zapewniająca nam ten tryb graficzny. Do dzieła :]
