@@ -1,6 +1,6 @@
 # 5. System Off - praktyka
 
-Jak może wyglądać kod w Mad Pascalu, który pozwoli nam osiąŋnąć nasze cele? Poniżej jedna z możliwych dróg. Starałem się, żeby było jak najmaniej assemblera jdenak nie ma potrzeby unikać go za wszelką cenę ;)
+Jak może wyglądać kod w Mad Pascalu, który pozwoli nam osiągnąć nasze cele? Poniżej jedna z możliwych dróg. Starałem się, żeby było jak najmaniej assemblera jdenak nie ma potrzeby unikać go za wszelką cenę ;)
 
 Poniższy kod w następnej części zrefaktoryzujemy (więcej asm) i przeniesiemy do **UNIT**.
 
