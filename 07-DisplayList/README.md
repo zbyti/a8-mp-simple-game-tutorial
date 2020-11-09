@@ -135,7 +135,7 @@ Wyłączyliśmy **OS** dlatego na pamięć ekranu mogliśmy przeznaczyć obszar 
 
 Funkcje `lo(gameLms)` i `hi(gameLms)` zwracają nam odpowienio *młodszy* i *starszy* bajt naszego **LMS**.
 
-Aby zastosować się do restrykcji związanych z programem **DL** zabaliśmy by biblioteka `gr` kompilowana była jako pierwsza jako statyczna tablica, jak widzimy znajduje się ona na samym początku naszego kodu, czyli w tym przypadku od adresu `$2000`.
+Aby zastosować się do restrykcji związanych z programem **DL** zadbaliśmy by biblioteka `gr` kompilowana była jako pierwsza jako statyczna tablica, jak widzimy znajduje się ona na samym początku naszego kodu, czyli w tym przypadku od adresu `$2000`.
 
 ## Słowniczek pojęć:
 
