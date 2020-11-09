@@ -4,7 +4,7 @@ Skoro już wszystko wiemy czas na małą reorganizację kodu.
 
 Mad Pascal zapewnia grupowanie kodu w **UNIT** co daje nam możliwość dość elastycznego budowania włsnych bibliotek dla tego języka oraz odrębną przestrzeń nazw. Po szczegóły odsyłam do dokumetacji Free Pascala lub Mad Pascal.
 
-Nasz kod wyglądą tak:
+Nasz kod wygląda tak:
 
 ```pascal
 unit sys;
