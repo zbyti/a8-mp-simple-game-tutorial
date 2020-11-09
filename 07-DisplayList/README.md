@@ -27,7 +27,7 @@ dlist
 
 Jak widać emulator podaje, że aktywna **DL** mieści się pod adresem `$9c20` do `$9c3f`, pamięć ekranu (**LMS**) pobierana jest od adresu `$9c40` rozpoczyna się trzema wierszami pustymi (24 linie skaningowe `$70 $70 $70`) i składa z 24 wierszy trybu **ANTIC 2** `$2` (każdy po 8 linii skaningowych) i kończy skokiem **JVB** `$41` do początku **DL**, ze skokiem poczekamy do przerwania **VBL**. Reasumując: klasyczny ekran 40x24 znaki.
 
-Z ważnych informacji związanych z **DL** nalezy jeszcze wspomnieć, że:
+Z ważnych informacji związanych z **DL** należy jeszcze wspomnieć, że:
 * **16-bit** licznik pobieranie rozkazów zmienia tylko dziesięć najmłodszych bitów w związku z tym po przekroczeniu granicy **1KB** pobieranie dalszych rozkazów **DL** jest kontynuowane od początku bloku **1KB**
 * licznik **LMS** jest **12-bit**, więc zadresować jako pamięc ekranu możemy jednorazowo tylko **4KB**, z tego powodu np. w trybie **ANTIC F** instrukcja **LMS** pojawia zazwyczaj dwukrotnie.
 
