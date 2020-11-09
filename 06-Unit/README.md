@@ -97,7 +97,7 @@ Jak widzimy są tutaj wszystkie elementy niezbędne aby wygodnie wyłączyć sys
 
 ## Kod główny
 
-```
+```pascal
 {$librarypath 'lib'}
 
 program Game;
