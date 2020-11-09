@@ -123,4 +123,4 @@ end.
 
 Tutaj na uwagę zasługuje tylko dyrektywa `{$librarypath ...}`, która dołącza wskazany katalog do ścieżek przeszukiwanych przez kompilator.
 
-Słowo kluczowe `uses` jak się zapewne domyśliłeś pozwala nam skorzystać z naszej bibioteki `sys`.
+Słowo kluczowe `uses` jak się zapewne domyśliłeś pozwala nam skorzystać z naszej biblioteki `sys`.
