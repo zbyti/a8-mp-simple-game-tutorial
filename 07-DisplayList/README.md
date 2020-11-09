@@ -118,7 +118,7 @@ begin
 end.
 ```
 
-Budujemy skryptem naszą grę, uruchamiamy main.xex i w *debug* sprawdzamy naszą aktywną **DL** poleceniem: `DLIST`:
+Budujemy skryptem naszą grę, uruchamiamy main.xex i w *debug* sprawdzamy naszą aktywną **DL** poleceniem `DLIST`:
 
 ```
 2000: 3x 8 BLANK
