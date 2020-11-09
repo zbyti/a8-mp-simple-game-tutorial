@@ -17,11 +17,13 @@ Zsumowanie tych wartości daje nam liczbę `$D2` i będzie to poprawna instrukcj
 
 Na początku nie będziemy potrzebowali innej **DL** niż ta z którą zgłasza się Atari np. z włączonym Basic-iem, czyli zwykły tryb tekstowty zwany **Basic 0** albo **Antic 2**. Taki program możemy łatwo wykraść naszemu komputerowi. Ja to zrobię za pmocą **Atari800** wchodząc w trybie tekstowym do monitora emulatora.
 
-> dlist
+```
+dlist
 9C20: 3x 8 BLANK
 9C23: LMS 9C40 MODE 2
 9C26: 23x MODE 2
 9C3D: JVB 9C20
+```
 
 Jak widać emulator podaje, że aktywna **DL** mieści się pod adresem `$9c20` do `$9c3f`, pamięć ekranu (**LMS**) pobierana jest od adresu `$9c40` rozpoczyna się trzema wierszami pustymi (24 linie skaningowe `$70 $70 $70`) i składa z 24 wierszy trybu **ANTIC 2** `$2` (każdy po 8 linii skaningowych) i kończy skokiem **JVB** `$41` do początku **DL**, ze skokiem poczekamy do przerwania **VBL**. Reasumując: klasyczny ekran 40x24 znaki.
 
@@ -118,11 +120,12 @@ end.
 
 Budujemy skryptem naszą grę, uruchamiamy main.xex i w *debug* sprawdzamy naszą aktywną **DL** poleceniem: `DLIST`:
 
-> dlist
+```
 2000: 3x 8 BLANK
 2003: LMS E000 MODE 2
 2006: 23x MODE 2
 201D: JVB 2000
+```
 
 Wygląda, że wszystko gra :]
 
