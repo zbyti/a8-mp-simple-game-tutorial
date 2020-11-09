@@ -131,7 +131,7 @@ Wygląda, że wszystko gra :]
 
 O czym warto wspomnięć? Może o tym, że jak dokonujemy jakichś zmian widocznych na ekranie warto poczekać na przerwanie **VBL** by np. niechcący nie zmienić trybu graficznego w połowie ekranu, co może się zdarzyć gdy korzystamy z rejstrów sprzętowych zamiast rejestów **cieni** (rejestrów **cieni** nie będę omawiał bo programujemy bez systemu) w tym celu używamy procedury `pause` która czeka na zmianę `RTCLOK` a ta jak widzieliśmy w procedrzue `nmi` następuje zaraz po wywołaniu przerwania **VBL**.
 
-Wyłączyliśmy **OS** dlatego na pamięć ekranu mogliśmy przeznaczyć obszar w którym zazwyczaj znajdują się fonty systemowe `$e000`, fajnie nie? ;)
+Wyłączyliśmy **OS** dlatego na pamięć ekranu mogliśmy przeznaczyć obszar w którym zazwyczaj znajdują się fonty systemowe `$e000`, fajnie nie?
 
 Funkcje `lo(gameLms)` i `hi(gameLms)` zwracają nam odpowienio *młodszy* i *starszy* bajt naszego **LMS**.
 
