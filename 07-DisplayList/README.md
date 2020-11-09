@@ -15,7 +15,7 @@ Instrukcje te to zwyczajne wartości 8-bit które w większości przypadków mo�
 
 Zsumowanie tych wartości daje nam liczbę `$D2` i będzie to poprawna instrukcja porgramu **ANTIC**. Detale znajdziesz w literaturze podanej we wprowadzeniu a jeżeli chcesz pobawić się narzędziem do tworzenia **DL** to możesz skorzystać z tej [strony](https://bocianu.gitlab.io/fidl/), osobiście jednak polecam się tego nauczyć.
 
-Na początku nie będziemy potrzebowali innej **DL** niż ta z którą zgłasza się Atari np. z włączonym Basic-iem, czyli zwykły tryb tekstowty zwany **Basic 0** albo **Antic 2**. Taki program możemy łatwo wykraść naszemu komputerowi. Ja to zrobię za pmocą **Atari800** wchodząc w trybie tekstowym do monitora emulatora.
+Na początku nie będziemy potrzebowali innej **DL** niż ta z którą zgłasza się Atari np. z włączonym Basic-iem, czyli zwykły tryb tekstowty zwany **Basic 0** albo **Antic 2**. Taki program możemy łatwo wykraść naszemu komputerowi. Ja to zrobię za pmocą **Atari800** wchodząc w trybie tekstowym do monitora emulatora:
 
 ```
 dlist
