@@ -64,6 +64,7 @@ Pozostaje już tylko *rozebrać z uwagą* ;) ten program, bez wdawania się w oc
 * `pointer(word(@nmi) + 6);` tutaj kompilator pracuje następująco:
   * `@nmi` zwraca adres wskaźnik do procedury `nmi`.
   * `word(@nmi)` zmienia typ ze wskaźnika na word, czyli otrzymujemy dwubajtową liczbę, którą zwiększamy o 6 i zmieniamy znów na wskaźnik bo takiego typu jest `vdslst`.
+* `vbivec^ := word(@vbi);` zmieniamy wartość pod adresem na jaki wskazuje `vbivec`.
 
 ## Jak to działa?
 
