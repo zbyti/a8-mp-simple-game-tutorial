@@ -6,7 +6,7 @@ Kolejnym etapem kładzenia fundamentów pod naszą grę jest organizacja ekranu.
 
 Sprawa jest bardzo prosta, do dyspozycji mamy instrukcje informujące układ graficzny, które linie skaningowe (lub wiersze) mają być wyświetlone a które nie, czy mają wywołać przerwanie DLI, czy ma być włączony scroll poziomy, pionowy (lub oba), z jakiego obszaru pamięci ma zacząć pobierać dane dla obraz oraz czy następne instrukcje dla **DL** po dojściu do jej końca mają być pobierane z innej **DL** czy też z tej samej.
 
-Instrukcje te to zwyczajne wartości 8-bit które w większości przypadków można sumować, np.: wyświetlić linię z danego obszaru pamięci, wybrać tryb graficzny ANTIC, włączyć skroll poziomy i przerwanie DLI będzie sumą wartości L
+Instrukcje te to zwyczajne wartości 8-bit które w większości przypadków można sumować, np.: wyświetlić linię z danego obszaru pamięci, wybrać tryb graficzny ANTIC, włączyć scroll poziomy i przerwanie DLI będzie sumą wartości L
 
 * **LMS** `$40`
 * **tryb graficzny** np. tryb **ANTIC 2** to `$2`
