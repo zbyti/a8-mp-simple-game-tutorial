@@ -1,6 +1,6 @@
 # 1. Wprowadzenie
 
-Ninejszy tutorial będzie małym podsumowaniem mojej wiedzy zdobytej od kwietnia do listopada roku 2020 o komputerze **Atari 800XL**. Nie ma tego wiele bo nie była to systematyczna nauka, uważam jednak, że wiedzy wystarczy mi do napsiania prostej gry na ten komputer. Sprawdźmy!
+Niniejszy tutorial będzie małym podsumowaniem mojej wiedzy zdobytej od kwietnia do listopada roku 2020 o komputerze **Atari 800XL**. Nie ma tego wiele bo nie była to systematyczna nauka, uważam jednak, że wiedzy wystarczy mi do napisania prostej gry na ten komputer. Sprawdźmy!
 
 ## Czego się nauczymy?
 
@@ -34,4 +34,4 @@ Ninejszy tutorial będzie małym podsumowaniem mojej wiedzy zdobytej od kwietnia
 
 ## Inne:
 
-* Jeżeli chcesz programować rezem ze mną w Mad Pascalu to może pomocna okazać się dla Ciebie ta [strona](http://bocianu.atari.pl/blog/madgeany).
+* Jeżeli chcesz programować razem ze mną w Mad Pascalu to może pomocna okazać się dla Ciebie ta [strona](http://bocianu.atari.pl/blog/madgeany).
