@@ -14,10 +14,10 @@ Wygląda już bajerancko, jednakże jesteśmy wciąż na etapie koncepcji dlateg
 
 ![proto_02.png](gfx/proto_02.png)
 
-Tak, wygląda, że to jest to! Gra to będzi scroll w prawo z generacją tunelu i omijaniem przeszkod, może nawet będziemy je zestrzeliwać? Zobaczymy jak dobrze pójdzie nam kodowanie...
+Tak, wygląda, że to jest to! Gra to będzie scroll w prawo z generacją tunelu i omijaniem przeszkód, może nawet będziemy je zestrzeliwać? Zobaczymy jak dobrze pójdzie nam kodowanie...
 
 Kaz wykonał także planszę tytułową do gry, więc wykorzystajmy ją by mieć natchnienie do dalszej pracy:
 
 ![proto_03.jpg](gfx/proto_03.jpg)
 
-Nie będę opisywał gameplayu bo wynika on z obrazków, ile z tego wykonamy to zależeć będzie tylko od naszej determinacji, może cześć zostawię Ci do wykoania samodzielnie? Zobaczymy :]
+Nie będę opisywał gameplayu bo wynika on z obrazków, ile z tego wykonamy to zależeć będzie tylko od naszej determinacji, może cześć zostawię Ci do wykonania samodzielnie? Zobaczymy :]
