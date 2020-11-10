@@ -2,15 +2,15 @@
 
 ## Gawęda
 
-Czas na mała lobotomię, materiał podzieliłm na dwie cześci: teoretyczną i praktyczną.
+Czas na mała lobotomię, materiał podzieliłem na dwie części: teoretyczną i praktyczną.
 
-Może zauważyłeś, że nasz komputer ma 64KB pamięci podstawowej ale Dr. Frankenstein by go ożywić wszczepił mu fałszywe wspomnienia pod postacią *systemu opercyjnego* i sporo z tej pamięci zajął dla siebie. Teraz nasza kolej na małą incepcję :D
+Może zauważyłeś, że nasz komputer ma 64KB pamięci podstawowej ale Dr. Frankenstein by go ożywić wszczepił mu fałszywe wspomnienia pod postacią *systemu operacyjnego* i sporo z tej pamięci zajął dla siebie. Teraz nasza kolej na małą incepcję :D
 
-O ile odzyskanie pamięci od adresu $a000-$bfff jest względnie łatwe bo można komputer uruchomić w takim trybie (z wyłączonym Basic-iem) to oduczenie go jak żyć *po steremu* nastręcza trochę więcej pracy - całe szczęście niezbyt dużo :]
+O ile odzyskanie pamięci od adresu $a000-$bfff jest względnie łatwe bo można komputer uruchomić w takim trybie (z wyłączonym Basic-iem) to oduczenie go jak żyć *po staremu* nastręcza trochę więcej pracy - całe szczęście niezbyt dużo :]
 
-Wyłączenie **OS** i niekorzystanie z DOS-u sprawi, że nie tylko zaoszczędzimy wiele pamięci ale także sporów z konserwatnynymi jak i nowoczesnymi Atarowcami ;P
+Wyłączenie **OS** i niekorzystanie z DOS-u sprawi, że nie tylko zaoszczędzimy wiele pamięci ale także sporów z konserwatywnymi jak i nowoczesnymi Atarowcami ;P
 
-O ile bez OS można się śmiało obejść to DOS bywa potrzebny. Jeżeli jednak napiszesz już tak dużą grę na A8, że będziesz miał potrzebę coś doczytać czy zapisać to jestem przekonany, że sam już sobie poradzisz - ja nie zamierzam dotrzeć do takiego pounktu, wspomnę tylko, że wtedy z odsieczą przyjdą wam specjalne DOS-y napisane przez Fox'a czy XXL'a.
+O ile bez OS można się śmiało obejść to DOS bywa potrzebny. Jeżeli jednak napiszesz już tak dużą grę na A8, że będziesz miał potrzebę coś doczytać czy zapisać to jestem przekonany, że sam już sobie poradzisz - ja nie zamierzam dotrzeć do takiego punktu, wspomnę tylko, że wtedy z odsieczą przyjdą wam specjalne DOS-y napisane przez Fox'a czy XXL'a.
 
 ## Do rzeczy
 
@@ -32,7 +32,7 @@ Writing object file...
 95 bytes written to the object file
 ```
 
-zainteresumy się **ZPAGE** i **CODE**:
+zainteresujmy się **ZPAGE** i **CODE**:
 
 * **ZPAGE** informuje nas ile pamięci na stronie zerowej zajmuje Mad Pascal na swoje zmienne i gdzie są one umiejscowione.
 * **CODE** informuje nas od którego adresu zaczynają się dane naszego programu.
@@ -49,7 +49,7 @@ Jaką mapę pamięci chcemy dla siebie osiągnąć zaraz **po** starcie naszego 
 * `$d000 - $d7ff` rejestry sprzętowe
 * `$d800 - $fff9` wolne
 
-W skrócie: gdy już załadujemy nasz program za pomocą np. jakiegoś micro dosu i przejmiemy kontrolę nad komputerem to niedostępne dla naszego programu powinna być już tylko przestrzeń zarezerwowana na **stos**, **rejestry sprzętowe** i **ostatnie 6 bajtów** gdzie znajdują się ważne wektory.
+W skrócie: gdy już załadujemy nasz program za pomocą np. jakiegoś micro DOS-u i przejmiemy kontrolę nad komputerem to niedostępne dla naszego programu powinna być już tylko przestrzeń zarezerwowana na **stos**, **rejestry sprzętowe** i **ostatnie 6 bajtów** gdzie znajdują się ważne wektory.
 
 Jak wyłączyć system komputera Atari w praktyce dowiesz się w następnej części.
 
