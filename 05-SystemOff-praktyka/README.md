@@ -1,6 +1,6 @@
 # 5. System Off - praktyka
 
-Jak może wyglądać kod w Mad Pascalu, który pozwoli nam osiągnąć nasze cele? Poniżej jedna z możliwych dróg. Starałem się, żeby było jak najmaniej assemblera jdenak nie ma potrzeby unikać go za wszelką cenę ;)
+Jak może wyglądać kod w Mad Pascalu, który pozwoli nam osiągnąć nasze cele? Poniżej jedna z możliwych dróg. Starałem się, żeby było jak najmniej assemblera jednak nie ma potrzeby unikać go za wszelką cenę ;)
 
 Poniższy kod w następnej części zrefaktoryzujemy (więcej asm) i przeniesiemy do **UNIT**.
 
@@ -57,7 +57,7 @@ Pozostaje już tylko *rozebrać z uwagą* ;) ten program, bez wdawania się w oc
 ## Z grubsza:
 
 * `program Game;` nieobowiązkowe, ale mile widziane.
-* `var PORTB: byte absolute $D301;` przykład deklaracji zemiennej typu **BYTE** zamapowanej jawnie na konkretny adres w pamięci komputera.
+* `var PORTB: byte absolute $D301;` przykład deklaracji zmiennej typu **BYTE** zmapowanej jawnie na konkretny adres w pamięci komputera.
 * `var vdslst: ^word;` zmienna będąca wskaźnikiem typu word (2 bajty). Kompilator sam zadecyduje gdzie będzie znajdować się w pamięci komputera.
 * `assembler` modyfikator procedury informujący, że ciało (w tym przypadku procedury) będzie napisane w MADS.
 * `interrupt` modyfikator informujący, że procedurę należy zakończyć rozkazem **RTI** (powrót z przerwania) a nie zwyczajowym **RTS** powrót z podprocedury.
@@ -68,26 +68,26 @@ Pozostaje już tylko *rozebrać z uwagą* ;) ten program, bez wdawania się w oc
 
 ## Jak to działa?
 
-* Nasz kod startuje pierwszą instrukcją z obowiązkowego bloku `begin .. end.`, którą to jest wywołanie naszej procedury bezparametrowj `SystemOff`
+* Nasz kod startuje pierwszą instrukcją z obowiązkowego bloku `begin .. end.`, którą to jest wywołanie naszej procedury bezparametrowej `SystemOff`
   * `SystemOff` na samym początku wyłącza przerwania maskowalne **IRQ** instrukcją `SEI`
-  *  `vdslst` wskaźnik na miejscie pamięci gdzie znajduje się adres skoku `jmp off; VDSLST`, który obsługuje przerwanie wywołana przez naszą *Display Listę*, jeżeli takie będziemy potrzebować. Domyślnie jest ustawiany by skakać od razu do rozkazu `RTI`.
-  *  `vbivec` wskaźnik na miejscie pamięci gdzie znajduje się adres skoku `jmp off; VBIVEC`, który będzie obsługiwać nasze przerwanie **VBI**. Domyślnie skacze do rozkazu `RTI`.
-  *  `offrti` ustalamy asres wystąpienie rozkazu `RTI` w procedurze `nmi` do późniejszego użycia.
+  *  `vdslst` wskaźnik na miejsce pamięci gdzie znajduje się adres skoku `jmp off; VDSLST`, który obsługuje przerwanie wywołana przez naszą *Display Listę*, jeżeli takie będziemy potrzebować. Domyślnie jest ustawiany by skakać od razu do rozkazu `RTI`.
+  *  `vbivec` wskaźnik na miejsce pamięci gdzie znajduje się adres skoku `jmp off; VBIVEC`, który będzie obsługiwać nasze przerwanie **VBI**. Domyślnie skacze do rozkazu `RTI`.
+  *  `offrti` ustalamy adres wystąpienia rozkazu `RTI` w procedurze `nmi` do późniejszego użycia.
   *  `NMIEN := 0;` wyłączamy przerwania niemaskowalne.
-  *  `PORTB := $FE;` ta wartość wyłącza w atari *self-test*, **Basic** i **OS**.
+  *  `PORTB := $FE;` ta wartość wyłącza w Atari *self-test*, **Basic** i **OS**.
   *  `NMIVEC := word(@nmi)` przekazujemy adres naszej procedury obsługi przerwań niemaskowalnych.
-  *  `NMIEN := $40;` skoro poinformowaliśmy Atari jak ma reagować na przerwania **NMI** to możeby je włączyć, na początek włączmy **VBI** ustawiając szósty bit na `%01000000`.
+  *  `NMIEN := $40;` skoro poinformowaliśmy Atari jak ma reagować na przerwania **NMI** to może by je włączyć, na początek włączmy **VBI** ustawiając szósty bit na `%01000000`.
 * `vbivec^ := word(@vbi);` podmieniamy adres dla skoku `jmp off; VBIVEC` na adres naszej procedury.
 
 Możemy też pokusić się o krótkie omówienie kodu **asm** zawartego w procedurze `nmi`:
-* `bit NMIST` konwertuje dwa ostatnie bity wartości znajdujęcj się pod asresem `$D40F` na flagi procesora 6502. Odpowiednio bit 7 ustawia flagę `N` a szósty flagę 'V'. Dzięki temu będziemy wiedzieć jakie przerwanie **NMI** wywołało naszą procdurę. Jeżeli flaga `N` nie została zapalona to mamy doczynienia z przerwaniem **VBL** inaczej jest to przerwanie **DLI**.
+* `bit NMIST` konwertuje dwa ostatnie bity wartości znajdującej się pod adresem `$D40F` na flagi procesora 6502. Odpowiednio bit 7 ustawia flagę `N` a szósty flagę 'V'. Dzięki temu będziemy wiedzieć jakie przerwanie **NMI** wywołało naszą procedurę. Jeżeli flaga `N` nie została zapalona to mamy do czynienia z przerwaniem **VBL** inaczej jest to przerwanie **DLI**.
 * `bpl vbi` jeżeli wynik operacji `bit NMIST` jest dodatni to skocz do `inc RTCLOK+2`.
-* `inc RTCLOK+2` aby zapewnić sobie działanie procedury `pause` i jej przeciążonej wersji np. `pause(100)` musimy zapewnić działanie jednego z liczików systemowych. W naszym przypadku podbijany jest co przerwanie **VBL** (PAL raz na 1/50 sekundy, NTSC raz na 1/60 sekundy) o jeden wartość pod adresem `$14`. Dzięki temu możemy używać procedury `puse(x: BYTE)` aż do wartości 255. Jest to trochę pójście na skróty bo w rzeczywistoći `pause` może przyjmować większą wartość niż bajt, ale do tego musielibyśmy obsłużyć jeszcze adresy `$13` i `$12` a to nie jest nam potrzebne.
+* `inc RTCLOK+2` aby zapewnić sobie działanie procedury `pause` i jej przeciążonej wersji np. `pause(100)` musimy zapewnić działanie jednego z liczników systemowych. W naszym przypadku podbijany jest co przerwanie **VBL** (PAL raz na 1/50 sekundy, NTSC raz na 1/60 sekundy) o jeden wartość pod adresem `$14`. Dzięki temu możemy używać procedury `puse(x: BYTE)` aż do wartości 255. Jest to trochę pójście na skróty bo w rzeczywistośći `pause` może przyjmować większą wartość niż bajt, ale do tego musielibyśmy obsłużyć jeszcze adresy `$13` i `$12` a to nie jest nam potrzebne.
 
 Na koniec zajmijmy się procedurą `vbi`, która jak widzimy też przeznaczona jest do obsługi przez przerwanie:
-* `asm { phr };` zrzucamy wszystkie rejestry procesora 6502 za pomocą makra MADS na stos procesora aby po poworcie z przerwania przwrócić właściwą wartość tych rejestrów (swoje flagi `NV-BDIZC` procesor odkłada na stos automatycznie) na których w tej procedurze raczej na pewno nsz kod będzie pracował przy większej ilości operacji.
+* `asm { phr };` zrzucamy wszystkie rejestry procesora 6502 za pomocą makra MADS na stos procesora aby po powrocie z przerwania przywrócić właściwą wartość tych rejestrów (swoje flagi `NV-BDIZC` procesor odkłada na stos automatycznie) na których w tej procedurze raczej na pewno nasz kod będzie pracował przy większej ilości operacji.
 * `inc(counter);` zwiększamy o jeden jakiś nasz licznik, tak jak `RTCLOK` będzie zwiększany co przerwania **VBL** z częstotliwością pracy naszego systemu telewizyjnego.
-* `asm { plr };` koniec precedury, za chwilę napotkamy `RTI`, więc przedtem obowiązkowo przywróćmy wartości rejestrów `A`, `X`, `Y` do stanu z przed przerwania pobierając je ze stosu.
+* `asm { plr };` koniec procedury, za chwilę napotkamy `RTI`, więc przedtem obowiązkowo przywróćmy wartości rejestrów `A`, `X`, `Y` do stanu sprzed przerwania pobierając je ze stosu.
 
 ## Słowniczek pojęć:
 
@@ -104,7 +104,7 @@ Na koniec zajmijmy się procedurą `vbi`, która jak widzimy też przeznaczona j
 >Rejestr stanu lub rejestr flag (niepoprawnie: rejestr statusu) – rejestr procesora opisujący i kontrolujący jego stan. Zawartość tego rejestru może zależeć od ostatnio wykonanej operacji (zmiana pośrednia), bądź trybu pracy procesora, który można ustawiać (zmiana bezpośrednia).
 
 * [**NMIST**](http://atariki.krap.pl/index.php/Rejestry_ANTIC-a)
->Rejestr statusu przerwań NMI
+>Rejestr statusu przerwań NMI.
 
 * [**PORTB**](http://atariki.krap.pl/index.php/Rejestry_PIA)
 >W serii XL rejestr ten steruje układem zarządzania pamięcią oraz (istniejącymi w niektórych modelach) diodami konsoli.
