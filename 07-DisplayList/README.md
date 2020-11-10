@@ -6,16 +6,16 @@ Kolejnym etapem kładzenia fundamentów pod naszą grę jest organizacja ekranu.
 
 Sprawa jest bardzo prosta, do dyspozycji mamy instrukcje informujące układ graficzny, które linie skaningowe (lub wiersze) mają być wyświetlone a które nie, czy mają wywołać przerwanie DLI, czy ma być włączony scroll poziomy, pionowy (lub oba), z jakiego obszaru pamięci ma zacząć pobierać dane dla obraz oraz czy następne instrukcje dla **DL** po dojściu do jej końca mają być pobierane z innej **DL** czy też z tej samej.
 
-Instrukcje te to zwyczajne wartości 8-bit które w większości przypadków można sumować, np.: wyśietlić linię z danego obszaru pamięci, wybrać tryb graficzny ANTIC, włączyć skroll poziomy i przerawnie DLI będzie sumą wartościL
+Instrukcje te to zwyczajne wartości 8-bit które w większości przypadków można sumować, np.: wyświetlić linię z danego obszaru pamięci, wybrać tryb graficzny ANTIC, włączyć skroll poziomy i przerwanie DLI będzie sumą wartości L
 
 * **LMS** `$40`
 * **tryb graficzny** np. tryb **ANTIC 2** to `$2`
 * **DLI** wywołanie przerwania `$80`
 * **scroll horyzontalny** `$10`
 
-Zsumowanie tych wartości daje nam liczbę `$D2` i będzie to poprawna instrukcja porgramu **ANTIC**. Detale znajdziesz w literaturze podanej we wprowadzeniu a jeżeli chcesz pobawić się narzędziem do tworzenia **DL** to możesz skorzystać z tej [strony](https://bocianu.gitlab.io/fidl/), osobiście jednak polecam się tego nauczyć.
+Zsumowanie tych wartości daje nam liczbę `$D2` i będzie to poprawna instrukcja programu **ANTIC**. Detale znajdziesz w literaturze podanej we wprowadzeniu a jeżeli chcesz pobawić się narzędziem do tworzenia **DL** to możesz skorzystać z tej [strony](https://bocianu.gitlab.io/fidl/), osobiście jednak polecam się tego nauczyć.
 
-Na początku nie będziemy potrzebowali innej **DL** niż ta z którą zgłasza się Atari np. z włączonym Basic-iem, czyli zwykły tryb tekstowty zwany **Basic 0** albo **Antic 2**. Taki program możemy łatwo wykraść naszemu komputerowi. Ja to zrobię za pmocą **Atari800** wchodząc w trybie tekstowym do monitora emulatora:
+Na początku nie będziemy potrzebowali innej **DL** niż ta z którą zgłasza się Atari np. z włączonym Basic-iem, czyli zwykły tryb tekstowy zwany **Basic 0** albo **Antic 2**. Taki program możemy łatwo wykraść naszemu komputerowi. Ja to zrobię za pomocą **Atari800** wchodząc w trybie tekstowym do monitora emulatora:
 
 ```
 dlist
@@ -29,7 +29,7 @@ Jak widać emulator podaje, że aktywna **DL** mieści się pod adresem `$9c20` 
 
 Z ważnych informacji związanych z **DL** należy jeszcze wspomnieć, że:
 * **16-bit** licznik pobierania rozkazów zmienia tylko dziesięć najmłodszych bitów w związku z tym po przekroczeniu granicy **1KB** pobieranie dalszych rozkazów **DL** jest kontynuowane od początku bloku **1KB**
-* licznik **LMS** jest **12-bit** ergo zadresować jako pamięc ekranu możemy jednorazowo tylko **4KB**, z tego powodu np. w trybie **ANTIC F** instrukcja **LMS** pojawia się zazwyczaj dwukrotnie.
+* licznik **LMS** jest **12-bit** ergo zaadresować jako pamięć ekranu możemy jednorazowo tylko **4KB**, z tego powodu np. w trybie **ANTIC F** instrukcja **LMS** pojawia się zazwyczaj dwukrotnie.
 
 Nie pozostaje nam nic innego jak napisać własną bibliotekę graficzną zapewniająca nam ten tryb graficzny. Do dzieła :]
 
@@ -128,11 +128,11 @@ Budujemy skryptem naszą grę, uruchamiamy main.xex i w *debug* sprawdzamy nasz�
 
 Wygląda, że wszystko gra :]
 
-O czym warto wspomnięć? Może o tym, że jak dokonujemy jakichś zmian widocznych na ekranie warto poczekać na przerwanie **VBL** by np. niechcący nie zmienić trybu graficznego w połowie ekranu, co może się zdarzyć gdy korzystamy z rejstrów sprzętowych zamiast rejestów **cieni** (rejestrów **cieni** nie będę omawiał bo programujemy bez systemu) w tym celu używamy procedury `pause` która czeka na zmianę `RTCLOK` a ta jak widzieliśmy w procedrzue `nmi` następuje zaraz po wywołaniu przerwania **VBL**.
+O czym warto wspomnieć? Może o tym, że jak dokonujemy jakichś zmian widocznych na ekranie warto poczekać na przerwanie **VBL** by np. niechcący nie zmienić trybu graficznego w połowie ekranu, co może się zdarzyć gdy korzystamy z rejestrów sprzętowych zamiast rejestrów **cieni** (rejestrów **cieni** nie będę omawiał bo programujemy bez systemu) w tym celu używamy procedury `pause` która czeka na zmianę `RTCLOK` a ta jak widzieliśmy w procedurze `nmi` następuje zaraz po wywołaniu przerwania **VBL**.
 
 Wyłączyliśmy **OS** dlatego na pamięć ekranu mogliśmy przeznaczyć obszar w którym zazwyczaj znajdują się fonty systemowe `$e000`, fajnie nie?
 
-Funkcje `lo(gameLms)` i `hi(gameLms)` zwracają nam odpowienio *młodszy* i *starszy* bajt naszego **LMS**.
+Funkcje `lo(gameLms)` i `hi(gameLms)` zwracają nam odpowiednio *młodszy* i *starszy* bajt naszego **LMS**.
 
 Aby zastosować się do restrykcji związanych z programem **DL** zadbaliśmy by biblioteka `gr` kompilowana była jako pierwsza a **DL** jako pierwsza statyczna tablica, dzięki temu - jak widzimy - znajduje się ona na samym początku naszego kodu, czyli w tym przypadku od adresu `$2000`.
 
