@@ -2,7 +2,7 @@
 
 Skoro już wszystko wiemy czas na małą reorganizację kodu.
 
-Mad Pascal zapewnia grupowanie kodu w **UNIT** co daje nam możliwość dość elastycznego budowania włsnych bibliotek dla tego języka oraz odrębną przestrzeń nazw. Po szczegóły odsyłam do dokumetacji [Free Pascala](https://wiki.lazarus.freepascal.org/Unit) lub [Mad Pascala](http://mads.atari8.info/doc/madpascal.html#units).
+Mad Pascal zapewnia grupowanie kodu w **UNIT** co daje nam możliwość dość elastycznego budowania własnych bibliotek dla tego języka oraz odrębną przestrzeń nazw. Po szczegóły odsyłam do dokumentacji [Free Pascala](https://wiki.lazarus.freepascal.org/Unit) lub [Mad Pascala](http://mads.atari8.info/doc/madpascal.html#units).
 
 Nasz kod wygląda tak:
 
@@ -84,16 +84,16 @@ end.
 ```
 
 Wyróżnić możemy trzy części naszej biblioteki:
-* **interfejs** tutaj deklaujemy stałe, zmienne i procedury jakie nasza biblioteka `sys` *wystawia* na *świat*.
-* **implementacja** obowiązkowo należy tutaj napisać procedury i funckje które zadeklarowaliśmy w interfejsie ale można również zadeklarować stałe, zmienne oraz napisać procedury i funckje pomocnicze, niewidoczne na zewnątrz biblioteki.
-* **initcjalizacja** możemy nadać wartość początkową pewnym zmiennym itd.
+* **interfejs** tutaj deklarujemy stałe, zmienne i procedury jakie nasza biblioteka `sys` *wystawia* na *świat*.
+* **implementacja** obowiązkowo należy tutaj napisać procedury i funkcje które zadeklarowaliśmy w interfejsie ale można również zadeklarować stałe, zmienne oraz napisać procedury i funkcje pomocnicze, niewidoczne na zewnątrz biblioteki.
+* **inicjalizacja** możemy nadać wartość początkową pewnym zmiennym itd.
 
 Oczywiście powyższe zmienne **NMIEN** itd. nie muszą być *publiczne* ale z powodu świadomej rezygnacji z dostarczanego przez **MP** unitu `atari` rejestry sprzętowe postanowiłem na wszelki wypadek pozostawić gotowe do użycia bez ponownej ich deklaracji, nawet jak do ich obsługi napisane są odpowiednie procedury i funkcje.
 
 Jak widzimy są tutaj wszystkie elementy niezbędne aby wygodnie wyłączyć system i zarządzać przerwaniami **NMI**. Możliwe, że to mogą być już wszystkie wstawki *asm* w naszej przyszłej grze, dla porządku wspomnę czym jest to na co patrzysz:
 
 * `.def  :__dlijmp` deklaracja etykiety globalnej widzianej przez **MADS**, dla odróżnienia od etykiet lokalnych można nazwę rozpocząć od `__`
-* `mwa a __vbijmp+1` makro przepisujące daną dwubajtową `word` z jednego adresu w pamięci pod inny, w naszym przypadku adres na który wskazuje `a` pod adres oznaczony etykietą `__vbijmp` zwiększoną o `1` by pominąc rozkaz `jmp`
+* `mwa a __vbijmp+1` makro przepisujące daną dwubajtową `word` z jednego adresu w pamięci pod inny, w naszym przypadku adres na który wskazuje `a` pod adres oznaczony etykietą `__vbijmp` zwiększoną o `1` by pominąć rozkaz `jmp`
 
 ## Kod główny
 
