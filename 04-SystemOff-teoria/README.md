@@ -39,7 +39,7 @@ zainteresujmy się **ZPAGE** i **CODE**:
 
 Dlaczego takie wartości a nie inne, dlaczego `$2000` a nie np. `$a00` albo `$80` zamiast `0`? Otóż dlatego, że ktoś tak przed nami ponakręcał te zegary, że wolne adresy zaczynają się na stronie zerowej dopiero od `$80` a najpopularniejsze DOS-y zabierają pamięć często aż do `$2000`. Jednym słowem **marnotrawstwo** zwłaszcza z puntu widzenia programisty gier na 8-bit platformę! :D
 
-Co więcej, komórki na stronie zerowej są ważne bo pozwalają nam na najszybszą z możliwych operację na pamięci, adres jest wtedy 8-bitowy a nie 16-sto. W związku z tym postarajmy się je odzyskać dla siebie, skoro jednak odbierzemy ją OS to na cóż nam i on sam? Słusznie... Też go wyrzućmy na śmietnik historii :]
+Co więcej, komórki na stronie zerowej są ważne bo pozwalają nam na najszybszą z możliwych operację na pamięci, adres jest wtedy 8-bitowy a nie 16-sto. W związku z tym postarajmy się je odzyskać dla siebie, skoro jednak odbierzemy tę pamięć naszemu **OS** to na cóż nam i on sam? Słusznie... Też go wyrzućmy na śmietnik historii :]
 
 Jaką mapę pamięci chcemy dla siebie osiągnąć zaraz **po** starcie naszego programu? Jak wygląda nasza Atarowska *tabula rasa*?
 
