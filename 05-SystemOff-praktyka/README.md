@@ -80,7 +80,7 @@ Pozostaje już tylko *rozebrać z uwagą* ;) ten program, bez wdawania się w oc
 * `vbivec^ := word(@vbi);` podmieniamy adres dla skoku `jmp off; VBIVEC` na adres naszej procedury.
 
 Możemy też pokusić się o krótkie omówienie kodu **asm** zawartego w procedurze `nmi`:
-* `bit NMIST` konwertuje dwa ostatnie bity wartości znajdującej się pod adresem `$D40F` na flagi procesora 6502. Odpowiednio bit 7 ustawia flagę `N` a szósty flagę 'V'. Dzięki temu będziemy wiedzieć jakie przerwanie **NMI** wywołało naszą procedurę. Jeżeli flaga `N` nie została zapalona to mamy do czynienia z przerwaniem **VBL** inaczej jest to przerwanie **DLI**.
+* `bit NMIST` konwertuje dwa ostatnie bity wartości znajdującej się pod adresem `$D40F` na flagi procesora 6502. Odpowiednio bit 7 ustawia flagę `N` a szósty flagę `V`. Dzięki temu będziemy wiedzieć jakie przerwanie **NMI** wywołało naszą procedurę. Jeżeli flaga `N` nie została zapalona to mamy do czynienia z przerwaniem **VBL** inaczej jest to przerwanie **DLI**.
 * `bpl vbi` jeżeli wynik operacji `bit NMIST` jest dodatni to skocz do `inc RTCLOK+2`.
 * `inc RTCLOK+2` aby zapewnić sobie działanie procedury `pause` i jej przeciążonej wersji np. `pause(100)` musimy zapewnić działanie jednego z liczników systemowych. W naszym przypadku podbijany jest co przerwanie **VBL** (PAL raz na 1/50 sekundy, NTSC raz na 1/60 sekundy) o jeden wartość pod adresem `$14`. Dzięki temu możemy używać procedury `puse(x: BYTE)` aż do wartości 255. Jest to trochę pójście na skróty bo w rzeczywistośći `pause` może przyjmować większą wartość niż bajt, ale do tego musielibyśmy obsłużyć jeszcze adresy `$13` i `$12` a to nie jest nam potrzebne.
 
