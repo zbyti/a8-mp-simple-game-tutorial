@@ -34,10 +34,10 @@ asm
 {
       bit NMIST \ bpl vbi   ; check kind of interrupt
 .def  :__dlijmp
-      jmp __off               ; VDSLST
+      jmp __off             ; VDSLST
 vbi:  inc RTCLOK+2
 .def  :__vbijmp
-      jmp __off               ; VBIVEC
+      jmp __off             ; VBIVEC
 .def  :__off
 };
 end;
