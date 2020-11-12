@@ -49,7 +49,7 @@ Jaką mapę pamięci chcemy dla siebie osiągnąć zaraz **po** starcie naszego 
 * `$d000 - $d7ff` rejestry sprzętowe
 * `$d800 - $fff9` wolne
 
-W skrócie: gdy już załadujemy nasz program za pomocą np. jakiegoś micro DOS-u i przejmiemy kontrolę nad komputerem to niedostępne dla naszego programu powinna być już tylko przestrzeń zarezerwowana na **stos**, **rejestry sprzętowe** i **ostatnie 6 bajtów** gdzie znajdują się ważne wektory.
+W skrócie: gdy już załadujemy nasz program za pomocą np. jakiegoś micro DOS-u i przejmiemy kontrolę nad komputerem to niedostępna dla naszego programu powinna być już tylko przestrzeń zarezerwowana na **stos**, **rejestry sprzętowe** i **ostatnie 6 bajtów** gdzie znajdują się ważne wektory.
 
 Jak wyłączyć system komputera Atari w praktyce dowiesz się w następnej części.
 
