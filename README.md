@@ -7,3 +7,4 @@
 5. [System Off - praktyka](05-SystemOff-praktyka/README.md)
 6. [UNIT](06-Unit/README.md)
 7. [Display List](07-DisplayList/README.md)
+8. [Resources](08-Resources/README.md)
