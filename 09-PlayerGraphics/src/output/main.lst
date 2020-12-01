@@ -336,368 +336,370 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    384 = D402			DLIST	= $D402
    385 = FFFA			NMIVEC	= $FFFA
    386 = D000			HPOSP01	= $D000
-   387
-   388 				.endl							; UNIT REGISTERS
+   387 = D008			SIZEP01	= $D008
+   388 = D012			COLPM01	= $D012
    389
-   390 				; ------------------------------------------------------------
+   390 				.endl							; UNIT REGISTERS
    391
-   392 2143			.local	GR						; UNIT
+   392 				; ------------------------------------------------------------
    393
-   394 				; ------------------------------------------------------------
-   395 				; ------------------------------------------------------------
-   396 2143			@UnitInit
-   397
-   398 2143 60				rts
+   394 2143			.local	GR						; UNIT
+   395
+   396 				; ------------------------------------------------------------
+   397 				; ------------------------------------------------------------
+   398 2143			@UnitInit
    399
-   400 				; ------------------------------------------------------------
+   400 2143 60				rts
    401
-   402 = 0308			MISSILES_OFFSET	= $0308
-   403 = 0408			PLAYER0_OFFSET	= $0408
-   404 = 0508			PLAYER1_OFFSET	= $0508
-   405 = 1000			PM_ADDRESS	= $1000
-   406 = 1000			PLAYER_SHIP_ADDRESS	= $1000
-   407 = 000A			PLAYER_SHIP_SEG	= $0A
-   408 = 1800			DL_2	= $1800
-   409 = E000			GAME_LMS	= $E000
-   410
-   411 				.endl							; UNIT GR
+   402 				; ------------------------------------------------------------
+   403
+   404 = 0308			MISSILES_OFFSET	= $0308
+   405 = 0408			PLAYER0_OFFSET	= $0408
+   406 = 0508			PLAYER1_OFFSET	= $0508
+   407 = 1000			PM_ADDRESS	= $1000
+   408 = 1000			PLAYER_SHIP_ADDRESS	= $1000
+   409 = 000A			PLAYER_SHIP_SEG	= $0A
+   410 = 1800			DL_2	= $1800
+   411 = E000			GAME_LMS	= $E000
    412
-   413 				; ------------------------------------------------------------
+   413 				.endl							; UNIT GR
    414
-   415 2144			.local	SYS						; UNIT
+   415 				; ------------------------------------------------------------
    416
-   417 2144			.local	NMI						; PROCEDURE | ASSEMBLER | INTERRUPT
+   417 2144			.local	SYS						; UNIT
    418
-   419 				; ---------------------  ASM Block 049  ---------------------
+   419 2144			.local	NMI						; PROCEDURE | ASSEMBLER | INTERRUPT
    420
-   421
-   422 				      bit NMIST \ bpl vbi   ; check kind of interrupt
-   422 2144 2C 0F D4		      BIT NMIST 
-   422 2147 10 03		 BPL VBI   
-   423 = 2149			.def  :__dlijmp
-   424 2149 4C 51 21		      jmp __off               ; VDSLST
-   425 214C E6 14		vbi:  inc RTCLOK+2
-   426 = 214E			.def  :__vbijmp
-   427 214E 4C 51 21		      jmp __off               ; VBIVEC
-   428 = 2151			.def  :__off
-   429
-   430 2151 40				rti						; ret
-   431 				.endl
-   432
-   433 2152			.local	SETVBI						; PROCEDURE | ASSEMBLER
+   421 				; ---------------------  ASM Block 049  ---------------------
+   422
+   423
+   424 				      bit NMIST \ bpl vbi   ; check kind of interrupt
+   424 2144 2C 0F D4		      BIT NMIST 
+   424 2147 10 03		 BPL VBI   
+   425 = 2149			.def  :__dlijmp
+   426 2149 4C 51 21		      jmp __off               ; VDSLST
+   427 214C E6 14		vbi:  inc RTCLOK+2
+   428 = 214E			.def  :__vbijmp
+   429 214E 4C 51 21		      jmp __off               ; VBIVEC
+   430 = 2151			.def  :__off
+   431
+   432 2151 40				rti						; ret
+   433 				.endl
    434
-   435 				; ------------------------------------------------------------
+   435 2152			.local	SETVBI						; PROCEDURE | ASSEMBLER
    436
-   437 				; Generate Assignment for WORD / SMALLINT / SHORTREAL / POINTER
-   438 				; as Pointer
-   439 2152 B5 98			lda :STACKORIGIN,x
-   440 2154 8D 47 22			sta A
-   441 2157 B5 A8			lda :STACKORIGIN+STACKWIDTH,x
-   442 2159 8D 48 22			sta A+1
-   443 215C CA				dex
-   444
-   445 				; ---------------------  ASM Block 050  ---------------------
+   437 				; ------------------------------------------------------------
+   438
+   439 				; Generate Assignment for WORD / SMALLINT / SHORTREAL / POINTER
+   440 				; as Pointer
+   441 2152 B5 98			lda :STACKORIGIN,x
+   442 2154 8D 47 22			sta A
+   443 2157 B5 A8			lda :STACKORIGIN+STACKWIDTH,x
+   444 2159 8D 48 22			sta A+1
+   445 215C CA				dex
    446
-   447
-   448 215D AD 47 22 8D 4F 21 +   mwa a __vbijmp+1
+   447 				; ---------------------  ASM Block 050  ---------------------
+   448
    449
-   450
-   451 				; ------------------------------------------------------------
+   450 215D AD 47 22 8D 4F 21 +   mwa a __vbijmp+1
+   451
    452
-   453 = 2247			A	= DATAORIGIN+$000B
+   453 				; ------------------------------------------------------------
    454
-   455 = 2247			@VarData	= A
-   456 = 0002			@VarDataSize	= 2
-   457
-   458 2169			@exit
-   459 					.ifdef @new
-   460 					lda <@VarData
-   461 					sta :ztmp
-   462 					lda >@VarData
-   463 					ldy #@VarDataSize-1
-   464 					jmp @FreeMem
-   465 					els
-   466 2169 60				rts						; ret
-   467 					eif
-   468 				.endl
-   469
-   470 216A			.local	SYSTEMOFF					; PROCEDURE
+   455 = 2247			A	= DATAORIGIN+$000B
+   456
+   457 = 2247			@VarData	= A
+   458 = 0002			@VarDataSize	= 2
+   459
+   460 2169			@exit
+   461 					.ifdef @new
+   462 					lda <@VarData
+   463 					sta :ztmp
+   464 					lda >@VarData
+   465 					ldy #@VarDataSize-1
+   466 					jmp @FreeMem
+   467 					els
+   468 2169 60				rts						; ret
+   469 					eif
+   470 				.endl
    471
-   472 				; optimize FAIL ('SYSTEM.PAUSE_006A', SYS), line = 62
+   472 216A			.local	SYSTEMOFF					; PROCEDURE
    473
-   474 216A 20 38 21			jsr SYSTEM.PAUSE_006A
+   474 				; optimize FAIL ('SYSTEM.PAUSE_006A', SYS), line = 62
    475
-   476 				; ---------------------  ASM Block 054  ---------------------
+   476 216A 20 38 21			jsr SYSTEM.PAUSE_006A
    477
-   478 216D 78			 sei 
+   478 				; ---------------------  ASM Block 054  ---------------------
    479
-   480 				; optimize OK (SYS), line = 63
+   480 216D 78			 sei 
    481
-   482 216E A9 00			lda #$00
-   483 2170 8D 0E D4			sta REGISTERS.NMIEN
-   484 2173 A9 FE			lda #$FE
-   485 2175 8D 01 D3			sta REGISTERS.PORTB
-   486 2178 A9 44			lda <NMI
-   487 217A 8D FA FF			sta REGISTERS.NMIVEC
-   488 217D A9 21			lda >NMI
-   489 217F 8D FB FF			sta REGISTERS.NMIVEC+1
-   490 2182 A9 40			lda #$40
-   491 2184 8D 0E D4			sta REGISTERS.NMIEN
-   492 2187			@exit
-   493 					.ifdef @new
-   494 					lda <@VarData
-   495 					sta :ztmp
-   496 					lda >@VarData
-   497 					ldy #@VarDataSize-1
-   498 					jmp @FreeMem
-   499 					els
-   500 2187 60				rts						; ret
-   501 					eif
-   502 				.endl
-   503
-   504 				; ------------------------------------------------------------
-   505 				; ------------------------------------------------------------
-   506 2188			@UnitInit
-   507
-   508 2188 60				rts
+   482 				; optimize OK (SYS), line = 63
+   483
+   484 216E A9 00			lda #$00
+   485 2170 8D 0E D4			sta REGISTERS.NMIEN
+   486 2173 A9 FE			lda #$FE
+   487 2175 8D 01 D3			sta REGISTERS.PORTB
+   488 2178 A9 44			lda <NMI
+   489 217A 8D FA FF			sta REGISTERS.NMIVEC
+   490 217D A9 21			lda >NMI
+   491 217F 8D FB FF			sta REGISTERS.NMIVEC+1
+   492 2182 A9 40			lda #$40
+   493 2184 8D 0E D4			sta REGISTERS.NMIEN
+   494 2187			@exit
+   495 					.ifdef @new
+   496 					lda <@VarData
+   497 					sta :ztmp
+   498 					lda >@VarData
+   499 					ldy #@VarDataSize-1
+   500 					jmp @FreeMem
+   501 					els
+   502 2187 60				rts						; ret
+   503 					eif
+   504 				.endl
+   505
+   506 				; ------------------------------------------------------------
+   507 				; ------------------------------------------------------------
+   508 2188			@UnitInit
    509
-   510 				; ------------------------------------------------------------
+   510 2188 60				rts
    511
-   512 				.endl							; UNIT SYS
+   512 				; ------------------------------------------------------------
    513
-   514 2189			.local	VBI						; PROCEDURE | INTERRUPT
+   514 				.endl							; UNIT SYS
    515
-   516 				; ---------------------  ASM Block 055  ---------------------
+   516 2189			.local	VBI						; PROCEDURE | INTERRUPT
    517
-   518 2189 48 8A 48 98 48	 phr 
+   518 				; ---------------------  ASM Block 055  ---------------------
    519
-   520 				; optimize FAIL (0, main.pas), line = 21
+   520 2189 48 8A 48 98 48	 phr 
    521
-   522 218E E6 00			inc HPOSP0
-   523 2190 E6 01			inc HPOSP1
-   524 2192 A5 00			lda SHIPHPOS
-   525 2194 8D 00 D0			sta REGISTERS.HPOSP01
-   526 2197 A5 01			lda SHIPHPOS+1
-   527 2199 8D 01 D0			sta REGISTERS.HPOSP01+1
-   528
-   529 				; ---------------------  ASM Block 056  ---------------------
+   522 				; optimize FAIL (0, main.pas), line = 21
+   523
+   524 218E E6 00			inc HPOSP0
+   525 2190 E6 01			inc HPOSP1
+   526 2192 A5 00			lda SHIPHPOS
+   527 2194 8D 00 D0			sta REGISTERS.HPOSP01
+   528 2197 A5 01			lda SHIPHPOS+1
+   529 2199 8D 01 D0			sta REGISTERS.HPOSP01+1
    530
-   531 219C 68 A8 68 AA 68	 plr 
-   532 21A1 40				rti						; ret
-   533 				.endl
-   534
-   535 21A2			.local	INIT						; PROCEDURE
+   531 				; ---------------------  ASM Block 056  ---------------------
+   532
+   533 219C 68 A8 68 AA 68	 plr 
+   534 21A1 40				rti						; ret
+   535 				.endl
    536
-   537 				; optimize FAIL ('SYS.SYSTEMOFF', main.pas), line = 28
+   537 21A2			.local	INIT						; PROCEDURE
    538
-   539 21A2 20 6A 21			jsr SYS.SYSTEMOFF
-   540 21A5 A9 00			lda #$00
-   541 21A7 8D 00 D4			sta REGISTERS.DMACTL
-   542
-   543 				; optimize OK (main.pas), line = 30
+   539 				; optimize FAIL ('SYS.SYSTEMOFF', main.pas), line = 28
+   540
+   541 21A2 20 6A 21			jsr SYS.SYSTEMOFF
+   542 21A5 A9 00			lda #$00
+   543 21A7 8D 00 D4			sta REGISTERS.DMACTL
    544
-   545 21AA A9 2C			lda #$2C
-   546 21AC 85 00			sta HPOSP0
-   547 21AE A9 34			lda #$34
-   548 21B0 85 01			sta HPOSP1
-   549
-   550 				; optimize OK (main.pas), line = 31
+   545 				; optimize OK (main.pas), line = 30
+   546
+   547 21AA A9 2C			lda #$2C
+   548 21AC 85 00			sta HPOSP0
+   549 21AE A9 34			lda #$34
+   550 21B0 85 01			sta HPOSP1
    551
-   552 21B2 A5 00			lda SHIPHPOS
-   553 21B4 8D 00 D0			sta REGISTERS.HPOSP01
-   554 21B7 A5 01			lda SHIPHPOS+1
-   555 21B9 8D 01 D0			sta REGISTERS.HPOSP01+1
-   556
-   557 				; optimize OK (main.pas), line = 32
+   552 				; optimize OK (main.pas), line = 31
+   553
+   554 21B2 A5 00			lda SHIPHPOS
+   555 21B4 8D 00 D0			sta REGISTERS.HPOSP01
+   556 21B7 A5 01			lda SHIPHPOS+1
+   557 21B9 8D 01 D0			sta REGISTERS.HPOSP01+1
    558
-   559 21BC A9 10			lda #$10
-   560 21BE 8D 07 D4			sta REGISTERS.PMBASE
-   561
-   562 				; optimize OK (main.pas), line = 33
+   559 				; optimize OK (main.pas), line = 32
+   560
+   561 21BC A9 10			lda #$10
+   562 21BE 8D 07 D4			sta REGISTERS.PMBASE
    563
-   564 21C1 A9 00			lda #$00
-   565 21C3 8D 08 D0			sta REGISTERS.SIZEP0
-   566 21C6 8D 09 D0			sta REGISTERS.SIZEP1
-   567
-   568 				; optimize OK (main.pas), line = 34
+   564 				; optimize OK (main.pas), line = 33
+   565
+   566 21C1 A9 00			lda #$00
+   567 21C3 8D 08 D0			sta REGISTERS.SIZEP0
+   568 21C6 8D 09 D0			sta REGISTERS.SIZEP1
    569
-   570 21C9 A9 0F			lda #$0F
-   571 21CB 8D 12 D0			sta REGISTERS.COLPM0
-   572 21CE 8D 13 D0			sta REGISTERS.COLPM1
-   573
-   574 				; optimize OK (main.pas), line = 35
+   570 				; optimize OK (main.pas), line = 34
+   571
+   572 21C9 A9 0F			lda #$0F
+   573 21CB 8D 12 D0			sta REGISTERS.COLPM0
+   574 21CE 8D 13 D0			sta REGISTERS.COLPM1
    575
-   576 21D1 A9 03			lda #$03
-   577 21D3 8D 1D D0			sta REGISTERS.GRACTL
-   578
-   579 				; optimize OK (main.pas), line = 36
+   576 				; optimize OK (main.pas), line = 35
+   577
+   578 21D1 A9 03			lda #$03
+   579 21D3 8D 1D D0			sta REGISTERS.GRACTL
    580
-   581 21D6 A9 00			lda #$00
-   582 21D8 8D 1B D0			sta REGISTERS.PRIOR
-   583
-   584 				; optimize OK (main.pas), line = 38
+   581 				; optimize OK (main.pas), line = 36
+   582
+   583 21D6 A9 00			lda #$00
+   584 21D8 8D 1B D0			sta REGISTERS.PRIOR
    585
-   586 21DB A9 08			lda #$08
-   587 21DD 85 88			sta :edx
-   588 21DF A9 13			lda #$13
-   589 21E1 85 89			sta :edx+1
-   590 21E3 A9 F8			lda #$F8
-   591 21E5 85 8C			sta :ecx
-   592 21E7 A9 04			lda #$04
-   593 21E9 85 8D			sta :ecx+1
-   594 21EB A9 00			lda #$00
-   595 21ED 85 84			sta :eax
-   596 21EF 20 80 20			jsr @fill
-   597
-   598 				; optimize OK (main.pas), line = 39
+   586 				; optimize OK (main.pas), line = 38
+   587
+   588 21DB A9 08			lda #$08
+   589 21DD 85 88			sta :edx
+   590 21DF A9 13			lda #$13
+   591 21E1 85 89			sta :edx+1
+   592 21E3 A9 F8			lda #$F8
+   593 21E5 85 8C			sta :ecx
+   594 21E7 A9 04			lda #$04
+   595 21E9 85 8D			sta :ecx+1
+   596 21EB A9 00			lda #$00
+   597 21ED 85 84			sta :eax
+   598 21EF 20 80 20			jsr @fill
    599
-   600 21F2 A0 09			ldy #$09
-   601 21F4 B9 00 10 99 08 14 + 	mva:rpl $1000,y $1408,y-
-   602
-   603 				; optimize OK (main.pas), line = 40
+   600 				; optimize OK (main.pas), line = 39
+   601
+   602 21F2 A0 09			ldy #$09
+   603 21F4 B9 00 10 99 08 14 + 	mva:rpl $1000,y $1408,y-
    604
-   605 21FD A0 09			ldy #$09
-   606 21FF B9 0A 10 99 08 15 + 	mva:rpl $100A,y $1508,y-
-   607
-   608 				; optimize FAIL ('SYSTEM.PAUSE_006A', main.pas), line = 42
+   605 				; optimize OK (main.pas), line = 40
+   606
+   607 21FD A0 09			ldy #$09
+   608 21FF B9 0A 10 99 08 15 + 	mva:rpl $100A,y $1508,y-
    609
-   610 2208 20 38 21			jsr SYSTEM.PAUSE_006A
-   611 220B A9 3E			lda #$3E
-   612 220D 8D 00 D4			sta REGISTERS.DMACTL
-   613 2210 E8				inx
-   614 2211 A9 89 95 98			mva <VBI :STACKORIGIN,x
-   615 2215 A9 21 95 A8			mva >VBI :STACKORIGIN+STACKWIDTH,x
-   616 2219 20 52 21			jsr SYS.SETVBI
-   617 221C			@exit
-   618 					.ifdef @new
-   619 					lda <@VarData
-   620 					sta :ztmp
-   621 					lda >@VarData
-   622 					ldy #@VarDataSize-1
-   623 					jmp @FreeMem
-   624 					els
-   625 221C 60				rts						; ret
-   626 					eif
-   627 				.endl
-   628 221D			l_0007
-   629
-   630 				; optimize FAIL ('INIT', main.pas), line = 46
+   610 				; optimize FAIL ('SYSTEM.PAUSE_006A', main.pas), line = 42
+   611
+   612 2208 20 38 21			jsr SYSTEM.PAUSE_006A
+   613 220B A9 3E			lda #$3E
+   614 220D 8D 00 D4			sta REGISTERS.DMACTL
+   615 2210 E8				inx
+   616 2211 A9 89 95 98			mva <VBI :STACKORIGIN,x
+   617 2215 A9 21 95 A8			mva >VBI :STACKORIGIN+STACKWIDTH,x
+   618 2219 20 52 21			jsr SYS.SETVBI
+   619 221C			@exit
+   620 					.ifdef @new
+   621 					lda <@VarData
+   622 					sta :ztmp
+   623 					lda >@VarData
+   624 					ldy #@VarDataSize-1
+   625 					jmp @FreeMem
+   626 					els
+   627 221C 60				rts						; ret
+   628 					eif
+   629 				.endl
+   630 221D			l_0007
    631
-   632 221D 20 A2 21			jsr INIT
+   632 				; optimize FAIL ('INIT', main.pas), line = 46
    633
-   634 				; --- RepeatUntilProlog
-   635 2220			l_00DB
-   636
-   637 				; optimize OK (main.pas), line = 47
+   634 221D 20 A2 21			jsr INIT
+   635
+   636 				; --- RepeatUntilProlog
+   637 2220			l_00DB
    638
-   639 2220 4C 20 22			jmp l_00DB
+   639 				; optimize OK (main.pas), line = 47
    640
-   641 				; ------------------------------------------------------------
+   641 2220 4C 20 22			jmp l_00DB
    642
-   643 = 0308			MISSILES_OFFSET	= $0308
-   644 = 0408			PLAYER0_OFFSET	= $0408
-   645 = 0508			PLAYER1_OFFSET	= $0508
-   646 = 1000			PM_ADDRESS	= $1000
-   647 = 1000			PLAYER_SHIP_ADDRESS	= $1000
-   648 = 000A			PLAYER_SHIP_SEG	= $0A
-   649 = 1800			DL_2	= $1800
-   650 = E000			GAME_LMS	= $E000
-   651 = 0000			HPOSP0	= $00
-   652 = 0001			HPOSP1	= $01
-   653 = 0000			SHIPHPOS	= $00
-   654 2223			@exit
-   655
-   656 2223 A2 00		@halt	ldx #$00
-   657 2225 9A				txs
-   658 					.ifdef MAIN.@DEFINES.ROMOFF
-   659 					inc portb
-   660 					.endif
-   661
-   662 2226 A0 01			ldy #$01
+   643 				; ------------------------------------------------------------
+   644
+   645 = 0308			MISSILES_OFFSET	= $0308
+   646 = 0408			PLAYER0_OFFSET	= $0408
+   647 = 0508			PLAYER1_OFFSET	= $0508
+   648 = 1000			PM_ADDRESS	= $1000
+   649 = 1000			PLAYER_SHIP_ADDRESS	= $1000
+   650 = 000A			PLAYER_SHIP_SEG	= $0A
+   651 = 1800			DL_2	= $1800
+   652 = E000			GAME_LMS	= $E000
+   653 = 0000			HPOSP0	= $00
+   654 = 0001			HPOSP1	= $01
+   655 = 0000			SHIPHPOS	= $00
+   656 2223			@exit
+   657
+   658 2223 A2 00		@halt	ldx #$00
+   659 2225 9A				txs
+   660 					.ifdef MAIN.@DEFINES.ROMOFF
+   661 					inc portb
+   662 					.endif
    663
-   664 2228 60				rts
+   664 2226 A0 01			ldy #$01
    665
-   666 				; ------------------------------------------------------------
+   666 2228 60				rts
    667
-   668 2229 00 00 00 00 00 00 + IOCB@COPY	:16 brk
+   668 				; ------------------------------------------------------------
    669
-   670 				; ------------------------------------------------------------
+   670 2229 00 00 00 00 00 00 + IOCB@COPY	:16 brk
    671
-   672 2239			.local	@DEFINES
-   673 2239			ATARI
-   674 				.endl
-   675
-   676 2239			.local	@RESOURCE
-   677 				.endl
-   678
-   679 				.endl							; MAIN
+   672 				; ------------------------------------------------------------
+   673
+   674 2239			.local	@DEFINES
+   675 2239			ATARI
+   676 				.endl
+   677
+   678 2239			.local	@RESOURCE
+   679 				.endl
    680
-   681 				; ------------------------------------------------------------
-   682 				; ------------------------------------------------------------
-   683
-   684 				.macro	UNITINITIALIZATION
-   685 				
-   686 					.ifdef MAIN.SYSTEM.@UnitInit
-   687 					jsr MAIN.SYSTEM.@UnitInit
-   688 					eif
-   689 				
-   690 					.ifdef MAIN.REGISTERS.@UnitInit
-   691 					jsr MAIN.REGISTERS.@UnitInit
-   692 					eif
-   693 				
-   694 					.ifdef MAIN.GR.@UnitInit
-   695 					jsr MAIN.GR.@UnitInit
-   696 					eif
-   697 				
-   698 					.ifdef MAIN.SYS.@UnitInit
-   699 					jsr MAIN.SYS.@UnitInit
-   700 					eif
-   701 				.endm
-   702
-   703 				; ------------------------------------------------------------
+   681 				.endl							; MAIN
+   682
+   683 				; ------------------------------------------------------------
+   684 				; ------------------------------------------------------------
+   685
+   686 				.macro	UNITINITIALIZATION
+   687 				
+   688 					.ifdef MAIN.SYSTEM.@UnitInit
+   689 					jsr MAIN.SYSTEM.@UnitInit
+   690 					eif
+   691 				
+   692 					.ifdef MAIN.REGISTERS.@UnitInit
+   693 					jsr MAIN.REGISTERS.@UnitInit
+   694 					eif
+   695 				
+   696 					.ifdef MAIN.GR.@UnitInit
+   697 					jsr MAIN.GR.@UnitInit
+   698 					eif
+   699 				
+   700 					.ifdef MAIN.SYS.@UnitInit
+   701 					jsr MAIN.SYS.@UnitInit
+   702 					eif
+   703 				.endm
    704
-   705 					ift .SIZEOF(MAIN.SYSTEM) > 0
-   706 					.print 'SYSTEM: ',MAIN.SYSTEM,'..',MAIN.SYSTEM+.SIZEOF(MAIN.SYSTEM)-1
-   706 				SYSTEM: $20FE..$2142
-   707 					eif
-   708
-   709 					ift .SIZEOF(MAIN.REGISTERS) > 0
-   710 					.print 'REGISTERS: ',MAIN.REGISTERS,'..',MAIN.REGISTERS+.SIZEOF(MAIN.REGISTERS)-1
-   711 					eif
-   712
-   713 					ift .SIZEOF(MAIN.GR) > 0
-   714 					.print 'GR: ',MAIN.GR,'..',MAIN.GR+.SIZEOF(MAIN.GR)-1
-   714 				GR: $2143..$2143
-   715 					eif
-   716
-   717 					ift .SIZEOF(MAIN.SYS) > 0
-   718 					.print 'SYS: ',MAIN.SYS,'..',MAIN.SYS+.SIZEOF(MAIN.SYS)-1
-   718 				SYS: $2144..$2188
-   719 					eif
-   720
-   721 					.print 'CODE: ',CODEORIGIN,'..',MAIN.@RESOURCE-1
-   721 				CODE: $2000..$2238
+   705 				; ------------------------------------------------------------
+   706
+   707 					ift .SIZEOF(MAIN.SYSTEM) > 0
+   708 					.print 'SYSTEM: ',MAIN.SYSTEM,'..',MAIN.SYSTEM+.SIZEOF(MAIN.SYSTEM)-1
+   708 				SYSTEM: $20FE..$2142
+   709 					eif
+   710
+   711 					ift .SIZEOF(MAIN.REGISTERS) > 0
+   712 					.print 'REGISTERS: ',MAIN.REGISTERS,'..',MAIN.REGISTERS+.SIZEOF(MAIN.REGISTERS)-1
+   713 					eif
+   714
+   715 					ift .SIZEOF(MAIN.GR) > 0
+   716 					.print 'GR: ',MAIN.GR,'..',MAIN.GR+.SIZEOF(MAIN.GR)-1
+   716 				GR: $2143..$2143
+   717 					eif
+   718
+   719 					ift .SIZEOF(MAIN.SYS) > 0
+   720 					.print 'SYS: ',MAIN.SYS,'..',MAIN.SYS+.SIZEOF(MAIN.SYS)-1
+   720 				SYS: $2144..$2188
+   721 					eif
    722
-   723 				; ------------------------------------------------------------
+   723 					.print 'CODE: ',CODEORIGIN,'..',MAIN.@RESOURCE-1
+   723 				CODE: $2000..$2238
    724
-   725 2239				.align $04
+   725 				; ------------------------------------------------------------
    726
-   727 223C			DATAORIGIN
-   728 223C-2241> 28 00 18 00 + .by  $28 $00 $18 $00 $2D $0C
-   729
-   730 = 0006			VARINITSIZE	= *-DATAORIGIN
-   731 = 000D			VARDATASIZE	= 13
-   732
-   733 = 2249			PROGRAMSTACK	= DATAORIGIN+VARDATASIZE
+   727 2239				.align $04
+   728
+   729 223C			DATAORIGIN
+   730 223C-2241> 28 00 18 00 + .by  $28 $00 $18 $00 $2D $0C
+   731
+   732 = 0006			VARINITSIZE	= *-DATAORIGIN
+   733 = 000D			VARDATASIZE	= 13
    734
-   735 					.print 'DATA: ',DATAORIGIN,'..',PROGRAMSTACK
-   735 				DATA: $223C..$2249
+   735 = 2249			PROGRAMSTACK	= DATAORIGIN+VARDATASIZE
    736
-   737 02E0-02E1> C8 20			run START
+   737 					.print 'DATA: ',DATAORIGIN,'..',PROGRAMSTACK
+   737 				DATA: $223C..$2249
    738
-   739 				; ------------------------------------------------------------
+   739 02E0-02E1> C8 20			run START
    740
-   741 				.macro	STATICDATA
-   742 				.endm
-   743
-   744 					end
+   741 				; ------------------------------------------------------------
+   742
+   743 				.macro	STATICDATA
+   744 				.endm
+   745
+   746 					end

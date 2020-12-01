@@ -24,6 +24,8 @@ var
   NMIVEC  : word absolute $FFFA;
 
   HPOSP01 : word absolute $D000;
+  SIZEP01 : word absolute $D008;
+  COLPM01 : word absolute $D012;
 
 implementation
 end.
