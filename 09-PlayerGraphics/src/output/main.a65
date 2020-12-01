@@ -516,15 +516,9 @@ A	= DATAORIGIN+$000B
 
  phr 
 
-; optimize FAIL (0, main.pas), line = 20
+; optimize FAIL (0, main.pas), line = 21
 
 	inc COUNTER
-
-; optimize OK (main.pas), line = 22
-
-	lda REGISTERS.RTCLOK
-	and #$01
-	jne l_00A1
 
 ; optimize FAIL (0, main.pas), line = 23
 
@@ -537,7 +531,6 @@ A	= DATAORIGIN+$000B
 	sta REGISTERS.HPOSP0
 	lda PM1_X
 	sta REGISTERS.HPOSP1
-l_00A1
 
 ; ---------------------  ASM Block 056  ---------------------
 
@@ -547,47 +540,47 @@ l_00A1
 
 .local	INIT						; PROCEDURE
 
-; optimize FAIL ('SYS.SYSTEMOFF', main.pas), line = 32
+; optimize FAIL ('SYS.SYSTEMOFF', main.pas), line = 31
 
 	jsr SYS.SYSTEMOFF
 	lda #$00
 	sta REGISTERS.DMACTL
 
-; optimize OK (main.pas), line = 34
+; optimize OK (main.pas), line = 33
 
 	lda #$10
 	sta REGISTERS.PMBASE
 
-; optimize OK (main.pas), line = 35
+; optimize OK (main.pas), line = 34
 
 	lda #$00
 	sta REGISTERS.SIZEP0
 	sta REGISTERS.SIZEP1
 
-; optimize OK (main.pas), line = 36
+; optimize OK (main.pas), line = 35
 
 	lda PM0_X
 	sta REGISTERS.HPOSP0
 	lda PM1_X
 	sta REGISTERS.HPOSP1
 
-; optimize OK (main.pas), line = 37
+; optimize OK (main.pas), line = 36
 
 	lda #$0F
 	sta REGISTERS.COLPM0
 	sta REGISTERS.COLPM1
 
-; optimize OK (main.pas), line = 38
+; optimize OK (main.pas), line = 37
 
 	lda #$03
 	sta REGISTERS.GRACTL
 
-; optimize OK (main.pas), line = 39
+; optimize OK (main.pas), line = 38
 
 	lda #$00
 	sta REGISTERS.PRIOR
 
-; optimize OK (main.pas), line = 41
+; optimize OK (main.pas), line = 40
 
 	lda #$08
 	sta :edx
@@ -601,17 +594,17 @@ l_00A1
 	sta :eax
 	jsr @fill
 
-; optimize OK (main.pas), line = 42
+; optimize OK (main.pas), line = 41
 
 	ldy #$09
 	mva:rpl $1000,y $1408,y-
 
-; optimize OK (main.pas), line = 43
+; optimize OK (main.pas), line = 42
 
 	ldy #$09
 	mva:rpl $100A,y $1508,y-
 
-; optimize FAIL ('SYSTEM.PAUSE_006A', main.pas), line = 46
+; optimize FAIL ('SYSTEM.PAUSE_006A', main.pas), line = 45
 
 	jsr SYSTEM.PAUSE_006A
 	lda #$3E
@@ -633,16 +626,16 @@ l_00A1
 .endl
 l_0007
 
-; optimize FAIL ('INIT', main.pas), line = 50
+; optimize FAIL ('INIT', main.pas), line = 49
 
 	jsr INIT
 
 ; --- RepeatUntilProlog
-l_00FE
+l_00E5
 
-; optimize OK (main.pas), line = 51
+; optimize OK (main.pas), line = 50
 
-	jmp l_00FE
+	jmp l_00E5
 
 ; ------------------------------------------------------------
 

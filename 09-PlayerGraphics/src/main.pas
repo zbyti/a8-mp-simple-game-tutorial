@@ -17,12 +17,11 @@ var
 procedure vbi; interrupt;
 begin
   asm { phr };
+
   inc(counter);
 
-  if (RTCLOK and 1) = 0 then begin
-    inc(pm0_x); inc(pm1_x);
-    HPOSP0 := pm0_x; HPOSP1 := pm1_x;
-  end;
+  inc(pm0_x); inc(pm1_x);
+  HPOSP0 := pm0_x; HPOSP1 := pm1_x;
 
   asm { plr };
 end;
