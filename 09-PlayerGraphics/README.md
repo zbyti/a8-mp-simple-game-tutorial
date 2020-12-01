@@ -1,2 +1,2 @@
-# 8. Resources
+# 9. Player Graphics
 
