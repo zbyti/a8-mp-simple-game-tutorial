@@ -9,16 +9,16 @@ const
 {$r res/gfx.rc}
 
 var
-  pm0_x   : byte absolute 0;
-  pm1_x   : byte absolute 1;
-  pm_x    : word absolute 0;
+  hposp0   : byte absolute 0;
+  hposp1   : byte absolute 1;
+  shipHpos : word absolute 0;
 
 
 procedure vbi; interrupt;
 begin
   asm { phr };
 
-  inc(pm0_x); inc(pm1_x); HPOSP := pm_x;
+  inc(hposp0); inc(hposp1); HPOSP := shipHpos;
 
   asm { plr };
 end;
@@ -27,12 +27,12 @@ procedure init;
 begin
   systemOff; DMACTL := 0;
 
-  pm0_x := 44;
-  pm1_x := 52;
+  hposp0 := 44;
+  hposp1 := 52;
 
   PMBASE := hi(PMG_ADDRESS);
   SIZEP0 := 0; SIZEP1 := 0;
-  HPOSP0 := pm0_x; HPOSP1 := pm1_x;
+  HPOSP0 := hposp0; HPOSP1 := hposp1;
   COLPM0 := $0f; COLPM1 := $0f;
   GRACTL := %00000011;
   PRIOR  := 0;

@@ -519,11 +519,11 @@ A	= DATAORIGIN+$000B
 
 ; optimize FAIL (0, main.pas), line = 21
 
-	inc PM0_X
-	inc PM1_X
-	lda PM_X
+	inc HPOSP0
+	inc HPOSP1
+	lda SHIPHPOS
 	sta REGISTERS.HPOSP
-	lda PM_X+1
+	lda SHIPHPOS+1
 	sta REGISTERS.HPOSP+1
 
 ; ---------------------  ASM Block 056  ---------------------
@@ -543,12 +543,12 @@ A	= DATAORIGIN+$000B
 ; optimize OK (main.pas), line = 30
 
 	lda #$2C
-	sta PM0_X
+	sta HPOSP0
 
 ; optimize OK (main.pas), line = 31
 
 	lda #$34
-	sta PM1_X
+	sta HPOSP1
 
 ; optimize OK (main.pas), line = 33
 
@@ -562,11 +562,6 @@ A	= DATAORIGIN+$000B
 	sta REGISTERS.SIZEP1
 
 ; optimize OK (main.pas), line = 35
-
-	lda PM0_X
-	sta REGISTERS.HPOSP0
-	lda PM1_X
-	sta REGISTERS.HPOSP1
 
 ; optimize OK (main.pas), line = 36
 
@@ -651,9 +646,9 @@ PLAYER_SHIP_ADDRESS	= $1000
 PLAYER_SHIP_SEG	= $0A
 DL_2	= $1800
 GAME_LMS	= $E000
-PM0_X	= $00
-PM1_X	= $01
-PM_X	= $00
+HPOSP0	= $00
+HPOSP1	= $01
+SHIPHPOS	= $00
 @exit
 
 @halt	ldx #$00
