@@ -23,5 +23,7 @@ var
   DLIST  : word absolute $D402;
   NMIVEC : word absolute $FFFA;
 
+  HPOSP  : word absolute $D000;
+
 implementation
 end.

@@ -383,6 +383,7 @@ PMBASE	= $D407
 NMIEN	= $D40E
 DLIST	= $D402
 NMIVEC	= $FFFA
+HPOSP	= $D000
 
 .endl							; UNIT REGISTERS
 
@@ -403,7 +404,7 @@ PLAYER0_OFFSET	= $0408
 PLAYER1_OFFSET	= $0508
 PMG_ADDRESS	= $1000
 PLAYER_SHIP_ADDRESS	= $1000
-PLAYER_SHIP_LENGHT	= $0A
+PLAYER_SHIP_SEG	= $0A
 DL_2	= $1800
 GAME_LMS	= $E000
 
@@ -518,19 +519,12 @@ A	= DATAORIGIN+$000B
 
 ; optimize FAIL (0, main.pas), line = 21
 
-	inc COUNTER
-
-; optimize FAIL (0, main.pas), line = 23
-
 	inc PM0_X
 	inc PM1_X
-
-; optimize OK (main.pas), line = 24
-
-	lda PM0_X
-	sta REGISTERS.HPOSP0
-	lda PM1_X
-	sta REGISTERS.HPOSP1
+	lda PM_X
+	sta REGISTERS.HPOSP
+	lda PM_X+1
+	sta REGISTERS.HPOSP+1
 
 ; ---------------------  ASM Block 056  ---------------------
 
@@ -540,11 +534,21 @@ A	= DATAORIGIN+$000B
 
 .local	INIT						; PROCEDURE
 
-; optimize FAIL ('SYS.SYSTEMOFF', main.pas), line = 31
+; optimize FAIL ('SYS.SYSTEMOFF', main.pas), line = 28
 
 	jsr SYS.SYSTEMOFF
 	lda #$00
 	sta REGISTERS.DMACTL
+
+; optimize OK (main.pas), line = 30
+
+	lda #$2C
+	sta PM0_X
+
+; optimize OK (main.pas), line = 31
+
+	lda #$34
+	sta PM1_X
 
 ; optimize OK (main.pas), line = 33
 
@@ -604,7 +608,7 @@ A	= DATAORIGIN+$000B
 	ldy #$09
 	mva:rpl $100A,y $1508,y-
 
-; optimize FAIL ('SYSTEM.PAUSE_006A', main.pas), line = 45
+; optimize FAIL ('SYSTEM.PAUSE_006A', main.pas), line = 44
 
 	jsr SYSTEM.PAUSE_006A
 	lda #$3E
@@ -626,16 +630,16 @@ A	= DATAORIGIN+$000B
 .endl
 l_0007
 
-; optimize FAIL ('INIT', main.pas), line = 49
+; optimize FAIL ('INIT', main.pas), line = 48
 
 	jsr INIT
 
 ; --- RepeatUntilProlog
-l_00E5
+l_00E2
 
-; optimize OK (main.pas), line = 50
+; optimize OK (main.pas), line = 49
 
-	jmp l_00E5
+	jmp l_00E2
 
 ; ------------------------------------------------------------
 
@@ -644,12 +648,12 @@ PLAYER0_OFFSET	= $0408
 PLAYER1_OFFSET	= $0508
 PMG_ADDRESS	= $1000
 PLAYER_SHIP_ADDRESS	= $1000
-PLAYER_SHIP_LENGHT	= $0A
+PLAYER_SHIP_SEG	= $0A
 DL_2	= $1800
 GAME_LMS	= $E000
-COUNTER	= $00
-PM0_X	= DATAORIGIN+$000D
-PM1_X	= DATAORIGIN+$000E
+PM0_X	= $00
+PM1_X	= $01
+PM_X	= $00
 @exit
 
 @halt	ldx #$00
@@ -724,10 +728,10 @@ ATARI
 	.align $04
 
 DATAORIGIN
-.by  $28 $00 $18 $00 $2D $0C $00 $00  $00 $00 $00 $00 $00 $2C $34
+.by  $28 $00 $18 $00 $2D $0C
 
 VARINITSIZE	= *-DATAORIGIN
-VARDATASIZE	= 15
+VARDATASIZE	= 13
 
 PROGRAMSTACK	= DATAORIGIN+VARDATASIZE
 
