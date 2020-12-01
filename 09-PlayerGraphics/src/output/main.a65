@@ -544,13 +544,15 @@ A	= DATAORIGIN+$000B
 
 ; optimize OK (main.pas), line = 30
 
+	lda #$10
+	sta REGISTERS.PMBASE
+
+; optimize OK (main.pas), line = 31
+
 	lda #$2C
 	sta HPOSP0
 	lda #$34
 	sta HPOSP1
-
-; optimize OK (main.pas), line = 31
-
 	lda SHIPHPOS
 	sta REGISTERS.HPOSP01
 	lda SHIPHPOS+1
@@ -558,32 +560,17 @@ A	= DATAORIGIN+$000B
 
 ; optimize OK (main.pas), line = 32
 
-	lda #$10
-	sta REGISTERS.PMBASE
-
-; optimize OK (main.pas), line = 33
-
-	lda #$00
-	sta REGISTERS.SIZEP0
-	sta REGISTERS.SIZEP1
-
-; optimize OK (main.pas), line = 34
-
 	lda #$0F
-	sta REGISTERS.COLPM0
-	sta REGISTERS.COLPM1
-
-; optimize OK (main.pas), line = 35
-
+	sta REGISTERS.COLPM01
+	sta REGISTERS.COLPM01+1
+	lda #$00
+	sta REGISTERS.SIZEP01
+	sta REGISTERS.SIZEP01+1
+	sta REGISTERS.PRIOR
 	lda #$03
 	sta REGISTERS.GRACTL
 
-; optimize OK (main.pas), line = 36
-
-	lda #$00
-	sta REGISTERS.PRIOR
-
-; optimize OK (main.pas), line = 38
+; optimize OK (main.pas), line = 34
 
 	lda #$08
 	sta :edx
@@ -597,17 +584,17 @@ A	= DATAORIGIN+$000B
 	sta :eax
 	jsr @fill
 
-; optimize OK (main.pas), line = 39
+; optimize OK (main.pas), line = 35
 
 	ldy #$09
 	mva:rpl $1000,y $1408,y-
 
-; optimize OK (main.pas), line = 40
+; optimize OK (main.pas), line = 36
 
 	ldy #$09
 	mva:rpl $100A,y $1508,y-
 
-; optimize FAIL ('SYSTEM.PAUSE_006A', main.pas), line = 42
+; optimize FAIL ('SYSTEM.PAUSE_006A', main.pas), line = 38
 
 	jsr SYSTEM.PAUSE_006A
 	lda #$3E
@@ -629,16 +616,16 @@ A	= DATAORIGIN+$000B
 .endl
 l_0007
 
-; optimize FAIL ('INIT', main.pas), line = 46
+; optimize FAIL ('INIT', main.pas), line = 42
 
 	jsr INIT
 
 ; --- RepeatUntilProlog
-l_00DB
+l_00D3
 
-; optimize OK (main.pas), line = 47
+; optimize OK (main.pas), line = 43
 
-	jmp l_00DB
+	jmp l_00D3
 
 ; ------------------------------------------------------------
 

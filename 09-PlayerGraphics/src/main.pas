@@ -27,13 +27,9 @@ procedure init;
 begin
   systemOff; DMACTL := 0;
 
-  hposp0 := 44; hposp1 := 52;
-  HPOSP01 := shipHpos;
   PMBASE := hi(PM_ADDRESS);
-  SIZEP0 := 0; SIZEP1 := 0;
-  COLPM0 := $0f; COLPM1 := $0f;
-  GRACTL := %00000011;
-  PRIOR := 0;
+  hposp0 := 44; hposp1 := 52; HPOSP01 := shipHpos;
+  COLPM01 := $0f0f; SIZEP01 := 0; PRIOR := 0; GRACTL := %00000011;
 
   FillByte(pointer(PM_ADDRESS + MISSILES_OFFSET), $800 - MISSILES_OFFSET, 0);
   Move(pointer(PLAYER_SHIP_ADDRESS), pointer(PM_ADDRESS + PLAYER0_OFFSET), PLAYER_SHIP_SEG);

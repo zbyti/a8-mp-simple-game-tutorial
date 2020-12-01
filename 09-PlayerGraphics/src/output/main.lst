@@ -68,33 +68,33 @@ Source: rtl6502_a8.asm
    121
    122 20C8			START
    123 20C8 BA				tsx
-   124 20C9 8E 24 22			stx MAIN.@halt+1
+   124 20C9 8E 22 22			stx MAIN.@halt+1
    125
    126 					.ifdef fmulinit
    127 					fmulinit
    128 					eif
    129
    130 = 0007			VLEN	= VARDATASIZE-VARINITSIZE
-   131 = 2242			VADR	= DATAORIGIN+VARINITSIZE
+   131 = 223E			VADR	= DATAORIGIN+VARINITSIZE
    132
    133 					ift VADR > $BFFF
    134 					ert 'Invalid memory address range ',VADR
    135 					eli (VLEN>0) && (VLEN<=256)
    136 20CC A2 F9			ldx #256-VLEN
    137 20CE A9 00			lda #$00
-   138 20D0 9D 49 21 E8 D0 FA		sta:rne VADR+VLEN-256,x+
+   138 20D0 9D 45 21 E8 D0 FA		sta:rne VADR+VLEN-256,x+
    139 					eli VLEN>0
    140 					@fill #VADR #VLEN #$00
    141 					eif
    142
-   143 20D6 A9 49 85 82 A9 22 + 	mwa #PROGRAMSTACK psptr
+   143 20D6 A9 45 85 82 A9 22 + 	mwa #PROGRAMSTACK psptr
    144
    145 					.ifdef MAIN.@DEFINES.ROMOFF
    146 					icl 'atari\romoff.asm'
    147 					.endif
    148
    149 20DE A2 0F			ldx #$0F					; DOS II+/D ParamStr
-   150 20E0 BD 40 03 9D 29 22 + 	mva:rpl $340,x MAIN.IOCB@COPY,x-
+   150 20E0 BD 40 03 9D 27 22 + 	mva:rpl $340,x MAIN.IOCB@COPY,x-
    151
    152 20E9 E8				inx						; X = 0
    153 20EA 86 90			stx bp						; BP = 0
@@ -112,7 +112,7 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    162
    163 20FB			.local	MAIN						; PROCEDURE
    164
-   165 20FB 4C 1D 22			jmp l_0007
+   165 20FB 4C 1B 22			jmp l_0007
    166
    167 				; ------------------------------------------------------------
    168
@@ -291,20 +291,20 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    341 = 0008			FMOPENWRITE	= $08
    342 = 0009			FMOPENAPPEND	= $09
    343 = 000C			FMOPENREADWRITE	= $0C
-   344 = 223C			SCREENWIDTH	= DATAORIGIN+$0000
-   345 = 223E			SCREENHEIGHT	= DATAORIGIN+$0002
-   346 = 2240			DATESEPARATOR	= DATAORIGIN+$0004
+   344 = 2238			SCREENWIDTH	= DATAORIGIN+$0000
+   345 = 223A			SCREENHEIGHT	= DATAORIGIN+$0002
+   346 = 223C			DATESEPARATOR	= DATAORIGIN+$0004
    347 = D014			TVSYSTEM	= $D014
    348 = D20A			RND	= $D20A
    349 = 02C0			adr.PALETTE	= $02C0
    350 213F			.var PALETTE	= adr.PALETTE .word
    351 = D012			adr.HPALETTE	= $D012
    352 213F			.var HPALETTE	= adr.HPALETTE .word
-   353 = 2241			FILEMODE	= DATAORIGIN+$0005
-   354 = 2242			GRAPHMODE	= DATAORIGIN+$0006
-   355 = 2243			IORESULT	= DATAORIGIN+$0007
-   356 = 2244			EOLN	= DATAORIGIN+$0008
-   357 = 2245			RNDSEED	= DATAORIGIN+$0009
+   353 = 223D			FILEMODE	= DATAORIGIN+$0005
+   354 = 223E			GRAPHMODE	= DATAORIGIN+$0006
+   355 = 223F			IORESULT	= DATAORIGIN+$0007
+   356 = 2240			EOLN	= DATAORIGIN+$0008
+   357 = 2241			RNDSEED	= DATAORIGIN+$0009
    358
    359 = 213F C0 02		PALETTE
    359 = 2141 12 D0		HPALETTE
@@ -393,22 +393,22 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    439 				; Generate Assignment for WORD / SMALLINT / SHORTREAL / POINTER
    440 				; as Pointer
    441 2152 B5 98			lda :STACKORIGIN,x
-   442 2154 8D 47 22			sta A
+   442 2154 8D 43 22			sta A
    443 2157 B5 A8			lda :STACKORIGIN+STACKWIDTH,x
-   444 2159 8D 48 22			sta A+1
+   444 2159 8D 44 22			sta A+1
    445 215C CA				dex
    446
    447 				; ---------------------  ASM Block 050  ---------------------
    448
    449
-   450 215D AD 47 22 8D 4F 21 +   mwa a __vbijmp+1
+   450 215D AD 43 22 8D 4F 21 +   mwa a __vbijmp+1
    451
    452
    453 				; ------------------------------------------------------------
    454
-   455 = 2247			A	= DATAORIGIN+$000B
+   455 = 2243			A	= DATAORIGIN+$000B
    456
-   457 = 2247			@VarData	= A
+   457 = 2243			@VarData	= A
    458 = 0002			@VarDataSize	= 2
    459
    460 2169			@exit
@@ -498,208 +498,195 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    544
    545 				; optimize OK (main.pas), line = 30
    546
-   547 21AA A9 2C			lda #$2C
-   548 21AC 85 00			sta HPOSP0
-   549 21AE A9 34			lda #$34
-   550 21B0 85 01			sta HPOSP1
+   547 21AA A9 10			lda #$10
+   548 21AC 8D 07 D4			sta REGISTERS.PMBASE
+   549
+   550 				; optimize OK (main.pas), line = 31
    551
-   552 				; optimize OK (main.pas), line = 31
-   553
-   554 21B2 A5 00			lda SHIPHPOS
-   555 21B4 8D 00 D0			sta REGISTERS.HPOSP01
-   556 21B7 A5 01			lda SHIPHPOS+1
-   557 21B9 8D 01 D0			sta REGISTERS.HPOSP01+1
-   558
-   559 				; optimize OK (main.pas), line = 32
+   552 21AF A9 2C			lda #$2C
+   553 21B1 85 00			sta HPOSP0
+   554 21B3 A9 34			lda #$34
+   555 21B5 85 01			sta HPOSP1
+   556 21B7 A5 00			lda SHIPHPOS
+   557 21B9 8D 00 D0			sta REGISTERS.HPOSP01
+   558 21BC A5 01			lda SHIPHPOS+1
+   559 21BE 8D 01 D0			sta REGISTERS.HPOSP01+1
    560
-   561 21BC A9 10			lda #$10
-   562 21BE 8D 07 D4			sta REGISTERS.PMBASE
-   563
-   564 				; optimize OK (main.pas), line = 33
-   565
-   566 21C1 A9 00			lda #$00
-   567 21C3 8D 08 D0			sta REGISTERS.SIZEP0
-   568 21C6 8D 09 D0			sta REGISTERS.SIZEP1
-   569
-   570 				; optimize OK (main.pas), line = 34
-   571
-   572 21C9 A9 0F			lda #$0F
-   573 21CB 8D 12 D0			sta REGISTERS.COLPM0
-   574 21CE 8D 13 D0			sta REGISTERS.COLPM1
-   575
-   576 				; optimize OK (main.pas), line = 35
-   577
-   578 21D1 A9 03			lda #$03
-   579 21D3 8D 1D D0			sta REGISTERS.GRACTL
-   580
-   581 				; optimize OK (main.pas), line = 36
-   582
-   583 21D6 A9 00			lda #$00
-   584 21D8 8D 1B D0			sta REGISTERS.PRIOR
-   585
-   586 				; optimize OK (main.pas), line = 38
-   587
-   588 21DB A9 08			lda #$08
-   589 21DD 85 88			sta :edx
-   590 21DF A9 13			lda #$13
-   591 21E1 85 89			sta :edx+1
-   592 21E3 A9 F8			lda #$F8
-   593 21E5 85 8C			sta :ecx
-   594 21E7 A9 04			lda #$04
-   595 21E9 85 8D			sta :ecx+1
-   596 21EB A9 00			lda #$00
-   597 21ED 85 84			sta :eax
-   598 21EF 20 80 20			jsr @fill
-   599
-   600 				; optimize OK (main.pas), line = 39
-   601
-   602 21F2 A0 09			ldy #$09
-   603 21F4 B9 00 10 99 08 14 + 	mva:rpl $1000,y $1408,y-
-   604
-   605 				; optimize OK (main.pas), line = 40
-   606
-   607 21FD A0 09			ldy #$09
-   608 21FF B9 0A 10 99 08 15 + 	mva:rpl $100A,y $1508,y-
-   609
-   610 				; optimize FAIL ('SYSTEM.PAUSE_006A', main.pas), line = 42
-   611
-   612 2208 20 38 21			jsr SYSTEM.PAUSE_006A
-   613 220B A9 3E			lda #$3E
-   614 220D 8D 00 D4			sta REGISTERS.DMACTL
-   615 2210 E8				inx
-   616 2211 A9 89 95 98			mva <VBI :STACKORIGIN,x
-   617 2215 A9 21 95 A8			mva >VBI :STACKORIGIN+STACKWIDTH,x
-   618 2219 20 52 21			jsr SYS.SETVBI
-   619 221C			@exit
-   620 					.ifdef @new
-   621 					lda <@VarData
-   622 					sta :ztmp
-   623 					lda >@VarData
-   624 					ldy #@VarDataSize-1
-   625 					jmp @FreeMem
-   626 					els
-   627 221C 60				rts						; ret
-   628 					eif
-   629 				.endl
-   630 221D			l_0007
+   561 				; optimize OK (main.pas), line = 32
+   562
+   563 21C1 A9 0F			lda #$0F
+   564 21C3 8D 12 D0			sta REGISTERS.COLPM01
+   565 21C6 8D 13 D0			sta REGISTERS.COLPM01+1
+   566 21C9 A9 00			lda #$00
+   567 21CB 8D 08 D0			sta REGISTERS.SIZEP01
+   568 21CE 8D 09 D0			sta REGISTERS.SIZEP01+1
+   569 21D1 8D 1B D0			sta REGISTERS.PRIOR
+   570 21D4 A9 03			lda #$03
+   571 21D6 8D 1D D0			sta REGISTERS.GRACTL
+   572
+   573 				; optimize OK (main.pas), line = 34
+   574
+   575 21D9 A9 08			lda #$08
+   576 21DB 85 88			sta :edx
+   577 21DD A9 13			lda #$13
+   578 21DF 85 89			sta :edx+1
+   579 21E1 A9 F8			lda #$F8
+   580 21E3 85 8C			sta :ecx
+   581 21E5 A9 04			lda #$04
+   582 21E7 85 8D			sta :ecx+1
+   583 21E9 A9 00			lda #$00
+   584 21EB 85 84			sta :eax
+   585 21ED 20 80 20			jsr @fill
+   586
+   587 				; optimize OK (main.pas), line = 35
+   588
+   589 21F0 A0 09			ldy #$09
+   590 21F2 B9 00 10 99 08 14 + 	mva:rpl $1000,y $1408,y-
+   591
+   592 				; optimize OK (main.pas), line = 36
+   593
+   594 21FB A0 09			ldy #$09
+   595 21FD B9 0A 10 99 08 15 + 	mva:rpl $100A,y $1508,y-
+   596
+   597 				; optimize FAIL ('SYSTEM.PAUSE_006A', main.pas), line = 38
+   598
+   599 2206 20 38 21			jsr SYSTEM.PAUSE_006A
+   600 2209 A9 3E			lda #$3E
+   601 220B 8D 00 D4			sta REGISTERS.DMACTL
+   602 220E E8				inx
+   603 220F A9 89 95 98			mva <VBI :STACKORIGIN,x
+   604 2213 A9 21 95 A8			mva >VBI :STACKORIGIN+STACKWIDTH,x
+   605 2217 20 52 21			jsr SYS.SETVBI
+   606 221A			@exit
+   607 					.ifdef @new
+   608 					lda <@VarData
+   609 					sta :ztmp
+   610 					lda >@VarData
+   611 					ldy #@VarDataSize-1
+   612 					jmp @FreeMem
+   613 					els
+   614 221A 60				rts						; ret
+   615 					eif
+   616 				.endl
+   617 221B			l_0007
+   618
+   619 				; optimize FAIL ('INIT', main.pas), line = 42
+   620
+   621 221B 20 A2 21			jsr INIT
+   622
+   623 				; --- RepeatUntilProlog
+   624 221E			l_00D3
+   625
+   626 				; optimize OK (main.pas), line = 43
+   627
+   628 221E 4C 1E 22			jmp l_00D3
+   629
+   630 				; ------------------------------------------------------------
    631
-   632 				; optimize FAIL ('INIT', main.pas), line = 46
-   633
-   634 221D 20 A2 21			jsr INIT
-   635
-   636 				; --- RepeatUntilProlog
-   637 2220			l_00DB
-   638
-   639 				; optimize OK (main.pas), line = 47
-   640
-   641 2220 4C 20 22			jmp l_00DB
-   642
-   643 				; ------------------------------------------------------------
+   632 = 0308			MISSILES_OFFSET	= $0308
+   633 = 0408			PLAYER0_OFFSET	= $0408
+   634 = 0508			PLAYER1_OFFSET	= $0508
+   635 = 1000			PM_ADDRESS	= $1000
+   636 = 1000			PLAYER_SHIP_ADDRESS	= $1000
+   637 = 000A			PLAYER_SHIP_SEG	= $0A
+   638 = 1800			DL_2	= $1800
+   639 = E000			GAME_LMS	= $E000
+   640 = 0000			HPOSP0	= $00
+   641 = 0001			HPOSP1	= $01
+   642 = 0000			SHIPHPOS	= $00
+   643 2221			@exit
    644
-   645 = 0308			MISSILES_OFFSET	= $0308
-   646 = 0408			PLAYER0_OFFSET	= $0408
-   647 = 0508			PLAYER1_OFFSET	= $0508
-   648 = 1000			PM_ADDRESS	= $1000
-   649 = 1000			PLAYER_SHIP_ADDRESS	= $1000
-   650 = 000A			PLAYER_SHIP_SEG	= $0A
-   651 = 1800			DL_2	= $1800
-   652 = E000			GAME_LMS	= $E000
-   653 = 0000			HPOSP0	= $00
-   654 = 0001			HPOSP1	= $01
-   655 = 0000			SHIPHPOS	= $00
-   656 2223			@exit
-   657
-   658 2223 A2 00		@halt	ldx #$00
-   659 2225 9A				txs
-   660 					.ifdef MAIN.@DEFINES.ROMOFF
-   661 					inc portb
-   662 					.endif
-   663
-   664 2226 A0 01			ldy #$01
-   665
-   666 2228 60				rts
+   645 2221 A2 00		@halt	ldx #$00
+   646 2223 9A				txs
+   647 					.ifdef MAIN.@DEFINES.ROMOFF
+   648 					inc portb
+   649 					.endif
+   650
+   651 2224 A0 01			ldy #$01
+   652
+   653 2226 60				rts
+   654
+   655 				; ------------------------------------------------------------
+   656
+   657 2227 00 00 00 00 00 00 + IOCB@COPY	:16 brk
+   658
+   659 				; ------------------------------------------------------------
+   660
+   661 2237			.local	@DEFINES
+   662 2237			ATARI
+   663 				.endl
+   664
+   665 2237			.local	@RESOURCE
+   666 				.endl
    667
-   668 				; ------------------------------------------------------------
+   668 				.endl							; MAIN
    669
-   670 2229 00 00 00 00 00 00 + IOCB@COPY	:16 brk
-   671
-   672 				; ------------------------------------------------------------
-   673
-   674 2239			.local	@DEFINES
-   675 2239			ATARI
-   676 				.endl
-   677
-   678 2239			.local	@RESOURCE
-   679 				.endl
-   680
-   681 				.endl							; MAIN
-   682
-   683 				; ------------------------------------------------------------
-   684 				; ------------------------------------------------------------
-   685
-   686 				.macro	UNITINITIALIZATION
-   687 				
-   688 					.ifdef MAIN.SYSTEM.@UnitInit
-   689 					jsr MAIN.SYSTEM.@UnitInit
-   690 					eif
-   691 				
-   692 					.ifdef MAIN.REGISTERS.@UnitInit
-   693 					jsr MAIN.REGISTERS.@UnitInit
-   694 					eif
-   695 				
-   696 					.ifdef MAIN.GR.@UnitInit
-   697 					jsr MAIN.GR.@UnitInit
-   698 					eif
-   699 				
-   700 					.ifdef MAIN.SYS.@UnitInit
-   701 					jsr MAIN.SYS.@UnitInit
-   702 					eif
-   703 				.endm
-   704
-   705 				; ------------------------------------------------------------
-   706
-   707 					ift .SIZEOF(MAIN.SYSTEM) > 0
-   708 					.print 'SYSTEM: ',MAIN.SYSTEM,'..',MAIN.SYSTEM+.SIZEOF(MAIN.SYSTEM)-1
-   708 				SYSTEM: $20FE..$2142
-   709 					eif
-   710
-   711 					ift .SIZEOF(MAIN.REGISTERS) > 0
-   712 					.print 'REGISTERS: ',MAIN.REGISTERS,'..',MAIN.REGISTERS+.SIZEOF(MAIN.REGISTERS)-1
-   713 					eif
-   714
-   715 					ift .SIZEOF(MAIN.GR) > 0
-   716 					.print 'GR: ',MAIN.GR,'..',MAIN.GR+.SIZEOF(MAIN.GR)-1
-   716 				GR: $2143..$2143
-   717 					eif
+   670 				; ------------------------------------------------------------
+   671 				; ------------------------------------------------------------
+   672
+   673 				.macro	UNITINITIALIZATION
+   674 				
+   675 					.ifdef MAIN.SYSTEM.@UnitInit
+   676 					jsr MAIN.SYSTEM.@UnitInit
+   677 					eif
+   678 				
+   679 					.ifdef MAIN.REGISTERS.@UnitInit
+   680 					jsr MAIN.REGISTERS.@UnitInit
+   681 					eif
+   682 				
+   683 					.ifdef MAIN.GR.@UnitInit
+   684 					jsr MAIN.GR.@UnitInit
+   685 					eif
+   686 				
+   687 					.ifdef MAIN.SYS.@UnitInit
+   688 					jsr MAIN.SYS.@UnitInit
+   689 					eif
+   690 				.endm
+   691
+   692 				; ------------------------------------------------------------
+   693
+   694 					ift .SIZEOF(MAIN.SYSTEM) > 0
+   695 					.print 'SYSTEM: ',MAIN.SYSTEM,'..',MAIN.SYSTEM+.SIZEOF(MAIN.SYSTEM)-1
+   695 				SYSTEM: $20FE..$2142
+   696 					eif
+   697
+   698 					ift .SIZEOF(MAIN.REGISTERS) > 0
+   699 					.print 'REGISTERS: ',MAIN.REGISTERS,'..',MAIN.REGISTERS+.SIZEOF(MAIN.REGISTERS)-1
+   700 					eif
+   701
+   702 					ift .SIZEOF(MAIN.GR) > 0
+   703 					.print 'GR: ',MAIN.GR,'..',MAIN.GR+.SIZEOF(MAIN.GR)-1
+   703 				GR: $2143..$2143
+   704 					eif
+   705
+   706 					ift .SIZEOF(MAIN.SYS) > 0
+   707 					.print 'SYS: ',MAIN.SYS,'..',MAIN.SYS+.SIZEOF(MAIN.SYS)-1
+   707 				SYS: $2144..$2188
+   708 					eif
+   709
+   710 					.print 'CODE: ',CODEORIGIN,'..',MAIN.@RESOURCE-1
+   710 				CODE: $2000..$2236
+   711
+   712 				; ------------------------------------------------------------
+   713
+   714 2237				.align $04
+   715
+   716 2238			DATAORIGIN
+   717 2238-223D> 28 00 18 00 + .by  $28 $00 $18 $00 $2D $0C
    718
-   719 					ift .SIZEOF(MAIN.SYS) > 0
-   720 					.print 'SYS: ',MAIN.SYS,'..',MAIN.SYS+.SIZEOF(MAIN.SYS)-1
-   720 				SYS: $2144..$2188
-   721 					eif
-   722
-   723 					.print 'CODE: ',CODEORIGIN,'..',MAIN.@RESOURCE-1
-   723 				CODE: $2000..$2238
-   724
-   725 				; ------------------------------------------------------------
-   726
-   727 2239				.align $04
-   728
-   729 223C			DATAORIGIN
-   730 223C-2241> 28 00 18 00 + .by  $28 $00 $18 $00 $2D $0C
-   731
-   732 = 0006			VARINITSIZE	= *-DATAORIGIN
-   733 = 000D			VARDATASIZE	= 13
-   734
-   735 = 2249			PROGRAMSTACK	= DATAORIGIN+VARDATASIZE
-   736
-   737 					.print 'DATA: ',DATAORIGIN,'..',PROGRAMSTACK
-   737 				DATA: $223C..$2249
-   738
-   739 02E0-02E1> C8 20			run START
-   740
-   741 				; ------------------------------------------------------------
-   742
-   743 				.macro	STATICDATA
-   744 				.endm
-   745
-   746 					end
+   719 = 0006			VARINITSIZE	= *-DATAORIGIN
+   720 = 000D			VARDATASIZE	= 13
+   721
+   722 = 2245			PROGRAMSTACK	= DATAORIGIN+VARDATASIZE
+   723
+   724 					.print 'DATA: ',DATAORIGIN,'..',PROGRAMSTACK
+   724 				DATA: $2238..$2245
+   725
+   726 02E0-02E1> C8 20			run START
+   727
+   728 				; ------------------------------------------------------------
+   729
+   730 				.macro	STATICDATA
+   731 				.endm
+   732
+   733 					end
