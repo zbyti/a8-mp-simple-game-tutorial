@@ -2,9 +2,9 @@
 
 W poprzednim rozdziale dowiedzieliśmy się jakie warunki musi spełnić **Display List** by **ANTIC** pracował z nią poprawnie.
 
-Ułożyliśmy nasz kod tak by tablica przechowująca polecnia **DL** po skompilowaniu naszego programu znajdowałą się na jego początku. Jest to jednak metoda mało elastyczna i w pewnych sytuacjach może okazać się zawodna.
+Ułożyliśmy nasz kod tak by tablica przechowująca polecenia **DL** po skompilowaniu naszego programu znajdowała się na jego początku. Jest to jednak metoda mało elastyczna i w pewnych sytuacjach może okazać się zawodna.
 
-By mieć pełną kontrolę nad tym gdzie w pamięci komputera wyląduje nasza **DL** posłużym się przewidznymi (między innymi) do tego celu [dyrektywami](http://mads.atari8.info/doc/madpascal.html#direc) **Mad Pascala**.
+By mieć pełną kontrolę nad tym gdzie w pamięci komputera wyląduje nasza **DL** posłużymy się przewidzianymi (między innymi) do tego celu [dyrektywami](http://mads.atari8.info/doc/madpascal.html#direc) **Mad Pascala**.
 
 ## INCLUDE
 
@@ -12,14 +12,14 @@ By mieć pełną kontrolę nad tym gdzie w pamięci komputera wyląduje nasza **
 
 Dyrektywa dołączenia tekstu zawartego w pliku dołącza dokładnie w miejscu użycia dyrektywy co sprawia, że możemy *zszyć* swój plik z kilku *kawałków* kodu.
 
-W naszym przypadku posłużymy się dyrektywą `include` by dołączyć nasze zmienne globalne, które umeścimy w katalogu głównym naszego projektu pod nazwą `const.inc`. Przyjmijmy, że globalne stałe będziemy pisać kapitalikami zamiast [camelCase](https://pl.wikipedia.org/wiki/CamelCase).
+W naszym przypadku posłużymy się dyrektywą `include` by dołączyć nasze zmienne globalne, które umieścimy w katalogu głównym naszego projektu pod nazwą `const.inc`. Przyjmijmy, że globalne stałe będziemy pisać kapitalikami zamiast [camelCase](https://pl.wikipedia.org/wiki/CamelCase).
 
 ```pascal
 DL_2      = $1000;
 GAME_LMS  = $e000;
 ```
 
-Z powodu naszej organizacji w moduły kodu musimy umieścić te zmienne w naszym **UNIT** odpowiedzialnym za grafike. Niestety musimy to zrobić w części interfejsu a nie w części implementacji bo inaczej kompilator nie będzie widział naszych stałych.
+Z powodu naszej organizacji w moduły kodu musimy umieścić te zmienne w naszym **UNIT** odpowiedzialnym za grafikę. Niestety musimy to zrobić w części interfejsu a nie w części implementacji bo inaczej kompilator nie będzie widział naszych stałych.
 
 ```pascal
 unit gr;
@@ -40,7 +40,7 @@ W katalogu `lib` tworzymy plik `gr.rc` a w nim umieszczamy wpis:
 DL_2 rcasm 'res/dl.asm'
 ```
 
-Jak zapene spostrzegłeś musimy teraz stworzyć katalog `res` a w nim plik `dl.asm` co ninejszym uczyńmy a następnie Pposłużmy się najwygodniejszym ze znanych mi sposóbów na tworzenie **DL** czyli za pomocą **MADS** :]
+Jak zapewne spostrzegłeś musimy teraz stworzyć katalog `res` a w nim plik `dl.asm` co niniejszym uczyńmy, a następnie posłużmy się najwygodniejszym ze znanych mi sposobów na tworzenie **DL** czyli za pomocą **MADS** :]
 
 ```
     icl 'const.inc'
@@ -52,9 +52,9 @@ dl2
     .BYTE $41,A(dl2)
 ```
 
-Jeżeli pamiętasz jak zbudowany jest nasz ekran powyższy zapis powinien być dla Ciebie łatwy do odszfrowania.
+Jeżeli pamiętasz jak zbudowany jest nasz ekran powyższy zapis powinien być dla Ciebie łatwy do odszyfrowania.
 
-Nasz **UNIT** graficzny po zamianach powinnien wyglądać tak:
+Nasz **UNIT** graficzny po zamianach powinien wyglądać tak:
 
 ```pascal
 unit gr;
@@ -112,7 +112,7 @@ Writing object file...
 379 bytes written to the object file
 ```
 
-Możemy zobaczyć taką informację: **$R RCASM   $1000..$101F 'res/dl.asm'**. Zgodnie z oczekiwaniem nasza **DL** jest pod adresem `$1000` i zajmuje spodzewaną ilość miejsca czyli `$1f` bajtów, nasz program *główny* tak jak poprzednio zaczyna się od `$2000`.
+Możemy zobaczyć taką informację: **$R RCASM   $1000..$101F 'res/dl.asm'**. Zgodnie z oczekiwaniem nasza **DL** jest pod adresem `$1000` i zajmuje spodziewaną ilość miejsca czyli `$1f` bajtów, nasz program *główny* tak jak poprzednio zaczyna się od `$2000`.
 
 Dla porządku sprawdźmy jeszcze czy `output/main.xex` działa i czy w *debug* zobaczymy naszą **DL** w oczekiwanej postaci i miejscu:
 
