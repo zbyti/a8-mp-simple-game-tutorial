@@ -30,7 +30,7 @@ procedure init;
 begin
   systemOff; DMACTL := 0;
 
-  PMBASE := hi(PLAYER_SHIP_ADDRESS);
+  PMBASE := hi(PMG_ADDRESS);
   SIZEP0 := 0; SIZEP1 := 0;
   HPOSP0 := pm0_x; HPOSP1 := pm1_x;
   COLPM0 := $0f; COLPM1 := $0f;
