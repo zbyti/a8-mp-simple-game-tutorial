@@ -18,7 +18,7 @@ procedure vbi; interrupt;
 begin
   asm { phr };
 
-  inc(hposp0); inc(hposp1); HPOSP := shipHpos;
+  inc(hposp0); inc(hposp1); HPOSP01 := shipHpos;
 
   asm { plr };
 end;
@@ -27,15 +27,13 @@ procedure init;
 begin
   systemOff; DMACTL := 0;
 
-  hposp0 := 44;
-  hposp1 := 52;
-
+  hposp0 := 44; hposp1 := 52;
+  HPOSP01 := shipHpos;
   PMBASE := hi(PM_ADDRESS);
   SIZEP0 := 0; SIZEP1 := 0;
-  HPOSP0 := hposp0; HPOSP1 := hposp1;
   COLPM0 := $0f; COLPM1 := $0f;
   GRACTL := %00000011;
-  PRIOR  := 0;
+  PRIOR := 0;
 
   FillByte(pointer(PM_ADDRESS + MISSILES_OFFSET), $800 - MISSILES_OFFSET, 0);
   Move(pointer(PLAYER_SHIP_ADDRESS), pointer(PM_ADDRESS + PLAYER0_OFFSET), PLAYER_SHIP_SEG);
