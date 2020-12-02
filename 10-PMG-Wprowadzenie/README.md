@@ -44,7 +44,7 @@ PMBASE : byte absolute $D407;  // (W) MSB of the player/missile base address use
 
 Dodatkowo możesz rzucić okeim na **atariki** [tutaj](http://atariki.krap.pl/index.php/PMG), [tutaj](http://atariki.krap.pl/index.php/Rejestry_GTIA) oraz [tu](http://atariki.krap.pl/index.php/Rejestry_ANTIC-a#PMBASE). Warto też zapoznać się ze [słownikiem terminów](http://www.atari.org.pl/artykul/dgf/41) z którego cześć pojęć wrzuciełm do słowniczka u dołu strony gdyby artykuł zniknął z sieci.
 
-Jeszcze raz przypomnę: *bez zapoznanie się z opisem powyższych rejestrów dalsza część tutoriala może być niezrozumiała!*.
+Jeszcze raz przypomnę: *bez zapoznanie się z opisem powyższych rejestrów dalsza część tutoriala może być niezrozumiała!*
 
 ## Słowniczek pojęć
 
