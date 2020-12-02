@@ -136,7 +136,7 @@ Funkcje `lo(gameLms)` i `hi(gameLms)` zwracają nam odpowiednio *młodszy* i *st
 
 Aby zastosować się do restrykcji związanych z programem **DL** zadbaliśmy by biblioteka `gr` kompilowana była jako pierwsza a **DL** jako pierwsza statyczna tablica, dzięki temu - jak widzimy - znajduje się ona na samym początku naszego kodu, czyli w tym przypadku od adresu `$2000`.
 
-## Słowniczek pojęć:
+## Słowniczek pojęć
 
 * [**ANTIC**](http://atariki.krap.pl/index.php/ANTIC_%28uk%C5%82ad%29)
 >Alpha-Numeric Television Interface Controller - układ scalony montowany w ośmiobitowych komputerach Atari i w konsolach 5200, zaprojektowany w 1978 roku. Zawiera 8100 tranzystorów.

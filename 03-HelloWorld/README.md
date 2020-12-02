@@ -43,7 +43,7 @@ Wraz z używaniem powyższe stanie się dla Ciebie bardziej jasne, na ten moment
 
 Po uruchomieniu skryptu w katalogu projektu pojawi się podkatalog `output`, powinieneś znaleźć w nim pliki binarny możliwy do uruchomienia na Atari `main.xex`. Pozostaje go już tylko uruchomić, np.: `atari800 output/main.xex`.
 
-## Słowniczek pojęć:
+## Słowniczek pojęć
 
 * [**XEX**](http://atariki.krap.pl/index.php/COM)
 >COM to format pliku zawierającego pliki wykonywalne dla ośmiobitowego Atari. Pliki o tym formacie występują też z rozszerzeniami EXE (głównie na Atari), oraz XEX (głównie do użycia w emulatorach). W wyniku niepełnej standaryzacji zamiennie stosuje się rozszerzenia .COM i .EXE, choć pierwotnie zakładano rozszerzenie .COM (command) dla plików rozszerzeń przeznaczonych dla procesora komend DOS-u oraz .EXE jako plików wykonywalnych (executable) czyli właściwych (użytkowych) programów.

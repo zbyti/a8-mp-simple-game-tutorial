@@ -54,7 +54,7 @@ end.
 ```
 Pozostaje już tylko *rozebrać z uwagą* ;) ten program, bez wdawania się w oczywistości.
 
-## Z grubsza:
+## Z grubsza
 
 * `program Game;` nieobowiązkowe, ale mile widziane.
 * `var PORTB: byte absolute $D301;` przykład deklaracji zmiennej typu **BYTE** zmapowanej jawnie na konkretny adres w pamięci komputera.
@@ -89,7 +89,7 @@ Na koniec zajmijmy się procedurą `vbi`, która jak widzimy też przeznaczona j
 * `inc(counter);` zwiększamy o jeden jakiś nasz licznik, tak jak `RTCLOK` będzie zwiększany co przerwania **VBL** z częstotliwością pracy naszego systemu telewizyjnego.
 * `asm { plr };` koniec procedury, za chwilę napotkamy `RTI`, więc przedtem obowiązkowo przywróćmy wartości rejestrów `A`, `X`, `Y` do stanu sprzed przerwania pobierając je ze stosu.
 
-## Słowniczek pojęć:
+## Słowniczek pojęć
 
 * [**VBL**](http://atariki.krap.pl/index.php/VBL)
 >Vertical Blank Interrupt jest to przerwanie NMI generowane przez układ ANTIC zawsze w 248 linii skaningowej po zakończeniu kreślenia obrazu, w momencie wygaszenia plamki.

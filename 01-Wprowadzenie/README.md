@@ -15,7 +15,7 @@ Niniejszy tutorial będzie małym podsumowaniem mojej wiedzy zdobytej od kwietni
 * obsługiwać przerwania NMI
 * przejąć całkowitą kontrolę nad Atari :]
 
-## Narzędzia:
+## Narzędzia
 
 * [emulator](https://atari800.github.io) Jako linuksiarz preferuję Atari800 ale możesz użyć dowolnie inny.
 * [kompilator](http://mads.atari8.info/doc/madpascal.html) W tym tutku będę posługiwał się Mad Pascalem ale zawarte tutaj informacje są przenośne więc możesz użyć dowolnie innego języka na małe Atari ponieważ nie będę używał bibliotek specyficznych dla MP.
@@ -23,7 +23,7 @@ Niniejszy tutorial będzie małym podsumowaniem mojej wiedzy zdobytej od kwietni
 * [Graph2Font](http://g2f.atari8.info/instrukcja.html) świetny program graficzny.
 * [Atari FontMaker](https://sourceforge.net/projects/atari-fontmaker) nieodzowny dla każdego twórcy gier edytor znaków.
 
-## Literatura:
+## Literatura
 
 * [Mapping The Atari - Revised Edition](https://www.atariarchives.org/mapping/) The comprehensive sourcebook and memory guide
 * [De Re Atari](https://www.atariarchives.org/dere/) A Guide to Effective Programming
@@ -32,6 +32,6 @@ Niniejszy tutorial będzie małym podsumowaniem mojej wiedzy zdobytej od kwietni
 * [Atariki](http://atariki.krap.pl/index.php/Strona_g%C5%82%C3%B3wna) Internetowa Encyklopedia atari.area
 
 
-## Inne:
+## Inne
 
 * Jeżeli chcesz programować razem ze mną w Mad Pascalu to może pomocna okazać się dla Ciebie ta [strona](http://bocianu.atari.pl/blog/madgeany).

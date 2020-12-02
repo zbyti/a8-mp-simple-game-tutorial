@@ -53,7 +53,7 @@ W skrócie: gdy już załadujemy nasz program za pomocą np. jakiegoś micro DOS
 
 Jak wyłączyć system komputera Atari w praktyce dowiesz się w następnej części.
 
-## Słowniczek pojęć:
+## Słowniczek pojęć
 
 * [**Mapa pamięci**](http://atariki.krap.pl/index.php/Mapa_pami%C4%99ci)
 >"Mapa pamięci" to wyszczególnione i opisane obszary pamięci komputera, czyli do czego służy, co robi konkretna komórka, rejestr lub obszar pamięci.

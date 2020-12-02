@@ -31,9 +31,9 @@ begin
   hposp0 := 44; hposp1 := 52; HPOSP01 := wShipHpos;
   COLPM01 := $0f0f; SIZEP01 := 0; PRIOR := 0; GRACTL := %00000011;
 
-  FillByte(pointer(PM_ADR + M_OFFSET), $800 - M_OFFSET, 0);
-  Move(pointer(P_SHIP_ADR), pointer(PM_ADR + P0_OFFSET), P_SHIP_SEG);
-  Move(pointer(P_SHIP_ADR + P_SHIP_SEG), pointer(PM_ADR + P1_OFFSET), P_SHIP_SEG);
+  FillByte(pointer(M0_ADR), $500, 0);
+  Move(pointer(GFX_SHIP_ADR), pointer(P0_ADR + 8), GFX_SHIP_SEG);
+  Move(pointer(GFX_SHIP_ADR + GFX_SHIP_SEG), pointer(P1_ADR + 8), GFX_SHIP_SEG);
 
   pause; DMACTL := %00111110; setVbi(@vbi);
 end;
