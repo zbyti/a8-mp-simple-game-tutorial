@@ -9,3 +9,4 @@
 7. [Display List](07-DisplayList/README.md)
 8. [Resources](08-Resources/README.md)
 9. [Konwencja](09-Konwencja/README.md)
+10. [P/MG Wprowadzenie](10-PMG-Wprowadzenie/README.md)
