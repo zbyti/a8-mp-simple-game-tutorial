@@ -25,7 +25,7 @@ To chyba tyle tytułem wstępu, reszta *wydzie w praniu* :]
 Niestety w dalszej części tutoriala nie obejdzie się pewnego zasobu wiedzy, więc zapraszam do samodzielnej lektury podanych niżej zasobów :]
 
 Zapoznaj się proszę z:
-* [Player-Missile Graphics](https://www.atariarchives.org/agagd/chapter5.php(
+* [Player-Missile Graphics](https://www.atariarchives.org/agagd/chapter5.php)
 * [Player/Missile Graphics Memory Map](https://www.atariarchives.org/mapping/appendix7.php)
 * opisem poniższych rejestrów w podręczniku [Mapping The Atari](https://www.atariarchives.org/mapping/memorymap.php) odszukując odpowiednie adresy lub etykiety:
 
