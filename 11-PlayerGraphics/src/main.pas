@@ -18,7 +18,7 @@ procedure vbi; interrupt;
 begin
   asm { phr };
 
-  Inc(hposp0); Inc(hposp1); HPOSP01 := shipHpos;
+  Inc(hposp0); Inc(hposp1); HPOSP01 := wShipHpos;
 
   asm { plr };
 end;

@@ -476,9 +476,9 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    522
    523 218E E6 00			inc HPOSP0
    524 2190 E6 01			inc HPOSP1
-   525 2192 A5 00			lda SHIPHPOS
+   525 2192 A5 00			lda WSHIPHPOS
    526 2194 8D 00 D0			sta REGISTERS.HPOSP01
-   527 2197 A5 01			lda SHIPHPOS+1
+   527 2197 A5 01			lda WSHIPHPOS+1
    528 2199 8D 01 D0			sta REGISTERS.HPOSP01+1
    529
    530 				; ---------------------  ASM Block 056  ---------------------
@@ -506,9 +506,9 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    552 21B1 85 00			sta HPOSP0
    553 21B3 A9 34			lda #$34
    554 21B5 85 01			sta HPOSP1
-   555 21B7 A5 00			lda SHIPHPOS
+   555 21B7 A5 00			lda WSHIPHPOS
    556 21B9 8D 00 D0			sta REGISTERS.HPOSP01
-   557 21BC A5 01			lda SHIPHPOS+1
+   557 21BC A5 01			lda WSHIPHPOS+1
    558 21BE 8D 01 D0			sta REGISTERS.HPOSP01+1
    559
    560 				; optimize OK (main.pas), line = 32
@@ -592,7 +592,7 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    638 = E000			GAME_LMS	= $E000
    639 = 0000			HPOSP0	= $00
    640 = 0001			HPOSP1	= $01
-   641 = 0000			SHIPHPOS	= $00
+   641 = 0000			WSHIPHPOS	= $00
    642 2221			@exit
    643
    644 2221 A2 00		@halt	ldx #$00

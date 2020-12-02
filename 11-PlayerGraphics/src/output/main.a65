@@ -522,9 +522,9 @@ A	= DATAORIGIN+$000B
 
 	inc HPOSP0
 	inc HPOSP1
-	lda SHIPHPOS
+	lda WSHIPHPOS
 	sta REGISTERS.HPOSP01
-	lda SHIPHPOS+1
+	lda WSHIPHPOS+1
 	sta REGISTERS.HPOSP01+1
 
 ; ---------------------  ASM Block 056  ---------------------
@@ -552,9 +552,9 @@ A	= DATAORIGIN+$000B
 	sta HPOSP0
 	lda #$34
 	sta HPOSP1
-	lda SHIPHPOS
+	lda WSHIPHPOS
 	sta REGISTERS.HPOSP01
-	lda SHIPHPOS+1
+	lda WSHIPHPOS+1
 	sta REGISTERS.HPOSP01+1
 
 ; optimize OK (main.pas), line = 32
@@ -638,7 +638,7 @@ DL_2	= $1800
 GAME_LMS	= $E000
 HPOSP0	= $00
 HPOSP1	= $01
-SHIPHPOS	= $00
+WSHIPHPOS	= $00
 @exit
 
 @halt	ldx #$00
