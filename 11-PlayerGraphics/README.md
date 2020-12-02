@@ -168,7 +168,7 @@ No to idziemy przez kod step-by-step:
 
 ## Upragnione efekty
 
-W pliku `man.pas` wywołujemy procedurę `init`
+W pliku `main.pas` wywołujemy procedurę `init`
 
 ```pascal
 begin
