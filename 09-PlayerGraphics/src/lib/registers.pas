@@ -14,13 +14,13 @@ var
   COLPF2  : byte absolute $D018;  // Color and luminance of playfield two
   COLBK   : byte absolute $D01A;  // Color and luminance of the background (BAK)
   PRIOR   : byte absolute $D01B;  // (W) Priority selection register
-  GRACTL  : byte absolute $D01D;  // (W) Used with DMACTL to latch all stick and paddle triggers.
-  PORTB   : byte absolute $D301;  // (W/R) Port B. Reads or writes data to and/or from jacks three and four.
-  DMACTL  : byte absolute $D400;  // (W) Direct Memory Access (DMA) control.
-  DLIST   : word absolute $D402;  // Display list pointer.
-  PMBASE  : byte absolute $D407;  // (W) MSB of the player/missile base address used to locate the graphics for your players and missiles.
-  NMIEN   : byte absolute $D40E;  // (W) Non-maskable interrupt (NMI) enable.
-  NMIVEC  : word absolute $FFFA;  // The NMI interrupts are vectored through 65530 ($FFFA) to the NMI service routine.
+  GRACTL  : byte absolute $D01D;  // (W) Used with DMACTL to latch all stick and paddle triggers
+  PORTB   : byte absolute $D301;  // (W/R) Port B. Reads or writes data to and/or from jacks three and four
+  DMACTL  : byte absolute $D400;  // (W) Direct Memory Access (DMA) control
+  DLIST   : word absolute $D402;  // Display list pointer
+  PMBASE  : byte absolute $D407;  // (W) MSB of the player/missile base address used to locate the graphics for your players and missiles
+  NMIEN   : byte absolute $D40E;  // (W) Non-maskable interrupt (NMI) enable
+  NMIVEC  : word absolute $FFFA;  // The NMI interrupts are vectored through 65530 ($FFFA) to the NMI service routine
 
   HPOSP01 : word absolute $D000;
   SIZEP01 : word absolute $D008;
