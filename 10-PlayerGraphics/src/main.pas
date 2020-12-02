@@ -9,9 +9,9 @@ const
 {$r res/gfx.rc}
 
 var
-  hposp0   : byte absolute 0;
-  hposp1   : byte absolute 1;
-  shipHpos : word absolute 0;
+  hposp0    : byte absolute 0;
+  hposp1    : byte absolute 1;
+  wShipHpos : word absolute 0;
 
 
 procedure vbi; interrupt;
@@ -28,7 +28,7 @@ begin
   systemOff; DMACTL := 0;
 
   PMBASE := hi(PM_ADR);
-  hposp0 := 44; hposp1 := 52; HPOSP01 := shipHpos;
+  hposp0 := 44; hposp1 := 52; HPOSP01 := wShipHpos;
   COLPM01 := $0f0f; SIZEP01 := 0; PRIOR := 0; GRACTL := %00000011;
 
   FillByte(pointer(PM_ADR + M_OFFSET), $800 - M_OFFSET, 0);
