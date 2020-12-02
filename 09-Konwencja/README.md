@@ -40,9 +40,9 @@ Nazwy stałych tak jak etykiety rejestrów również piszemy kapitalikami przy c
 
 ```pascal
 const
-  M_OFFSET            = $308;   // missile memory offset
-  P0_OFFSET           = $408;   // player 0 memory offset
-  P1_OFFSET           = $508;   // player 1 memory offset
+  M_OFFSET            = $300;   // missile memory offset
+  P0_OFFSET           = $400;   // player 0 memory offset
+  P1_OFFSET           = $500;   // player 1 memory offset
 ```
 
 Dzięki temu już na pierwszy rzut oka będziemy wiedzieli, że dla tej *etykiety* nie można wykonać operacji przypisania `:=`.
