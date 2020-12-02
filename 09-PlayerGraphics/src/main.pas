@@ -31,9 +31,9 @@ begin
   hposp0 := 44; hposp1 := 52; HPOSP01 := shipHpos;
   COLPM01 := $0f0f; SIZEP01 := 0; PRIOR := 0; GRACTL := %00000011;
 
-  FillByte(pointer(PM_ADR + MISSILES_OFFSET), $800 - MISSILES_OFFSET, 0);
-  Move(pointer(PLAYER_SHIP_ADDRESS), pointer(PM_ADR + PLAYER0_OFFSET), PLAYER_SHIP_SEG);
-  Move(pointer(PLAYER_SHIP_ADDRESS + PLAYER_SHIP_SEG), pointer(PM_ADR + PLAYER1_OFFSET), PLAYER_SHIP_SEG);
+  FillByte(pointer(PM_ADR + M_OFFSET), $800 - M_OFFSET, 0);
+  Move(pointer(P_SHIP_ADR), pointer(PM_ADR + P0_OFFSET), P_SHIP_SEG);
+  Move(pointer(P_SHIP_ADR + P_SHIP_SEG), pointer(PM_ADR + P1_OFFSET), P_SHIP_SEG);
 
   pause; DMACTL := %00111110; setVbi(@vbi);
 end;

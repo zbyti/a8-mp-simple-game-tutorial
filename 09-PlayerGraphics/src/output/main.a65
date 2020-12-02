@@ -99,7 +99,7 @@ FPEXP	.ds 1
 	?VBXDETECT = 0
 
 	RCASM 'res/gr_dl.asm' GR.DL_2 0 0 0 0 0 0 0 0
-	RCDATA 'res/gfx_ship.bin' GR.PLAYER_SHIP_ADDRESS 0 0 0 0 0 0 0 0
+	RCDATA 'res/gfx_ship.bin' GR.P_SHIP_ADR 0 0 0 0 0 0 0 0
 .endl
 
 ; ------------------------------------------------------------
@@ -401,12 +401,12 @@ COLPM01	= $D012
 
 ; ------------------------------------------------------------
 
-MISSILES_OFFSET	= $0308
-PLAYER0_OFFSET	= $0408
-PLAYER1_OFFSET	= $0508
+M_OFFSET	= $0308
+P0_OFFSET	= $0408
+P1_OFFSET	= $0508
 PM_ADR	= $1000
-PLAYER_SHIP_ADDRESS	= $1000
-PLAYER_SHIP_SEG	= $0A
+P_SHIP_ADR	= $1000
+P_SHIP_SEG	= $0A
 DL_2	= $1800
 GAME_LMS	= $E000
 
@@ -629,12 +629,12 @@ l_00D3
 
 ; ------------------------------------------------------------
 
-MISSILES_OFFSET	= $0308
-PLAYER0_OFFSET	= $0408
-PLAYER1_OFFSET	= $0508
+M_OFFSET	= $0308
+P0_OFFSET	= $0408
+P1_OFFSET	= $0508
 PM_ADR	= $1000
-PLAYER_SHIP_ADDRESS	= $1000
-PLAYER_SHIP_SEG	= $0A
+P_SHIP_ADR	= $1000
+P_SHIP_SEG	= $0A
 DL_2	= $1800
 GAME_LMS	= $E000
 HPOSP0	= $00

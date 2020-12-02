@@ -16,12 +16,12 @@ Macro: RESOURCE.RCASM [Source: resource.asm]
     15 2093 4C 65 20			jmp sys.on
     16 2096			data
 Source: gr_dl.asm
-     1 = 0308			MISSILES_OFFSET     = $308;
-     2 = 0408			PLAYER0_OFFSET      = $408;
-     3 = 0508			PLAYER1_OFFSET      = $508;
+     1 = 0308			M_OFFSET            = $308;
+     2 = 0408			P0_OFFSET           = $408;
+     3 = 0508			P1_OFFSET           = $508;
      4 = 1000			PM_ADR              = $1000;
-     5 = 1000			PLAYER_SHIP_ADDRESS = $1000;
-     6 = 000A			PLAYER_SHIP_SEG     = 10;
+     5 = 1000			P_SHIP_ADR          = $1000;
+     6 = 000A			P_SHIP_SEG          = 10;
      7 = 1800			DL_2                = $1800;
      8 = E000			GAME_LMS            = $e000;
      3 1800			dl2
@@ -33,12 +33,12 @@ Source: gr_dl.asm
     23 				$R RCASM   $1800..$181F 'res/gr_dl.asm'
     25 02E2-02E3> 75 20			ini mcpy
 Source: main.a65
-   102 20B6				RCDATA 'res/gfx_ship.bin' GR.PLAYER_SHIP_ADDRESS 0 0 0 0 0 0 0 0
+   102 20B6				RCDATA 'res/gfx_ship.bin' GR.P_SHIP_ADR 0 0 0 0 0 0 0 0
 Macro: RESOURCE.RCDATA [Source: resource.asm]
      2 = 0014			len = .filesize('res/gfx_ship.bin')
-    28 20B6				org main.GR.PLAYER_SHIP_ADDRESS
+    28 20B6				org main.GR.P_SHIP_ADR
     30 1000-1013> 00 70 7B 1E + 	ins 'res/gfx_ship.bin'
-    32 					.print '$R RCDATA  ',main.GR.PLAYER_SHIP_ADDRESS,'..',*-1," 'res/gfx_ship.bin'"
+    32 					.print '$R RCDATA  ',main.GR.P_SHIP_ADR,'..',*-1," 'res/gfx_ship.bin'"
     32 				$R RCDATA  $1000..$1013 'res/gfx_ship.bin'
 Source: main.a65
    103 				.endl
@@ -353,12 +353,12 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    401
    402 				; ------------------------------------------------------------
    403
-   404 = 0308			MISSILES_OFFSET	= $0308
-   405 = 0408			PLAYER0_OFFSET	= $0408
-   406 = 0508			PLAYER1_OFFSET	= $0508
+   404 = 0308			M_OFFSET	= $0308
+   405 = 0408			P0_OFFSET	= $0408
+   406 = 0508			P1_OFFSET	= $0508
    407 = 1000			PM_ADR	= $1000
-   408 = 1000			PLAYER_SHIP_ADDRESS	= $1000
-   409 = 000A			PLAYER_SHIP_SEG	= $0A
+   408 = 1000			P_SHIP_ADR	= $1000
+   409 = 000A			P_SHIP_SEG	= $0A
    410 = 1800			DL_2	= $1800
    411 = E000			GAME_LMS	= $E000
    412
@@ -583,12 +583,12 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    629
    630 				; ------------------------------------------------------------
    631
-   632 = 0308			MISSILES_OFFSET	= $0308
-   633 = 0408			PLAYER0_OFFSET	= $0408
-   634 = 0508			PLAYER1_OFFSET	= $0508
+   632 = 0308			M_OFFSET	= $0308
+   633 = 0408			P0_OFFSET	= $0408
+   634 = 0508			P1_OFFSET	= $0508
    635 = 1000			PM_ADR	= $1000
-   636 = 1000			PLAYER_SHIP_ADDRESS	= $1000
-   637 = 000A			PLAYER_SHIP_SEG	= $0A
+   636 = 1000			P_SHIP_ADR	= $1000
+   637 = 000A			P_SHIP_SEG	= $0A
    638 = 1800			DL_2	= $1800
    639 = E000			GAME_LMS	= $E000
    640 = 0000			HPOSP0	= $00
