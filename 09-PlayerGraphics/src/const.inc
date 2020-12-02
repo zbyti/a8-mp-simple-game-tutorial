@@ -1,7 +1,7 @@
 MISSILES_OFFSET     = $308;
 PLAYER0_OFFSET      = $408;
 PLAYER1_OFFSET      = $508;
-PM_ADDRESS          = $1000;
+PM_ADR              = $1000;
 PLAYER_SHIP_ADDRESS = $1000;
 PLAYER_SHIP_SEG     = 10;
 DL_2                = $1800;

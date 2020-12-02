@@ -19,7 +19,7 @@ Source: gr_dl.asm
      1 = 0308			MISSILES_OFFSET     = $308;
      2 = 0408			PLAYER0_OFFSET      = $408;
      3 = 0508			PLAYER1_OFFSET      = $508;
-     4 = 1000			PM_ADDRESS          = $1000;
+     4 = 1000			PM_ADR              = $1000;
      5 = 1000			PLAYER_SHIP_ADDRESS = $1000;
      6 = 000A			PLAYER_SHIP_SEG     = 10;
      7 = 1800			DL_2                = $1800;
@@ -356,7 +356,7 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    404 = 0308			MISSILES_OFFSET	= $0308
    405 = 0408			PLAYER0_OFFSET	= $0408
    406 = 0508			PLAYER1_OFFSET	= $0508
-   407 = 1000			PM_ADDRESS	= $1000
+   407 = 1000			PM_ADR	= $1000
    408 = 1000			PLAYER_SHIP_ADDRESS	= $1000
    409 = 000A			PLAYER_SHIP_SEG	= $0A
    410 = 1800			DL_2	= $1800
@@ -586,7 +586,7 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    632 = 0308			MISSILES_OFFSET	= $0308
    633 = 0408			PLAYER0_OFFSET	= $0408
    634 = 0508			PLAYER1_OFFSET	= $0508
-   635 = 1000			PM_ADDRESS	= $1000
+   635 = 1000			PM_ADR	= $1000
    636 = 1000			PLAYER_SHIP_ADDRESS	= $1000
    637 = 000A			PLAYER_SHIP_SEG	= $0A
    638 = 1800			DL_2	= $1800
