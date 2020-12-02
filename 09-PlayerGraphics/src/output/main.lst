@@ -16,14 +16,14 @@ Macro: RESOURCE.RCASM [Source: resource.asm]
     15 2093 4C 65 20			jmp sys.on
     16 2096			data
 Source: gr_dl.asm
-     1 = 0308			M_OFFSET            = $308;
-     2 = 0408			P0_OFFSET           = $408;
-     3 = 0508			P1_OFFSET           = $508;
-     4 = 1000			PM_ADR              = $1000;
-     5 = 1000			P_SHIP_ADR          = $1000;
-     6 = 000A			P_SHIP_SEG          = 10;
-     7 = 1800			DL_2                = $1800;
-     8 = E000			GAME_LMS            = $e000;
+     1 = 0308			M_OFFSET            = $308;   // missile memory offset
+     2 = 0408			P0_OFFSET           = $408;   // player 0 memory offset
+     3 = 0508			P1_OFFSET           = $508;   // player 1 memory offset
+     4 = 1000			PM_ADR              = $1000;  // player & missile memory 2K start address
+     5 = 1000			P_SHIP_ADR          = $1000;  // player ship memory start address, ship size = 20 bytes, 16 bytes for gfx and 4 bytes fo top/bottom empty rows
+     6 = 000A			P_SHIP_SEG          = 10;     // player ship 10 byte segment, 10 bytes for P0 & 10 for P1
+     7 = 1800			DL_2                = $1800;  // display list memory start address for ANTIC mode 2
+     8 = E000			GAME_LMS            = $e000;  // Load Memory Scan address
      3 1800			dl2
      4 1800 70 70 70		:3  .byte $70
      5 1803 42 00 E0		    .byte $42,a(GAME_LMS)
