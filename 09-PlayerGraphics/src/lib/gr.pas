@@ -18,7 +18,7 @@ uses registers;
 
 procedure mode2;
 begin
-  pause; SDLSTL := DL_2;
+  pause; DLIST := DL_2;
 end;
 
 //---------------------- INITIALIZATION ----------------------------------------
