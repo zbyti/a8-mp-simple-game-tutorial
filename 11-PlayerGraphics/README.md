@@ -125,14 +125,14 @@ W `main.pas` deklarujemy:
 
 ```pascal
 var
-  hposp0    : byte absolute 0;
-  hposp1    : byte absolute 1;
+  bHposp0   : byte absolute 0;
+  bHposp1   : byte absolute 1;
   wShipHpos : word absolute 0;
 ```
 
 Jak widać przygotowaliśmy zmienne na stronie zerowej do przechowywania pozycji `X` naszego pojazdu których wartość będziemy przepisywać do odpowiednich rejestrów.
 
-`wShipHpos` to stara sztuczka, która pozwali nam za jednym zamachaem wrzucić `hposp0` i `hposp1` do naszego *podwójnego* rejestru `HPOSP01` :]
+`wShipHpos` to stara sztuczka, która pozwali nam za jednym zamachaem wrzucić `bHposp0` i `bHposp1` do naszego *podwójnego* rejestru `HPOSP01` :]
 
 #### Napełniamy procedurę `init` treścią
 
@@ -142,7 +142,7 @@ begin
   systemOff; DMACTL := 0;
 
   PMBASE := hi(PM_ADR);
-  hposp0 := 44; hposp1 := 52; HPOSP01 := wShipHpos;
+  bHposp0 := 44; bHposp1 := 52; HPOSP01 := wShipHpos;
   COLPM01 := $0f0f; SIZEP01 := 0; PRIOR := 0; GRACTL := %00000011;
 
   FillByte(pointer(M0_ADR), $500, 0);
@@ -157,7 +157,7 @@ end;
 No to idziemy przez kod step-by-step:
 
 * `PMBASE := hi(PM_ADR;` wpisujemy do rejestru starszy bajt adresu pamięci jaką przeznaczyliśmy na duszki
-* `hposp0 := 44; hposp1 := 52; HPOSP01 := wShipHpos;` ustalamy pozycję na osi `X` dla naszych *graczy*. By P0 i P1 były obok siebie ich pozycja musi się różnić o ich szerokość czyli `8`.
+* `bHposp0 := 44; bHposp1 := 52; HPOSP01 := wShipHpos;` ustalamy pozycję na osi `X` dla naszych *graczy*. By P0 i P1 były obok siebie ich pozycja musi się różnić o ich szerokość czyli `8`.
 * `COLPM01 := $0f0f;` nasz kolejny *podwójny* rejestr, ustawiamy biały kolor `$0f` dla obu sprajtów.
 * `SIZEP01 := 0;` zapewnia nam normalną szerokoć dla obu **playerów**
 * `PRIOR := 0;` wybieramy kolejność/priorytet wyświetalnia grafiki ma ekranie
@@ -214,8 +214,8 @@ const
 {$r res/gfx.rc}
 
 var
-  hposp0    : byte absolute 0;
-  hposp1    : byte absolute 1;
+  bHposp0   : byte absolute 0;
+  bHposp1   : byte absolute 1;
   wShipHpos : word absolute 0;
 
 
@@ -233,7 +233,7 @@ begin
   systemOff; DMACTL := 0;
 
   PMBASE := hi(PM_ADR);
-  hposp0 := 44; hposp1 := 52; HPOSP01 := wShipHpos;
+  bHposp0 := 44; bHposp1 := 52; HPOSP01 := wShipHpos;
   COLPM01 := $0f0f; SIZEP01 := 0; PRIOR := 0; GRACTL := %00000011;
 
   FillByte(pointer(M0_ADR), $500, 0);

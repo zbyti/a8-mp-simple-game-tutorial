@@ -16,12 +16,6 @@ Nazwy zmiennych zadeklarowanych przez nas będziemy pisać za pomocą [camelCase
 
 Nie widzę powodu by trzymać się tej konwecji dla parametrów procedur i funkcji ale jeżeli chcesz to proszę bardzo :] Ja na komputerze 8-bit będę posługiwał się raczej zmiennymi globalnymi niż parametrami **proc/func** i zwracanymi przez **func** wartościami, trzeba być jednak elastycznym i bez potrzeby nie zaciemniać kodu posługując się tylko zmiennymi globalnymi.
 
-Będę robił jeden wyjątek: jeżeli bedę przetrzymywał jakąś wartość w zmiennej, której wartość bedę przepisywał do jakiegoś rejestru sprzętowego to mogę ją nazwać tak samo jak dany rejestr tylko małymi literami np.:
-
-```pascal
-hposp0 := 44; hposp1 := 52; HPOSP0 := hposp0; HPOSP1 := hposp1;
-```
-
 Niektóre rjestry są tylko do zapisu inne tylko do odczytu i nie da się w nich trzymać jakiegoś stanu, np. położenia horyzontalnego gracza czy pocisku.
 
 ## Rejestry
