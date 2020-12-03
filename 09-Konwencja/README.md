@@ -2,6 +2,8 @@
 
 Przed następnym rozdziałem naszej podróży sądzę, że nastał czas na podsumowanie konwencji nazewniczej jaka wykrystalizowa się podczas pisania dotychczasowego kodu. Od tej pory będziemy się ję trzymać, myślę, że ułatwi nam to czytanie kodu nawet gdy za narzędzie będzie służył tylko prosty notatnik.
 
+**UWAGA** Mad Pascal nie rozróżnia wielkości liter nazw zmiennych, procedur czy funkcji, zmienna o nazwie `foo` będzie tożsama tej o nazwie `Foo` czy `fOo` itd.
+
 ## Zmienne
 
 Nazwy zmiennych zadeklarowanych przez nas będziemy pisać za pomocą [camelCase](https://en.wikipedia.org/wiki/Camel_case) w następujący sposób:
