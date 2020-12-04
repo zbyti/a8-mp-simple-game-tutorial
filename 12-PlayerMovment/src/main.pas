@@ -14,9 +14,8 @@ procedure vbi; interrupt;
 begin
   asm { phr };
 
-  if (RTCLOK and 3) = 0 then begin
-    joyDirection := RND and %1111; moveShip;
-  end;
+  joyDirection := PORTA;
+  if (joyDirection and %1111) <> %1111 then moveShip;
 
   asm { plr };
 end;

@@ -377,6 +377,7 @@ COLBK	= $D01A
 PRIOR	= $D01B
 GRACTL	= $D01D
 RND	= $D20A
+PORTA	= $D300
 PORTB	= $D301
 DMACTL	= $D400
 DLIST	= $D402
@@ -737,7 +738,7 @@ l_014C
 ; optimize OK (SPRITES), line = 72
 
 	lda BSHIPY
-	cmp #$C8
+	cmp #$B4
 	jcs l_0181
 
 ; optimize FAIL (0, SPRITES), line = 73
@@ -793,10 +794,11 @@ P0_ADR	= $1400
 P1_ADR	= $1500
 GFX_SHIP_ADR	= $1000
 GFX_SHIP_SEG	= $0A
+SHIP_COL	= $0F0F
 SHIP_LEFT_LIMIT	= $30
 SHIP_RIGHT_LIMIT	= $9C
 SHIP_TOP_LIMIT	= $20
-SHIP_BOTTOM_LIMIT	= $C8
+SHIP_BOTTOM_LIMIT	= $B4
 JOY_LEFT	= $08
 JOY_RIGHT	= $04
 JOY_UP	= $02
@@ -820,17 +822,16 @@ WSHIPX	= $00
 
 ; optimize OK (main.pas), line = 17
 
-	lda REGISTERS.RTCLOK
-	and #$03
-	jne l_01B4
+	lda REGISTERS.PORTA
+	sta SPRITES.JOYDIRECTION
 
 ; optimize OK (main.pas), line = 18
 
-	lda SYSTEM.RND
 	and #$0F
-	sta SPRITES.JOYDIRECTION
+	cmp #$0F
+	jeq l_01BA
 	jsr SPRITES.MOVESHIP
-l_01B4
+l_01BA
 
 ; ---------------------  ASM Block 056  ---------------------
 
@@ -840,15 +841,15 @@ l_01B4
 
 .local	INIT						; PROCEDURE
 
-; optimize FAIL ('SYS.SYSTEMOFF', main.pas), line = 26
+; optimize FAIL ('SYS.SYSTEMOFF', main.pas), line = 25
 
 	jsr SYS.SYSTEMOFF
 
-; optimize FAIL ('SPRITES.INIT', main.pas), line = 27
+; optimize FAIL ('SPRITES.INIT', main.pas), line = 26
 
 	jsr SPRITES.INIT
 
-; optimize FAIL ('SYS.SETVBI', main.pas), line = 28
+; optimize FAIL ('SYS.SETVBI', main.pas), line = 27
 
 	inx
 	mva <VBI :STACKORIGIN,x
@@ -867,16 +868,16 @@ l_01B4
 .endl
 l_0007
 
-; optimize FAIL ('INIT', main.pas), line = 32
+; optimize FAIL ('INIT', main.pas), line = 31
 
 	jsr INIT
 
 ; --- RepeatUntilProlog
-l_01CC
+l_01C8
 
-; optimize OK (main.pas), line = 33
+; optimize OK (main.pas), line = 32
 
-	jmp l_01CC
+	jmp l_01C8
 
 ; ------------------------------------------------------------
 
@@ -886,10 +887,11 @@ P0_ADR	= $1400
 P1_ADR	= $1500
 GFX_SHIP_ADR	= $1000
 GFX_SHIP_SEG	= $0A
+SHIP_COL	= $0F0F
 SHIP_LEFT_LIMIT	= $30
 SHIP_RIGHT_LIMIT	= $9C
 SHIP_TOP_LIMIT	= $20
-SHIP_BOTTOM_LIMIT	= $C8
+SHIP_BOTTOM_LIMIT	= $B4
 JOY_LEFT	= $08
 JOY_RIGHT	= $04
 JOY_UP	= $02
