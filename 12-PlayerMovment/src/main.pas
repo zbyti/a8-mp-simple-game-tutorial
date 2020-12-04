@@ -22,8 +22,14 @@ end;
 
 procedure init;
 begin
+  Pause; DMACTL := 0;
+
   systemOff;
+  PACTL := PACTL or %100;
   sprites.init;
+
+  Pause; DMACTL := %111110;
+
   setVbi(@vbi);
 end;
 

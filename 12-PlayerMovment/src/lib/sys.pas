@@ -59,7 +59,7 @@ end;
 
 procedure systemOff;
 begin
-  Pause; asm { sei };
+  asm { sei };
   NMIEN := 0; PORTB := $FE; NMIVEC := word(@nmi); NMIEN := $40;
 end;
 

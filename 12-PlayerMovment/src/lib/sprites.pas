@@ -35,8 +35,6 @@ end;
 
 procedure init;
 begin
-  Pause; DMACTL := 0;
-
   FillByte(pointer(M0_ADR), $500, 0);
 
   PMBASE := hi(PM_ADR);
@@ -44,8 +42,6 @@ begin
   COLPM01 := SHIP_COL; SIZEP01 := 0; PRIOR := 0; GRACTL := %011;
 
   copyShip;
-
-  Pause; DMACTL := %111110;
 end;
 
 procedure moveShip;

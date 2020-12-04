@@ -18,6 +18,7 @@ var
   RND     : byte absolute $D20A;  // (R) When this location is read, it acts as a random number generator
   PORTA   : byte absolute $D300;  // (W/R) Reads or writes data from controller jacks one and two if BIT 2 of PACTL is one. Writes to direction control if BIT 2 of PACTL is zero.
   PORTB   : byte absolute $D301;  // (W/R) Port B. Reads or writes data to and/or from jacks three and four
+  PACTL   : byte absolute $D302;  // (W/R) Port A controller.
   DMACTL  : byte absolute $D400;  // (W) Direct Memory Access (DMA) control
   DLIST   : word absolute $D402;  // Display list pointer
   PMBASE  : byte absolute $D407;  // (W) MSB of the player/missile base address used to locate the graphics for your players and missiles
