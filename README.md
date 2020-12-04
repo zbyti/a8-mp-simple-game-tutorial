@@ -11,4 +11,4 @@
 9. [Konwencja](09-Konwencja/README.md)
 10. [P/MG Wprowadzenie](10-PMG-Wprowadzenie/README.md)
 11. [Player Graphics](11-PlayerGraphics/README.md)
-12. [Player Movment](11-PlayerMovment/README.md)
+12. [Player Movment](12-PlayerMovment/README.md)
