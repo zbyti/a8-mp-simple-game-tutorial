@@ -19,7 +19,7 @@ uses registers;
 procedure nmi; assembler; interrupt;
 asm
 {
-      bit NMIST \ bpl vbi   ; check kind of interrupt
+      bit NMIST \ bpl vbi     ; check kind of interrupt
 .def  :__dlijmp
       jmp __off               ; VDSLST
 vbi:  inc RTCLOK+2
