@@ -612,23 +612,16 @@ fill	:10 sta $1300+#*$80,y
 
 ; optimize OK (SPRITES), line = 53
 
-	lda #$01
-	sta B01I
-
-l_00E0
-; --- ForToDoCondition
+	lda #$0C
+	sta BMASK
 
 ; optimize OK (SPRITES), line = 54
 
-	lda B01I
-	jeq l_0100
-	lda #$0C
-	sta BMASK
-	jmp l_010E
-l_0100
-	lda #$03
-	sta BMASK
-l_010E
+	lda #$01
+	sta B01I
+
+l_00E4
+; --- ForToDoCondition
 
 ; ------------------------------------------------------------
 
@@ -656,21 +649,21 @@ l_010E
 ; GenerateCaseEqualityCheck
 	lda :STACKORIGIN+1,x
 	cmp #$04
-	jne l_0124
+	jne l_0104
 @
 
 ; optimize OK (SPRITES), line = 57
 
 	lda BHPOSP1
 	cmp #$9C
-	jcs l_0136
+	jcs l_0116
 	lda WSHIPX
 	add #$01
 	sta WSHIPX
 	lda WSHIPX+1
 	adc #$01
 	sta WSHIPX+1
-l_0136
+l_0116
 
 ; optimize OK (SPRITES), line = 58
 
@@ -681,26 +674,26 @@ l_0136
 
 ; GenerateCaseStatementEpilog
 	jmp a_0002
-l_0124
+l_0104
 
 ; GenerateCaseEqualityCheck
 	lda :STACKORIGIN+1,x
 	cmp #$08
-	jne l_0148
+	jne l_0128
 @
 
 ; optimize OK (SPRITES), line = 61
 
 	lda BHPOSP0
 	cmp #$31
-	jcc l_015A
+	jcc l_013A
 	lda WSHIPX
 	sub #$01
 	sta WSHIPX
 	lda WSHIPX+1
 	sbc #$01
 	sta WSHIPX+1
-l_015A
+l_013A
 
 ; optimize OK (SPRITES), line = 62
 
@@ -711,21 +704,21 @@ l_015A
 
 ; GenerateCaseStatementEpilog
 	jmp a_0002
-l_0148
+l_0128
 
 ; GenerateCaseEqualityCheck
 	lda :STACKORIGIN+1,x
 	cmp #$02
-	jne l_016C
+	jne l_014C
 @
 
 ; optimize OK (SPRITES), line = 65
 
 	lda BSHIPY
 	cmp #$21
-	jcc l_017E
+	jcc l_015E
 	dec BSHIPY
-l_017E
+l_015E
 
 ; optimize FAIL ('COPYSHIP', SPRITES), line = 66
 
@@ -733,21 +726,21 @@ l_017E
 
 ; GenerateCaseStatementEpilog
 	jmp a_0002
-l_016C
+l_014C
 
 ; GenerateCaseEqualityCheck
 	lda :STACKORIGIN+1,x
 	cmp #$01
-	jne l_018F
+	jne l_016F
 @
 
 ; optimize OK (SPRITES), line = 69
 
 	lda BSHIPY
 	cmp #$C8
-	jcs l_01A1
+	jcs l_0181
 	inc BSHIPY
-l_01A1
+l_0181
 
 ; optimize FAIL ('COPYSHIP', SPRITES), line = 70
 
@@ -755,19 +748,26 @@ l_01A1
 
 ; GenerateCaseStatementEpilog
 	jmp a_0002
-l_018F
+l_016F
 
 ; GenerateCaseEpilog
 a_0002
 
+; optimize OK (SPRITES), line = 73
+
+	lda BMASK
+	lsr @
+	lsr @
+	sta BMASK
+
 ; --- ForToDoEpilog
 	dec B01I
-	jpl l_00E0
-l_00EE
+	jpl l_00E4
+l_00F2
 
 ; ------------------------------------------------------------
 
-@FORTMP_00DD	= $00
+@FORTMP_00E1	= $00
 @exit
 	.ifdef @new
 	lda <@VarData
@@ -820,7 +820,7 @@ WSHIPX	= $00
 
 	lda REGISTERS.RTCLOK
 	and #$03
-	jne l_01D0
+	jne l_01BA
 
 ; optimize OK (main.pas), line = 18
 
@@ -828,7 +828,7 @@ WSHIPX	= $00
 	and #$0F
 	sta SPRITES.JOYDIRECTION
 	jsr SPRITES.MOVESHIP
-l_01D0
+l_01BA
 
 ; ---------------------  ASM Block 056  ---------------------
 
@@ -870,11 +870,11 @@ l_0007
 	jsr INIT
 
 ; --- RepeatUntilProlog
-l_01E8
+l_01D2
 
 ; optimize OK (main.pas), line = 33
 
-	jmp l_01E8
+	jmp l_01D2
 
 ; ------------------------------------------------------------
 

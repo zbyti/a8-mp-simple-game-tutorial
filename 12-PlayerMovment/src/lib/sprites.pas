@@ -50,8 +50,8 @@ end;
 
 procedure moveShip;
 begin
+  bMask := %1100;
   for b01i := 1 downto 0 do begin
-    if b01i > 0 then bMask := %1100 else bMask := %0011;
     case (joyDirection and bMask) of
       %0100: begin // right
         if bHposp1 < SHIP_RIGHT_LIMIT then Inc(wShipX,$0101);
@@ -70,6 +70,7 @@ begin
         copyShip;
       end;
     end;
+    bMask := bMask shr 2;
   end;
 end;
 

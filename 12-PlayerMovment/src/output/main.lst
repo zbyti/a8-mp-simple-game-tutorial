@@ -72,33 +72,33 @@ Source: rtl6502_a8.asm
    121
    122 20CF			START
    123 20CF BA				tsx
-   124 20D0 8E 05 23			stx MAIN.@halt+1
+   124 20D0 8E 00 23			stx MAIN.@halt+1
    125
    126 					.ifdef fmulinit
    127 					fmulinit
    128 					eif
    129
    130 = 0007			VLEN	= VARDATASIZE-VARINITSIZE
-   131 = 2322			VADR	= DATAORIGIN+VARINITSIZE
+   131 = 231E			VADR	= DATAORIGIN+VARINITSIZE
    132
    133 					ift VADR > $BFFF
    134 					ert 'Invalid memory address range ',VADR
    135 					eli (VLEN>0) && (VLEN<=256)
    136 20D3 A2 F9			ldx #256-VLEN
    137 20D5 A9 00			lda #$00
-   138 20D7 9D 29 22 E8 D0 FA		sta:rne VADR+VLEN-256,x+
+   138 20D7 9D 25 22 E8 D0 FA		sta:rne VADR+VLEN-256,x+
    139 					eli VLEN>0
    140 					@fill #VADR #VLEN #$00
    141 					eif
    142
-   143 20DD A9 29 85 82 A9 23 + 	mwa #PROGRAMSTACK psptr
+   143 20DD A9 25 85 82 A9 23 + 	mwa #PROGRAMSTACK psptr
    144
    145 					.ifdef MAIN.@DEFINES.ROMOFF
    146 					icl 'atari\romoff.asm'
    147 					.endif
    148
    149 20E5 A2 0F			ldx #$0F					; DOS II+/D ParamStr
-   150 20E7 BD 40 03 9D 0A 23 + 	mva:rpl $340,x MAIN.IOCB@COPY,x-
+   150 20E7 BD 40 03 9D 05 23 + 	mva:rpl $340,x MAIN.IOCB@COPY,x-
    151
    152 20F0 E8				inx						; X = 0
    153 20F1 86 90			stx bp						; BP = 0
@@ -112,11 +112,11 @@ Source: rtl6502_a8.asm
    161 20FC				UNITINITIALIZATION
 Macro: UNITINITIALIZATION [Source: main.a65]
     11 20FC 20 8E 21			jsr MAIN.SYS.@UnitInit
-    15 20FF 20 CF 22			jsr MAIN.SPRITES.@UnitInit
+    15 20FF 20 CA 22			jsr MAIN.SPRITES.@UnitInit
    162
    163 2102			.local	MAIN						; PROCEDURE
    164
-   165 2102 4C FE 22			jmp l_0007
+   165 2102 4C F9 22			jmp l_0007
    166
    167 				; ------------------------------------------------------------
    168
@@ -295,20 +295,20 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    341 = 0008			FMOPENWRITE	= $08
    342 = 0009			FMOPENAPPEND	= $09
    343 = 000C			FMOPENREADWRITE	= $0C
-   344 = 231C			SCREENWIDTH	= DATAORIGIN+$0000
-   345 = 231E			SCREENHEIGHT	= DATAORIGIN+$0002
-   346 = 2320			DATESEPARATOR	= DATAORIGIN+$0004
+   344 = 2318			SCREENWIDTH	= DATAORIGIN+$0000
+   345 = 231A			SCREENHEIGHT	= DATAORIGIN+$0002
+   346 = 231C			DATESEPARATOR	= DATAORIGIN+$0004
    347 = D014			TVSYSTEM	= $D014
    348 = D20A			RND	= $D20A
    349 = 02C0			adr.PALETTE	= $02C0
    350 2146			.var PALETTE	= adr.PALETTE .word
    351 = D012			adr.HPALETTE	= $D012
    352 2146			.var HPALETTE	= adr.HPALETTE .word
-   353 = 2321			FILEMODE	= DATAORIGIN+$0005
-   354 = 2322			GRAPHMODE	= DATAORIGIN+$0006
-   355 = 2323			IORESULT	= DATAORIGIN+$0007
-   356 = 2324			EOLN	= DATAORIGIN+$0008
-   357 = 2325			RNDSEED	= DATAORIGIN+$0009
+   353 = 231D			FILEMODE	= DATAORIGIN+$0005
+   354 = 231E			GRAPHMODE	= DATAORIGIN+$0006
+   355 = 231F			IORESULT	= DATAORIGIN+$0007
+   356 = 2320			EOLN	= DATAORIGIN+$0008
+   357 = 2321			RNDSEED	= DATAORIGIN+$0009
    358
    359 = 2146 C0 02		PALETTE
    359 = 2148 12 D0		HPALETTE
@@ -374,22 +374,22 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    416 				; Generate Assignment for WORD / SMALLINT / SHORTREAL / POINTER
    417 				; as Pointer
    418 2158 B5 98			lda :STACKORIGIN,x
-   419 215A 8D 27 23			sta A
+   419 215A 8D 23 23			sta A
    420 215D B5 A8			lda :STACKORIGIN+STACKWIDTH,x
-   421 215F 8D 28 23			sta A+1
+   421 215F 8D 24 23			sta A+1
    422 2162 CA				dex
    423
    424 				; ---------------------  ASM Block 050  ---------------------
    425
    426
-   427 2163 AD 27 23 8D 55 21 +   mwa a __vbijmp+1
+   427 2163 AD 23 23 8D 55 21 +   mwa a __vbijmp+1
    428
    429
    430 				; ------------------------------------------------------------
    431
-   432 = 2327			A	= DATAORIGIN+$000B
+   432 = 2323			A	= DATAORIGIN+$000B
    433
-   434 = 2327			@VarData	= A
+   434 = 2323			@VarData	= A
    435 = 0002			@VarDataSize	= 2
    436
    437 216F			@exit
@@ -570,163 +570,163 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    612
    613 				; optimize OK (SPRITES), line = 53
    614
-   615 2231 A9 01			lda #$01
-   616 2233 85 FE			sta B01I
+   615 2231 A9 0C			lda #$0C
+   616 2233 85 FF			sta BMASK
    617
-   618 2235			l_00E0
-   619 				; --- ForToDoCondition
-   620
-   621 				; optimize OK (SPRITES), line = 54
+   618 				; optimize OK (SPRITES), line = 54
+   619
+   620 2235 A9 01			lda #$01
+   621 2237 85 FE			sta B01I
    622
-   623 2235 A5 FE			lda B01I
-   624 2237 F0 07			jeq l_0100
-   625 2239 A9 0C			lda #$0C
-   626 223B 85 FF			sta BMASK
-   627 223D 4C 44 22			jmp l_010E
-   628 2240			l_0100
-   629 2240 A9 03			lda #$03
-   630 2242 85 FF			sta BMASK
-   631 2244			l_010E
-   632
-   633 				; ------------------------------------------------------------
-   634
-   635 				; Push BYTE / CHAR / SHORTINT / BOOLEAN
-   636 				; as Pointer
-   637
-   638 2244 E8				inx
-   639 2245 A5 03 95 98			mva JOYDIRECTION :STACKORIGIN,x
-   640
-   641 				; ------------------------------------------------------------
-   642
-   643 				; Push BYTE / CHAR / SHORTINT / BOOLEAN
-   644 				; as Pointer
+   623 2239			l_00E4
+   624 				; --- ForToDoCondition
+   625
+   626 				; ------------------------------------------------------------
+   627
+   628 				; Push BYTE / CHAR / SHORTINT / BOOLEAN
+   629 				; as Pointer
+   630
+   631 2239 E8				inx
+   632 223A A5 03 95 98			mva JOYDIRECTION :STACKORIGIN,x
+   633
+   634 				; ------------------------------------------------------------
+   635
+   636 				; Push BYTE / CHAR / SHORTINT / BOOLEAN
+   637 				; as Pointer
+   638
+   639 223E E8				inx
+   640 223F A5 FF 95 98			mva BMASK :STACKORIGIN,x
+   641
+   642 				; Generate Binary Operation for BYTE
+   643 2243 20 00 20			jsr andAL_CL					; and al, cl
+   644 2246 CA				dex
    645
-   646 2249 E8				inx
-   647 224A A5 FF 95 98			mva BMASK :STACKORIGIN,x
+   646 				; GenerateCaseProlog
+   647 2247 CA				dex
    648
-   649 				; Generate Binary Operation for BYTE
-   650 224E 20 00 20			jsr andAL_CL					; and al, cl
-   651 2251 CA				dex
-   652
-   653 				; GenerateCaseProlog
-   654 2252 CA				dex
-   655
-   656 				; GenerateCaseEqualityCheck
-   657 2253 B5 99			lda :STACKORIGIN+1,x
-   658 2255 C9 04			cmp #$04
-   659 2257 D0 20			jne l_0124
-   660 2259			@
-   661
-   662 				; optimize OK (SPRITES), line = 57
-   663
-   664 2259 A5 01			lda BHPOSP1
-   665 225B C9 9C			cmp #$9C
-   666 225D B0 0D			jcs l_0136
-   667 225F A5 00			lda WSHIPX
-   668 2261 18 69 01			add #$01
-   669 2264 85 00			sta WSHIPX
-   670 2266 A5 01			lda WSHIPX+1
-   671 2268 69 01			adc #$01
-   672 226A 85 01			sta WSHIPX+1
-   673 226C			l_0136
+   649 				; GenerateCaseEqualityCheck
+   650 2248 B5 99			lda :STACKORIGIN+1,x
+   651 224A C9 04			cmp #$04
+   652 224C D0 20			jne l_0104
+   653 224E			@
+   654
+   655 				; optimize OK (SPRITES), line = 57
+   656
+   657 224E A5 01			lda BHPOSP1
+   658 2250 C9 9C			cmp #$9C
+   659 2252 B0 0D			jcs l_0116
+   660 2254 A5 00			lda WSHIPX
+   661 2256 18 69 01			add #$01
+   662 2259 85 00			sta WSHIPX
+   663 225B A5 01			lda WSHIPX+1
+   664 225D 69 01			adc #$01
+   665 225F 85 01			sta WSHIPX+1
+   666 2261			l_0116
+   667
+   668 				; optimize OK (SPRITES), line = 58
+   669
+   670 2261 A5 00			lda WSHIPX
+   671 2263 8D 00 D0			sta REGISTERS.HPOSP01
+   672 2266 A5 01			lda WSHIPX+1
+   673 2268 8D 01 D0			sta REGISTERS.HPOSP01+1
    674
-   675 				; optimize OK (SPRITES), line = 58
-   676
-   677 226C A5 00			lda WSHIPX
-   678 226E 8D 00 D0			sta REGISTERS.HPOSP01
-   679 2271 A5 01			lda WSHIPX+1
-   680 2273 8D 01 D0			sta REGISTERS.HPOSP01+1
-   681
-   682 				; GenerateCaseStatementEpilog
-   683 2276 4C C7 22			jmp a_0002
-   684 2279			l_0124
-   685
-   686 				; GenerateCaseEqualityCheck
-   687 2279 B5 99			lda :STACKORIGIN+1,x
-   688 227B C9 08			cmp #$08
-   689 227D D0 20			jne l_0148
-   690 227F			@
-   691
-   692 				; optimize OK (SPRITES), line = 61
-   693
-   694 227F A5 00			lda BHPOSP0
-   695 2281 C9 31			cmp #$31
-   696 2283 90 0D			jcc l_015A
-   697 2285 A5 00			lda WSHIPX
-   698 2287 38 E9 01			sub #$01
-   699 228A 85 00			sta WSHIPX
-   700 228C A5 01			lda WSHIPX+1
-   701 228E E9 01			sbc #$01
-   702 2290 85 01			sta WSHIPX+1
-   703 2292			l_015A
+   675 				; GenerateCaseStatementEpilog
+   676 226B 4C BC 22			jmp a_0002
+   677 226E			l_0104
+   678
+   679 				; GenerateCaseEqualityCheck
+   680 226E B5 99			lda :STACKORIGIN+1,x
+   681 2270 C9 08			cmp #$08
+   682 2272 D0 20			jne l_0128
+   683 2274			@
+   684
+   685 				; optimize OK (SPRITES), line = 61
+   686
+   687 2274 A5 00			lda BHPOSP0
+   688 2276 C9 31			cmp #$31
+   689 2278 90 0D			jcc l_013A
+   690 227A A5 00			lda WSHIPX
+   691 227C 38 E9 01			sub #$01
+   692 227F 85 00			sta WSHIPX
+   693 2281 A5 01			lda WSHIPX+1
+   694 2283 E9 01			sbc #$01
+   695 2285 85 01			sta WSHIPX+1
+   696 2287			l_013A
+   697
+   698 				; optimize OK (SPRITES), line = 62
+   699
+   700 2287 A5 00			lda WSHIPX
+   701 2289 8D 00 D0			sta REGISTERS.HPOSP01
+   702 228C A5 01			lda WSHIPX+1
+   703 228E 8D 01 D0			sta REGISTERS.HPOSP01+1
    704
-   705 				; optimize OK (SPRITES), line = 62
-   706
-   707 2292 A5 00			lda WSHIPX
-   708 2294 8D 00 D0			sta REGISTERS.HPOSP01
-   709 2297 A5 01			lda WSHIPX+1
-   710 2299 8D 01 D0			sta REGISTERS.HPOSP01+1
-   711
-   712 				; GenerateCaseStatementEpilog
-   713 229C 4C C7 22			jmp a_0002
-   714 229F			l_0148
-   715
-   716 				; GenerateCaseEqualityCheck
-   717 229F B5 99			lda :STACKORIGIN+1,x
-   718 22A1 C9 02			cmp #$02
-   719 22A3 D0 0E			jne l_016C
-   720 22A5			@
-   721
-   722 				; optimize OK (SPRITES), line = 65
-   723
-   724 22A5 A5 02			lda BSHIPY
-   725 22A7 C9 21			cmp #$21
-   726 22A9 90 02			jcc l_017E
-   727 22AB C6 02			dec BSHIPY
-   728 22AD			l_017E
-   729
-   730 				; optimize FAIL ('COPYSHIP', SPRITES), line = 66
-   731
-   732 22AD 20 8F 21			jsr COPYSHIP
-   733
-   734 				; GenerateCaseStatementEpilog
-   735 22B0 4C C7 22			jmp a_0002
-   736 22B3			l_016C
-   737
-   738 				; GenerateCaseEqualityCheck
-   739 22B3 B5 99			lda :STACKORIGIN+1,x
-   740 22B5 C9 01			cmp #$01
-   741 22B7 D0 0E			jne l_018F
-   742 22B9			@
-   743
-   744 				; optimize OK (SPRITES), line = 69
-   745
-   746 22B9 A5 02			lda BSHIPY
-   747 22BB C9 C8			cmp #$C8
-   748 22BD B0 02			jcs l_01A1
-   749 22BF E6 02			inc BSHIPY
-   750 22C1			l_01A1
-   751
-   752 				; optimize FAIL ('COPYSHIP', SPRITES), line = 70
-   753
-   754 22C1 20 8F 21			jsr COPYSHIP
+   705 				; GenerateCaseStatementEpilog
+   706 2291 4C BC 22			jmp a_0002
+   707 2294			l_0128
+   708
+   709 				; GenerateCaseEqualityCheck
+   710 2294 B5 99			lda :STACKORIGIN+1,x
+   711 2296 C9 02			cmp #$02
+   712 2298 D0 0E			jne l_014C
+   713 229A			@
+   714
+   715 				; optimize OK (SPRITES), line = 65
+   716
+   717 229A A5 02			lda BSHIPY
+   718 229C C9 21			cmp #$21
+   719 229E 90 02			jcc l_015E
+   720 22A0 C6 02			dec BSHIPY
+   721 22A2			l_015E
+   722
+   723 				; optimize FAIL ('COPYSHIP', SPRITES), line = 66
+   724
+   725 22A2 20 8F 21			jsr COPYSHIP
+   726
+   727 				; GenerateCaseStatementEpilog
+   728 22A5 4C BC 22			jmp a_0002
+   729 22A8			l_014C
+   730
+   731 				; GenerateCaseEqualityCheck
+   732 22A8 B5 99			lda :STACKORIGIN+1,x
+   733 22AA C9 01			cmp #$01
+   734 22AC D0 0E			jne l_016F
+   735 22AE			@
+   736
+   737 				; optimize OK (SPRITES), line = 69
+   738
+   739 22AE A5 02			lda BSHIPY
+   740 22B0 C9 C8			cmp #$C8
+   741 22B2 B0 02			jcs l_0181
+   742 22B4 E6 02			inc BSHIPY
+   743 22B6			l_0181
+   744
+   745 				; optimize FAIL ('COPYSHIP', SPRITES), line = 70
+   746
+   747 22B6 20 8F 21			jsr COPYSHIP
+   748
+   749 				; GenerateCaseStatementEpilog
+   750 22B9 4C BC 22			jmp a_0002
+   751 22BC			l_016F
+   752
+   753 				; GenerateCaseEpilog
+   754 22BC			a_0002
    755
-   756 				; GenerateCaseStatementEpilog
-   757 22C4 4C C7 22			jmp a_0002
-   758 22C7			l_018F
-   759
-   760 				; GenerateCaseEpilog
-   761 22C7			a_0002
+   756 				; optimize OK (SPRITES), line = 73
+   757
+   758 22BC A5 FF			lda BMASK
+   759 22BE 4A				lsr @
+   760 22BF 4A				lsr @
+   761 22C0 85 FF			sta BMASK
    762
    763 				; --- ForToDoEpilog
-   764 22C7 C6 FE			dec B01I
-   765 22C9 30 03 4C 35 22		jpl l_00E0
-   766 22CE			l_00EE
+   764 22C2 C6 FE			dec B01I
+   765 22C4 30 03 4C 39 22		jpl l_00E4
+   766 22C9			l_00F2
    767
    768 				; ------------------------------------------------------------
    769
-   770 = 0000			@FORTMP_00DD	= $00
-   771 22CE			@exit
+   770 = 0000			@FORTMP_00E1	= $00
+   771 22C9			@exit
    772 					.ifdef @new
    773 					lda <@VarData
    774 					sta :ztmp
@@ -734,15 +734,15 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    776 					ldy #@VarDataSize-1
    777 					jmp @FreeMem
    778 					els
-   779 22CE 60				rts						; ret
+   779 22C9 60				rts						; ret
    780 					eif
    781 				.endl
    782
    783 				; ------------------------------------------------------------
    784 				; ------------------------------------------------------------
-   785 22CF			@UnitInit
+   785 22CA			@UnitInit
    786
-   787 22CF 60				rts
+   787 22CA 60				rts
    788
    789 				; ------------------------------------------------------------
    790
@@ -768,49 +768,49 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    810
    811 				.endl							; UNIT SPRITES
    812
-   813 22D0			.local	VBI						; PROCEDURE | INTERRUPT
+   813 22CB			.local	VBI						; PROCEDURE | INTERRUPT
    814
    815 				; ---------------------  ASM Block 055  ---------------------
    816
-   817 22D0 48 8A 48 98 48	 phr 
+   817 22CB 48 8A 48 98 48	 phr 
    818
    819 				; optimize OK (main.pas), line = 17
    820
-   821 22D5 A5 14			lda REGISTERS.RTCLOK
-   822 22D7 29 03			and #$03
-   823 22D9 D0 0A			jne l_01D0
+   821 22D0 A5 14			lda REGISTERS.RTCLOK
+   822 22D2 29 03			and #$03
+   823 22D4 D0 0A			jne l_01BA
    824
    825 				; optimize OK (main.pas), line = 18
    826
-   827 22DB AD 0A D2			lda SYSTEM.RND
-   828 22DE 29 0F			and #$0F
-   829 22E0 85 03			sta SPRITES.JOYDIRECTION
-   830 22E2 20 31 22			jsr SPRITES.MOVESHIP
-   831 22E5			l_01D0
+   827 22D6 AD 0A D2			lda SYSTEM.RND
+   828 22D9 29 0F			and #$0F
+   829 22DB 85 03			sta SPRITES.JOYDIRECTION
+   830 22DD 20 31 22			jsr SPRITES.MOVESHIP
+   831 22E0			l_01BA
    832
    833 				; ---------------------  ASM Block 056  ---------------------
    834
-   835 22E5 68 A8 68 AA 68	 plr 
-   836 22EA 40				rti						; ret
+   835 22E0 68 A8 68 AA 68	 plr 
+   836 22E5 40				rti						; ret
    837 				.endl
    838
-   839 22EB			.local	INIT						; PROCEDURE
+   839 22E6			.local	INIT						; PROCEDURE
    840
    841 				; optimize FAIL ('SYS.SYSTEMOFF', main.pas), line = 26
    842
-   843 22EB 20 70 21			jsr SYS.SYSTEMOFF
+   843 22E6 20 70 21			jsr SYS.SYSTEMOFF
    844
    845 				; optimize FAIL ('SPRITES.INIT', main.pas), line = 27
    846
-   847 22EE 20 C6 21			jsr SPRITES.INIT
+   847 22E9 20 C6 21			jsr SPRITES.INIT
    848
    849 				; optimize FAIL ('SYS.SETVBI', main.pas), line = 28
    850
-   851 22F1 E8				inx
-   852 22F2 A9 D0 95 98			mva <VBI :STACKORIGIN,x
-   853 22F6 A9 22 95 A8			mva >VBI :STACKORIGIN+STACKWIDTH,x
-   854 22FA 20 58 21			jsr SYS.SETVBI
-   855 22FD			@exit
+   851 22EC E8				inx
+   852 22ED A9 CB 95 98			mva <VBI :STACKORIGIN,x
+   853 22F1 A9 22 95 A8			mva >VBI :STACKORIGIN+STACKWIDTH,x
+   854 22F5 20 58 21			jsr SYS.SETVBI
+   855 22F8			@exit
    856 					.ifdef @new
    857 					lda <@VarData
    858 					sta :ztmp
@@ -818,21 +818,21 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    860 					ldy #@VarDataSize-1
    861 					jmp @FreeMem
    862 					els
-   863 22FD 60				rts						; ret
+   863 22F8 60				rts						; ret
    864 					eif
    865 				.endl
-   866 22FE			l_0007
+   866 22F9			l_0007
    867
    868 				; optimize FAIL ('INIT', main.pas), line = 32
    869
-   870 22FE 20 EB 22			jsr INIT
+   870 22F9 20 E6 22			jsr INIT
    871
    872 				; --- RepeatUntilProlog
-   873 2301			l_01E8
+   873 22FC			l_01D2
    874
    875 				; optimize OK (main.pas), line = 33
    876
-   877 2301 4C 01 23			jmp l_01E8
+   877 22FC 4C FC 22			jmp l_01D2
    878
    879 				; ------------------------------------------------------------
    880
@@ -848,29 +848,29 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    890 = 009C			SHIP_RIGHT_LIMIT	= $9C
    891 = 0020			SHIP_TOP_LIMIT	= $20
    892 = 00C8			SHIP_BOTTOM_LIMIT	= $C8
-   893 2304			@exit
+   893 22FF			@exit
    894
-   895 2304 A2 00		@halt	ldx #$00
-   896 2306 9A				txs
+   895 22FF A2 00		@halt	ldx #$00
+   896 2301 9A				txs
    897 					.ifdef MAIN.@DEFINES.ROMOFF
    898 					inc portb
    899 					.endif
    900
-   901 2307 A0 01			ldy #$01
+   901 2302 A0 01			ldy #$01
    902
-   903 2309 60				rts
+   903 2304 60				rts
    904
    905 				; ------------------------------------------------------------
    906
-   907 230A 00 00 00 00 00 00 + IOCB@COPY	:16 brk
+   907 2305 00 00 00 00 00 00 + IOCB@COPY	:16 brk
    908
    909 				; ------------------------------------------------------------
    910
-   911 231A			.local	@DEFINES
-   912 231A			ATARI
+   911 2315			.local	@DEFINES
+   912 2315			ATARI
    913 				.endl
    914
-   915 231A			.local	@RESOURCE
+   915 2315			.local	@RESOURCE
    916 				.endl
    917
    918 				.endl							; MAIN
@@ -915,26 +915,26 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    955
    956 					ift .SIZEOF(MAIN.SPRITES) > 0
    957 					.print 'SPRITES: ',MAIN.SPRITES,'..',MAIN.SPRITES+.SIZEOF(MAIN.SPRITES)-1
-   957 				SPRITES: $218F..$22CF
+   957 				SPRITES: $218F..$22CA
    958 					eif
    959
    960 					.print 'CODE: ',CODEORIGIN,'..',MAIN.@RESOURCE-1
-   960 				CODE: $2000..$2319
+   960 				CODE: $2000..$2314
    961
    962 				; ------------------------------------------------------------
    963
-   964 231A				.align $04
+   964 2315				.align $04
    965
-   966 231C			DATAORIGIN
-   967 231C-2321> 28 00 18 00 + .by  $28 $00 $18 $00 $2D $0C
+   966 2318			DATAORIGIN
+   967 2318-231D> 28 00 18 00 + .by  $28 $00 $18 $00 $2D $0C
    968
    969 = 0006			VARINITSIZE	= *-DATAORIGIN
    970 = 000D			VARDATASIZE	= 13
    971
-   972 = 2329			PROGRAMSTACK	= DATAORIGIN+VARDATASIZE
+   972 = 2325			PROGRAMSTACK	= DATAORIGIN+VARDATASIZE
    973
    974 					.print 'DATA: ',DATAORIGIN,'..',PROGRAMSTACK
-   974 				DATA: $231C..$2329
+   974 				DATA: $2318..$2325
    975
    976 02E0-02E1> CF 20			run START
    977
