@@ -35,7 +35,7 @@ end;
 
 procedure init;
 begin
-  pause; DMACTL := 0;
+  Pause; DMACTL := 0;
 
   FillByte(pointer(M0_ADR), $500, 0);
 
@@ -45,7 +45,7 @@ begin
 
   copyShip;
 
-  pause; DMACTL := %111110;
+  Pause; DMACTL := %111110;
 end;
 
 procedure moveShip;
