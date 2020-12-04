@@ -9,7 +9,7 @@ SHIP_COL            = $0f0f;
 SHIP_LEFT_LIMIT     = 48;
 SHIP_RIGHT_LIMIT    = SHIP_LEFT_LIMIT + (16 * 5);
 SHIP_TOP_LIMIT      = 32;
-SHIP_BOTTOM_LIMIT   = 180;
+SHIP_BOTTOM_LIMIT   = 10 * 18;
 
 JOY_LEFT            = %1000;
 JOY_RIGHT           = %0100;

@@ -26,7 +26,7 @@ Source: const.inc
      9 = 0030			SHIP_LEFT_LIMIT     = 48;
     10 = 0080			SHIP_RIGHT_LIMIT    = SHIP_LEFT_LIMIT + (16 * 5);
     11 = 0020			SHIP_TOP_LIMIT      = 32;
-    12 = 00B4			SHIP_BOTTOM_LIMIT   = 180;
+    12 = 00B4			SHIP_BOTTOM_LIMIT   = 10 * 18;
     14 = 0008			JOY_LEFT            = %1000;
     15 = 0004			JOY_RIGHT           = %0100;
     16 = 0002			JOY_UP              = %0010;
