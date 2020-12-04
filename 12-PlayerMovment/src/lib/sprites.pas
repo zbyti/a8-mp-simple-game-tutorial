@@ -74,7 +74,7 @@ begin
         end;
       end;
     end;
-    bMask := bMask shr 2;
+    bMask := %0011;
   end;
 end;
 

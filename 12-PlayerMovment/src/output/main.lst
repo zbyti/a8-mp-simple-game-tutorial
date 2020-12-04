@@ -76,33 +76,33 @@ Source: rtl6502_a8.asm
    121
    122 20CF			START
    123 20CF BA				tsx
-   124 20D0 8E 00 23			stx MAIN.@halt+1
+   124 20D0 8E FE 22			stx MAIN.@halt+1
    125
    126 					.ifdef fmulinit
    127 					fmulinit
    128 					eif
    129
    130 = 0007			VLEN	= VARDATASIZE-VARINITSIZE
-   131 = 231E			VADR	= DATAORIGIN+VARINITSIZE
+   131 = 231A			VADR	= DATAORIGIN+VARINITSIZE
    132
    133 					ift VADR > $BFFF
    134 					ert 'Invalid memory address range ',VADR
    135 					eli (VLEN>0) && (VLEN<=256)
    136 20D3 A2 F9			ldx #256-VLEN
    137 20D5 A9 00			lda #$00
-   138 20D7 9D 25 22 E8 D0 FA		sta:rne VADR+VLEN-256,x+
+   138 20D7 9D 21 22 E8 D0 FA		sta:rne VADR+VLEN-256,x+
    139 					eli VLEN>0
    140 					@fill #VADR #VLEN #$00
    141 					eif
    142
-   143 20DD A9 25 85 82 A9 23 + 	mwa #PROGRAMSTACK psptr
+   143 20DD A9 21 85 82 A9 23 + 	mwa #PROGRAMSTACK psptr
    144
    145 					.ifdef MAIN.@DEFINES.ROMOFF
    146 					icl 'atari\romoff.asm'
    147 					.endif
    148
    149 20E5 A2 0F			ldx #$0F					; DOS II+/D ParamStr
-   150 20E7 BD 40 03 9D 05 23 + 	mva:rpl $340,x MAIN.IOCB@COPY,x-
+   150 20E7 BD 40 03 9D 03 23 + 	mva:rpl $340,x MAIN.IOCB@COPY,x-
    151
    152 20F0 E8				inx						; X = 0
    153 20F1 86 90			stx bp						; BP = 0
@@ -116,11 +116,11 @@ Source: rtl6502_a8.asm
    161 20FC				UNITINITIALIZATION
 Macro: UNITINITIALIZATION [Source: main.a65]
     11 20FC 20 8E 21			jsr MAIN.SYS.@UnitInit
-    15 20FF 20 CA 22			jsr MAIN.SPRITES.@UnitInit
+    15 20FF 20 C8 22			jsr MAIN.SPRITES.@UnitInit
    162
    163 2102			.local	MAIN						; PROCEDURE
    164
-   165 2102 4C F9 22			jmp l_0007
+   165 2102 4C F7 22			jmp l_0007
    166
    167 				; ------------------------------------------------------------
    168
@@ -299,20 +299,20 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    341 = 0008			FMOPENWRITE	= $08
    342 = 0009			FMOPENAPPEND	= $09
    343 = 000C			FMOPENREADWRITE	= $0C
-   344 = 2318			SCREENWIDTH	= DATAORIGIN+$0000
-   345 = 231A			SCREENHEIGHT	= DATAORIGIN+$0002
-   346 = 231C			DATESEPARATOR	= DATAORIGIN+$0004
+   344 = 2314			SCREENWIDTH	= DATAORIGIN+$0000
+   345 = 2316			SCREENHEIGHT	= DATAORIGIN+$0002
+   346 = 2318			DATESEPARATOR	= DATAORIGIN+$0004
    347 = D014			TVSYSTEM	= $D014
    348 = D20A			RND	= $D20A
    349 = 02C0			adr.PALETTE	= $02C0
    350 2146			.var PALETTE	= adr.PALETTE .word
    351 = D012			adr.HPALETTE	= $D012
    352 2146			.var HPALETTE	= adr.HPALETTE .word
-   353 = 231D			FILEMODE	= DATAORIGIN+$0005
-   354 = 231E			GRAPHMODE	= DATAORIGIN+$0006
-   355 = 231F			IORESULT	= DATAORIGIN+$0007
-   356 = 2320			EOLN	= DATAORIGIN+$0008
-   357 = 2321			RNDSEED	= DATAORIGIN+$0009
+   353 = 2319			FILEMODE	= DATAORIGIN+$0005
+   354 = 231A			GRAPHMODE	= DATAORIGIN+$0006
+   355 = 231B			IORESULT	= DATAORIGIN+$0007
+   356 = 231C			EOLN	= DATAORIGIN+$0008
+   357 = 231D			RNDSEED	= DATAORIGIN+$0009
    358
    359 = 2146 C0 02		PALETTE
    359 = 2148 12 D0		HPALETTE
@@ -378,22 +378,22 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    416 				; Generate Assignment for WORD / SMALLINT / SHORTREAL / POINTER
    417 				; as Pointer
    418 2158 B5 98			lda :STACKORIGIN,x
-   419 215A 8D 23 23			sta A
+   419 215A 8D 1F 23			sta A
    420 215D B5 A8			lda :STACKORIGIN+STACKWIDTH,x
-   421 215F 8D 24 23			sta A+1
+   421 215F 8D 20 23			sta A+1
    422 2162 CA				dex
    423
    424 				; ---------------------  ASM Block 050  ---------------------
    425
    426
-   427 2163 AD 23 23 8D 55 21 +   mwa a __vbijmp+1
+   427 2163 AD 1F 23 8D 55 21 +   mwa a __vbijmp+1
    428
    429
    430 				; ------------------------------------------------------------
    431
-   432 = 2323			A	= DATAORIGIN+$000B
+   432 = 231F			A	= DATAORIGIN+$000B
    433
-   434 = 2323			@VarData	= A
+   434 = 231F			@VarData	= A
    435 = 0002			@VarDataSize	= 2
    436
    437 216F			@exit
@@ -717,242 +717,240 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    755
    756 				; optimize OK (SPRITES), line = 77
    757
-   758 22BC A5 FF			lda BMASK
-   759 22BE 4A				lsr @
-   760 22BF 4A				lsr @
-   761 22C0 85 FF			sta BMASK
-   762
-   763 				; --- ForToDoEpilog
-   764 22C2 C6 FE			dec B01I
-   765 22C4 30 03 4C 39 22		jpl l_00E4
-   766 22C9			l_00F2
+   758 22BC A9 03			lda #$03
+   759 22BE 85 FF			sta BMASK
+   760
+   761 				; --- ForToDoEpilog
+   762 22C0 C6 FE			dec B01I
+   763 22C2 30 03 4C 39 22		jpl l_00E4
+   764 22C7			l_00F2
+   765
+   766 				; ------------------------------------------------------------
    767
-   768 				; ------------------------------------------------------------
-   769
-   770 = 0000			@FORTMP_00E1	= $00
-   771 22C9			@exit
-   772 					.ifdef @new
-   773 					lda <@VarData
-   774 					sta :ztmp
-   775 					lda >@VarData
-   776 					ldy #@VarDataSize-1
-   777 					jmp @FreeMem
-   778 					els
-   779 22C9 60				rts						; ret
-   780 					eif
-   781 				.endl
-   782
-   783 				; ------------------------------------------------------------
-   784 				; ------------------------------------------------------------
-   785 22CA			@UnitInit
+   768 = 0000			@FORTMP_00E1	= $00
+   769 22C7			@exit
+   770 					.ifdef @new
+   771 					lda <@VarData
+   772 					sta :ztmp
+   773 					lda >@VarData
+   774 					ldy #@VarDataSize-1
+   775 					jmp @FreeMem
+   776 					els
+   777 22C7 60				rts						; ret
+   778 					eif
+   779 				.endl
+   780
+   781 				; ------------------------------------------------------------
+   782 				; ------------------------------------------------------------
+   783 22C8			@UnitInit
+   784
+   785 22C8 60				rts
    786
-   787 22CA 60				rts
+   787 				; ------------------------------------------------------------
    788
-   789 				; ------------------------------------------------------------
-   790
-   791 = 0003			JOYDIRECTION	= $03
-   792 = 1000			PM_ADR	= $1000
-   793 = 1300			M0_ADR	= $1300
-   794 = 1400			P0_ADR	= $1400
-   795 = 1500			P1_ADR	= $1500
-   796 = 1000			GFX_SHIP_ADR	= $1000
-   797 = 000A			GFX_SHIP_SEG	= $0A
-   798 = 0030			SHIP_LEFT_LIMIT	= $30
-   799 = 009C			SHIP_RIGHT_LIMIT	= $9C
-   800 = 0020			SHIP_TOP_LIMIT	= $20
-   801 = 00C8			SHIP_BOTTOM_LIMIT	= $C8
-   802 = 0008			JOY_LEFT	= $08
-   803 = 0004			JOY_RIGHT	= $04
-   804 = 0002			JOY_UP	= $02
-   805 = 0001			JOY_DOWN	= $01
-   806 = 1100			DL_2	= $1100
-   807 = E000			GAME_LMS	= $E000
-   808 = 0000			BHPOSP0	= $00
-   809 = 0001			BHPOSP1	= $01
-   810 = 0002			BSHIPY	= $02
-   811 = 00FF			BMASK	= $FF
-   812 = 00FE			B01I	= $FE
-   813 = 0000			WSHIPX	= $00
+   789 = 0003			JOYDIRECTION	= $03
+   790 = 1000			PM_ADR	= $1000
+   791 = 1300			M0_ADR	= $1300
+   792 = 1400			P0_ADR	= $1400
+   793 = 1500			P1_ADR	= $1500
+   794 = 1000			GFX_SHIP_ADR	= $1000
+   795 = 000A			GFX_SHIP_SEG	= $0A
+   796 = 0030			SHIP_LEFT_LIMIT	= $30
+   797 = 009C			SHIP_RIGHT_LIMIT	= $9C
+   798 = 0020			SHIP_TOP_LIMIT	= $20
+   799 = 00C8			SHIP_BOTTOM_LIMIT	= $C8
+   800 = 0008			JOY_LEFT	= $08
+   801 = 0004			JOY_RIGHT	= $04
+   802 = 0002			JOY_UP	= $02
+   803 = 0001			JOY_DOWN	= $01
+   804 = 1100			DL_2	= $1100
+   805 = E000			GAME_LMS	= $E000
+   806 = 0000			BHPOSP0	= $00
+   807 = 0001			BHPOSP1	= $01
+   808 = 0002			BSHIPY	= $02
+   809 = 00FF			BMASK	= $FF
+   810 = 00FE			B01I	= $FE
+   811 = 0000			WSHIPX	= $00
+   812
+   813 				.endl							; UNIT SPRITES
    814
-   815 				.endl							; UNIT SPRITES
+   815 22C9			.local	VBI						; PROCEDURE | INTERRUPT
    816
-   817 22CB			.local	VBI						; PROCEDURE | INTERRUPT
+   817 				; ---------------------  ASM Block 055  ---------------------
    818
-   819 				; ---------------------  ASM Block 055  ---------------------
+   819 22C9 48 8A 48 98 48	 phr 
    820
-   821 22CB 48 8A 48 98 48	 phr 
+   821 				; optimize OK (main.pas), line = 17
    822
-   823 				; optimize OK (main.pas), line = 17
-   824
-   825 22D0 A5 14			lda REGISTERS.RTCLOK
-   826 22D2 29 03			and #$03
-   827 22D4 D0 0A			jne l_01BA
+   823 22CE A5 14			lda REGISTERS.RTCLOK
+   824 22D0 29 03			and #$03
+   825 22D2 D0 0A			jne l_01B4
+   826
+   827 				; optimize OK (main.pas), line = 18
    828
-   829 				; optimize OK (main.pas), line = 18
-   830
-   831 22D6 AD 0A D2			lda SYSTEM.RND
-   832 22D9 29 0F			and #$0F
-   833 22DB 85 03			sta SPRITES.JOYDIRECTION
-   834 22DD 20 31 22			jsr SPRITES.MOVESHIP
-   835 22E0			l_01BA
+   829 22D4 AD 0A D2			lda SYSTEM.RND
+   830 22D7 29 0F			and #$0F
+   831 22D9 85 03			sta SPRITES.JOYDIRECTION
+   832 22DB 20 31 22			jsr SPRITES.MOVESHIP
+   833 22DE			l_01B4
+   834
+   835 				; ---------------------  ASM Block 056  ---------------------
    836
-   837 				; ---------------------  ASM Block 056  ---------------------
-   838
-   839 22E0 68 A8 68 AA 68	 plr 
-   840 22E5 40				rti						; ret
-   841 				.endl
+   837 22DE 68 A8 68 AA 68	 plr 
+   838 22E3 40				rti						; ret
+   839 				.endl
+   840
+   841 22E4			.local	INIT						; PROCEDURE
    842
-   843 22E6			.local	INIT						; PROCEDURE
+   843 				; optimize FAIL ('SYS.SYSTEMOFF', main.pas), line = 26
    844
-   845 				; optimize FAIL ('SYS.SYSTEMOFF', main.pas), line = 26
+   845 22E4 20 70 21			jsr SYS.SYSTEMOFF
    846
-   847 22E6 20 70 21			jsr SYS.SYSTEMOFF
+   847 				; optimize FAIL ('SPRITES.INIT', main.pas), line = 27
    848
-   849 				; optimize FAIL ('SPRITES.INIT', main.pas), line = 27
+   849 22E7 20 C6 21			jsr SPRITES.INIT
    850
-   851 22E9 20 C6 21			jsr SPRITES.INIT
+   851 				; optimize FAIL ('SYS.SETVBI', main.pas), line = 28
    852
-   853 				; optimize FAIL ('SYS.SETVBI', main.pas), line = 28
-   854
-   855 22EC E8				inx
-   856 22ED A9 CB 95 98			mva <VBI :STACKORIGIN,x
-   857 22F1 A9 22 95 A8			mva >VBI :STACKORIGIN+STACKWIDTH,x
-   858 22F5 20 58 21			jsr SYS.SETVBI
-   859 22F8			@exit
-   860 					.ifdef @new
-   861 					lda <@VarData
-   862 					sta :ztmp
-   863 					lda >@VarData
-   864 					ldy #@VarDataSize-1
-   865 					jmp @FreeMem
-   866 					els
-   867 22F8 60				rts						; ret
-   868 					eif
-   869 				.endl
-   870 22F9			l_0007
+   853 22EA E8				inx
+   854 22EB A9 C9 95 98			mva <VBI :STACKORIGIN,x
+   855 22EF A9 22 95 A8			mva >VBI :STACKORIGIN+STACKWIDTH,x
+   856 22F3 20 58 21			jsr SYS.SETVBI
+   857 22F6			@exit
+   858 					.ifdef @new
+   859 					lda <@VarData
+   860 					sta :ztmp
+   861 					lda >@VarData
+   862 					ldy #@VarDataSize-1
+   863 					jmp @FreeMem
+   864 					els
+   865 22F6 60				rts						; ret
+   866 					eif
+   867 				.endl
+   868 22F7			l_0007
+   869
+   870 				; optimize FAIL ('INIT', main.pas), line = 32
    871
-   872 				; optimize FAIL ('INIT', main.pas), line = 32
+   872 22F7 20 E4 22			jsr INIT
    873
-   874 22F9 20 E6 22			jsr INIT
-   875
-   876 				; --- RepeatUntilProlog
-   877 22FC			l_01D2
+   874 				; --- RepeatUntilProlog
+   875 22FA			l_01CC
+   876
+   877 				; optimize OK (main.pas), line = 33
    878
-   879 				; optimize OK (main.pas), line = 33
+   879 22FA 4C FA 22			jmp l_01CC
    880
-   881 22FC 4C FC 22			jmp l_01D2
+   881 				; ------------------------------------------------------------
    882
-   883 				; ------------------------------------------------------------
-   884
-   885 = 1000			PM_ADR	= $1000
-   886 = 1300			M0_ADR	= $1300
-   887 = 1400			P0_ADR	= $1400
-   888 = 1500			P1_ADR	= $1500
-   889 = 1000			GFX_SHIP_ADR	= $1000
-   890 = 000A			GFX_SHIP_SEG	= $0A
-   891 = 0030			SHIP_LEFT_LIMIT	= $30
-   892 = 009C			SHIP_RIGHT_LIMIT	= $9C
-   893 = 0020			SHIP_TOP_LIMIT	= $20
-   894 = 00C8			SHIP_BOTTOM_LIMIT	= $C8
-   895 = 0008			JOY_LEFT	= $08
-   896 = 0004			JOY_RIGHT	= $04
-   897 = 0002			JOY_UP	= $02
-   898 = 0001			JOY_DOWN	= $01
-   899 = 1100			DL_2	= $1100
-   900 = E000			GAME_LMS	= $E000
-   901 22FF			@exit
-   902
-   903 22FF A2 00		@halt	ldx #$00
-   904 2301 9A				txs
-   905 					.ifdef MAIN.@DEFINES.ROMOFF
-   906 					inc portb
-   907 					.endif
+   883 = 1000			PM_ADR	= $1000
+   884 = 1300			M0_ADR	= $1300
+   885 = 1400			P0_ADR	= $1400
+   886 = 1500			P1_ADR	= $1500
+   887 = 1000			GFX_SHIP_ADR	= $1000
+   888 = 000A			GFX_SHIP_SEG	= $0A
+   889 = 0030			SHIP_LEFT_LIMIT	= $30
+   890 = 009C			SHIP_RIGHT_LIMIT	= $9C
+   891 = 0020			SHIP_TOP_LIMIT	= $20
+   892 = 00C8			SHIP_BOTTOM_LIMIT	= $C8
+   893 = 0008			JOY_LEFT	= $08
+   894 = 0004			JOY_RIGHT	= $04
+   895 = 0002			JOY_UP	= $02
+   896 = 0001			JOY_DOWN	= $01
+   897 = 1100			DL_2	= $1100
+   898 = E000			GAME_LMS	= $E000
+   899 22FD			@exit
+   900
+   901 22FD A2 00		@halt	ldx #$00
+   902 22FF 9A				txs
+   903 					.ifdef MAIN.@DEFINES.ROMOFF
+   904 					inc portb
+   905 					.endif
+   906
+   907 2300 A0 01			ldy #$01
    908
-   909 2302 A0 01			ldy #$01
+   909 2302 60				rts
    910
-   911 2304 60				rts
+   911 				; ------------------------------------------------------------
    912
-   913 				; ------------------------------------------------------------
+   913 2303 00 00 00 00 00 00 + IOCB@COPY	:16 brk
    914
-   915 2305 00 00 00 00 00 00 + IOCB@COPY	:16 brk
+   915 				; ------------------------------------------------------------
    916
-   917 				; ------------------------------------------------------------
-   918
-   919 2315			.local	@DEFINES
-   920 2315			ATARI
-   921 				.endl
-   922
-   923 2315			.local	@RESOURCE
-   924 				.endl
+   917 2313			.local	@DEFINES
+   918 2313			ATARI
+   919 				.endl
+   920
+   921 2313			.local	@RESOURCE
+   922 				.endl
+   923
+   924 				.endl							; MAIN
    925
-   926 				.endl							; MAIN
-   927
-   928 				; ------------------------------------------------------------
-   929 				; ------------------------------------------------------------
-   930
-   931 				.macro	UNITINITIALIZATION
-   932 				
-   933 					.ifdef MAIN.SYSTEM.@UnitInit
-   934 					jsr MAIN.SYSTEM.@UnitInit
-   935 					eif
-   936 				
-   937 					.ifdef MAIN.REGISTERS.@UnitInit
-   938 					jsr MAIN.REGISTERS.@UnitInit
-   939 					eif
-   940 				
-   941 					.ifdef MAIN.SYS.@UnitInit
-   942 					jsr MAIN.SYS.@UnitInit
-   943 					eif
-   944 				
-   945 					.ifdef MAIN.SPRITES.@UnitInit
-   946 					jsr MAIN.SPRITES.@UnitInit
-   947 					eif
-   948 				.endm
+   926 				; ------------------------------------------------------------
+   927 				; ------------------------------------------------------------
+   928
+   929 				.macro	UNITINITIALIZATION
+   930 				
+   931 					.ifdef MAIN.SYSTEM.@UnitInit
+   932 					jsr MAIN.SYSTEM.@UnitInit
+   933 					eif
+   934 				
+   935 					.ifdef MAIN.REGISTERS.@UnitInit
+   936 					jsr MAIN.REGISTERS.@UnitInit
+   937 					eif
+   938 				
+   939 					.ifdef MAIN.SYS.@UnitInit
+   940 					jsr MAIN.SYS.@UnitInit
+   941 					eif
+   942 				
+   943 					.ifdef MAIN.SPRITES.@UnitInit
+   944 					jsr MAIN.SPRITES.@UnitInit
+   945 					eif
+   946 				.endm
+   947
+   948 				; ------------------------------------------------------------
    949
-   950 				; ------------------------------------------------------------
-   951
-   952 					ift .SIZEOF(MAIN.SYSTEM) > 0
-   953 					.print 'SYSTEM: ',MAIN.SYSTEM,'..',MAIN.SYSTEM+.SIZEOF(MAIN.SYSTEM)-1
-   953 				SYSTEM: $2105..$2149
-   954 					eif
-   955
-   956 					ift .SIZEOF(MAIN.REGISTERS) > 0
-   957 					.print 'REGISTERS: ',MAIN.REGISTERS,'..',MAIN.REGISTERS+.SIZEOF(MAIN.REGISTERS)-1
-   958 					eif
-   959
-   960 					ift .SIZEOF(MAIN.SYS) > 0
-   961 					.print 'SYS: ',MAIN.SYS,'..',MAIN.SYS+.SIZEOF(MAIN.SYS)-1
-   961 				SYS: $214A..$218E
-   962 					eif
-   963
-   964 					ift .SIZEOF(MAIN.SPRITES) > 0
-   965 					.print 'SPRITES: ',MAIN.SPRITES,'..',MAIN.SPRITES+.SIZEOF(MAIN.SPRITES)-1
-   965 				SPRITES: $218F..$22CA
-   966 					eif
+   950 					ift .SIZEOF(MAIN.SYSTEM) > 0
+   951 					.print 'SYSTEM: ',MAIN.SYSTEM,'..',MAIN.SYSTEM+.SIZEOF(MAIN.SYSTEM)-1
+   951 				SYSTEM: $2105..$2149
+   952 					eif
+   953
+   954 					ift .SIZEOF(MAIN.REGISTERS) > 0
+   955 					.print 'REGISTERS: ',MAIN.REGISTERS,'..',MAIN.REGISTERS+.SIZEOF(MAIN.REGISTERS)-1
+   956 					eif
+   957
+   958 					ift .SIZEOF(MAIN.SYS) > 0
+   959 					.print 'SYS: ',MAIN.SYS,'..',MAIN.SYS+.SIZEOF(MAIN.SYS)-1
+   959 				SYS: $214A..$218E
+   960 					eif
+   961
+   962 					ift .SIZEOF(MAIN.SPRITES) > 0
+   963 					.print 'SPRITES: ',MAIN.SPRITES,'..',MAIN.SPRITES+.SIZEOF(MAIN.SPRITES)-1
+   963 				SPRITES: $218F..$22C8
+   964 					eif
+   965
+   966 					.print 'CODE: ',CODEORIGIN,'..',MAIN.@RESOURCE-1
+   966 				CODE: $2000..$2312
    967
-   968 					.print 'CODE: ',CODEORIGIN,'..',MAIN.@RESOURCE-1
-   968 				CODE: $2000..$2314
+   968 				; ------------------------------------------------------------
    969
-   970 				; ------------------------------------------------------------
+   970 2313				.align $04
    971
-   972 2315				.align $04
-   973
-   974 2318			DATAORIGIN
-   975 2318-231D> 28 00 18 00 + .by  $28 $00 $18 $00 $2D $0C
-   976
-   977 = 0006			VARINITSIZE	= *-DATAORIGIN
-   978 = 000D			VARDATASIZE	= 13
+   972 2314			DATAORIGIN
+   973 2314-2319> 28 00 18 00 + .by  $28 $00 $18 $00 $2D $0C
+   974
+   975 = 0006			VARINITSIZE	= *-DATAORIGIN
+   976 = 000D			VARDATASIZE	= 13
+   977
+   978 = 2321			PROGRAMSTACK	= DATAORIGIN+VARDATASIZE
    979
-   980 = 2325			PROGRAMSTACK	= DATAORIGIN+VARDATASIZE
+   980 					.print 'DATA: ',DATAORIGIN,'..',PROGRAMSTACK
+   980 				DATA: $2314..$2321
    981
-   982 					.print 'DATA: ',DATAORIGIN,'..',PROGRAMSTACK
-   982 				DATA: $2318..$2325
+   982 02E0-02E1> CF 20			run START
    983
-   984 02E0-02E1> CF 20			run START
+   984 				; ------------------------------------------------------------
    985
-   986 				; ------------------------------------------------------------
-   987
-   988 				.macro	STATICDATA
-   989 				.endm
-   990
-   991 					end
+   986 				.macro	STATICDATA
+   987 				.endm
+   988
+   989 					end

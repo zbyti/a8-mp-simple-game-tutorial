@@ -755,9 +755,7 @@ a_0002
 
 ; optimize OK (SPRITES), line = 77
 
-	lda BMASK
-	lsr @
-	lsr @
+	lda #$03
 	sta BMASK
 
 ; --- ForToDoEpilog
@@ -824,7 +822,7 @@ WSHIPX	= $00
 
 	lda REGISTERS.RTCLOK
 	and #$03
-	jne l_01BA
+	jne l_01B4
 
 ; optimize OK (main.pas), line = 18
 
@@ -832,7 +830,7 @@ WSHIPX	= $00
 	and #$0F
 	sta SPRITES.JOYDIRECTION
 	jsr SPRITES.MOVESHIP
-l_01BA
+l_01B4
 
 ; ---------------------  ASM Block 056  ---------------------
 
@@ -874,11 +872,11 @@ l_0007
 	jsr INIT
 
 ; --- RepeatUntilProlog
-l_01D2
+l_01CC
 
 ; optimize OK (main.pas), line = 33
 
-	jmp l_01D2
+	jmp l_01CC
 
 ; ------------------------------------------------------------
 
