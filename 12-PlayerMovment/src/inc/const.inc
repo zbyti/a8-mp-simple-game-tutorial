@@ -10,5 +10,10 @@ SHIP_RIGHT_LIMIT    = SHIP_LEFT_LIMIT + 8 + 100;
 SHIP_TOP_LIMIT      = 32;
 SHIP_BOTTOM_LIMIT   = 200;
 
+JOY_LEFT            = %1000;
+JOY_RIGHT           = %0100;
+JOY_UP              = %0010;
+JOY_DOWN            = %0001;
+
 DL_2                = $1100;                      // display list memory start address for ANTIC mode 2
 GAME_LMS            = $e000;                      // Load Memory Scan address

@@ -53,22 +53,22 @@ begin
   bMask := %1100;
   for b01i := 1 downto 0 do begin
     case (joyDirection and bMask) of
-      %0100: begin // right
+      JOY_RIGHT: begin
         if bHposp1 < SHIP_RIGHT_LIMIT then begin
           Inc(wShipX,$0101); HPOSP01 := wShipX;
         end;
       end;
-      %1000: begin // left
+      JOY_LEFT: begin
         if bHposp0 > SHIP_LEFT_LIMIT then begin
           Dec(wShipX,$0101); HPOSP01 := wShipX;
         end;
       end;
-      %0010: begin // up
+      JOY_UP: begin
         if bShipY > SHIP_TOP_LIMIT then begin
           Dec(bShipY); copyShip;
         end;
       end;
-      %0001: begin // down
+      JOY_DOWN: begin
         if bShipY < SHIP_BOTTOM_LIMIT then begin
           Inc(bShipY); copyShip;
         end;
