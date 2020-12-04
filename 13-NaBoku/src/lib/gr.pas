@@ -17,7 +17,7 @@ const
 
 procedure mode2;
 begin
-  Pause; DLIST := DL_2;
+  DLIST := DL_2;
 end;
 
 //---------------------- INITIALIZATION ----------------------------------------

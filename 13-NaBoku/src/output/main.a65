@@ -367,10 +367,20 @@ RNDSEED	= DATAORIGIN+$0009
 RTCLOK	= $14
 HPOSP0	= $D000
 HPOSP1	= $D001
+HPOSM0	= $D004
+HPOSM1	= $D005
+HPOSM2	= $D006
+HPOSM3	= $D007
 SIZEP0	= $D008
 SIZEP1	= $D009
+SIZEP2	= $D00A
+SIZEP3	= $D00B
+SIZEM	= $D00C
+GRAFM	= $D011
 COLPM0	= $D012
 COLPM1	= $D013
+COLPM2	= $D014
+COLPM3	= $D015
 COLPF1	= $D017
 COLPF2	= $D018
 COLBK	= $D01A
@@ -384,6 +394,7 @@ DMACTL	= $D400
 DLIST	= $D402
 PMBASE	= $D407
 WSYNC	= $D40A
+VCOUNT	= $D40B
 NMIEN	= $D40E
 NMIVEC	= $FFFA
 HPOSP01	= $D000
@@ -532,9 +543,8 @@ A	= DATAORIGIN+$000D
 
 .local	MODE2						; PROCEDURE
 
-; optimize FAIL ('SYSTEM.PAUSE_006A', GR), line = 20
+; optimize OK (GR), line = 20
 
-	jsr SYSTEM.PAUSE_006A
 	lda #$00
 	sta REGISTERS.DLIST
 	lda #$11
@@ -565,7 +575,7 @@ P0_ADR	= $1400
 P1_ADR	= $1500
 GFX_SHIP_ADR	= $1000
 GFX_SHIP_SEG	= $0A
-SHIP_COL	= $0F0F
+SHIP_COL	= $0E0E
 SHIP_LEFT_LIMIT	= $30
 SHIP_RIGHT_LIMIT	= $C0
 SHIP_TOP_LIMIT	= $20
@@ -585,7 +595,7 @@ GAME_LMS	= $E000
 
 .local	COPYSHIP					; PROCEDURE
 
-; optimize OK (SPRITES), line = 32
+; optimize OK (SPRITES), line = 31
 
 	lda BSHIPY
 	sta :ecx
@@ -601,7 +611,7 @@ GAME_LMS	= $E000
 	sta :eax+1
 	jsr @move
 
-; optimize OK (SPRITES), line = 33
+; optimize OK (SPRITES), line = 32
 
 	lda BSHIPY
 	sta :ecx
@@ -630,7 +640,7 @@ GAME_LMS	= $E000
 
 .local	INIT						; PROCEDURE
 
-; optimize OK (SPRITES), line = 38
+; optimize OK (SPRITES), line = 37
 
 	.LOCAL
 	ldy #$00
@@ -640,12 +650,26 @@ fill	:10 sta $1300+#*$80,y
 	bpl fill
 	.ENDL
 
+; optimize OK (SPRITES), line = 38
+
+	ldy #256-$90
+	lda #$FF
+	sta:rne $1320+$90-256,y+
+
 ; optimize OK (SPRITES), line = 40
 
 	lda #$10
 	sta REGISTERS.PMBASE
 
 ; optimize OK (SPRITES), line = 41
+
+	lda #$0A
+	sta REGISTERS.COLPM3
+	lda #$0E
+	sta REGISTERS.COLPM01
+	sta REGISTERS.COLPM01+1
+
+; optimize OK (SPRITES), line = 42
 
 	lda #$50
 	sta BSHIPY
@@ -658,19 +682,17 @@ fill	:10 sta $1300+#*$80,y
 	lda WSHIPX+1
 	sta REGISTERS.HPOSP01+1
 
-; optimize OK (SPRITES), line = 42
+; optimize OK (SPRITES), line = 43
 
-	lda #$0F
-	sta REGISTERS.COLPM01
-	sta REGISTERS.COLPM01+1
 	lda #$00
 	sta REGISTERS.SIZEP01
 	sta REGISTERS.SIZEP01+1
+	sta REGISTERS.SIZEM
 	sta REGISTERS.PRIOR
 	lda #$03
 	sta REGISTERS.GRACTL
 
-; optimize FAIL ('COPYSHIP', SPRITES), line = 44
+; optimize FAIL ('COPYSHIP', SPRITES), line = 45
 
 	jsr COPYSHIP
 @exit
@@ -687,17 +709,17 @@ fill	:10 sta $1300+#*$80,y
 
 .local	MOVESHIP					; PROCEDURE
 
-; optimize OK (SPRITES), line = 49
+; optimize OK (SPRITES), line = 51
 
 	lda #$0C
 	sta BMASK
 
-; optimize OK (SPRITES), line = 50
+; optimize OK (SPRITES), line = 52
 
 	lda #$01
 	sta B01I
 
-l_00E6
+l_00F1
 ; --- ForToDoCondition
 
 ; ------------------------------------------------------------
@@ -726,16 +748,16 @@ l_00E6
 ; GenerateCaseEqualityCheck
 	lda :STACKORIGIN+1,x
 	cmp #$04
-	jne l_0106
+	jne l_0111
 @
 
-; optimize OK (SPRITES), line = 53
+; optimize OK (SPRITES), line = 55
 
 	lda BHPOSP1
 	cmp #$C0
-	jcs l_0118
+	jcs l_0123
 
-; optimize OK (SPRITES), line = 54
+; optimize OK (SPRITES), line = 56
 
 	lda WSHIPX
 	add #$01
@@ -747,25 +769,25 @@ l_00E6
 	sta REGISTERS.HPOSP01
 	lda WSHIPX+1
 	sta REGISTERS.HPOSP01+1
-l_0118
+l_0123
 
 ; GenerateCaseStatementEpilog
 	jmp a_0002
-l_0106
+l_0111
 
 ; GenerateCaseEqualityCheck
 	lda :STACKORIGIN+1,x
 	cmp #$08
-	jne l_012A
+	jne l_0135
 @
 
-; optimize OK (SPRITES), line = 58
+; optimize OK (SPRITES), line = 60
 
 	lda BHPOSP0
 	cmp #$31
-	jcc l_013C
+	jcc l_0147
 
-; optimize OK (SPRITES), line = 59
+; optimize OK (SPRITES), line = 61
 
 	lda WSHIPX
 	sub #$01
@@ -777,72 +799,73 @@ l_0106
 	sta REGISTERS.HPOSP01
 	lda WSHIPX+1
 	sta REGISTERS.HPOSP01+1
-l_013C
+l_0147
 
 ; GenerateCaseStatementEpilog
 	jmp a_0002
-l_012A
+l_0135
 
 ; GenerateCaseEqualityCheck
 	lda :STACKORIGIN+1,x
 	cmp #$02
-	jne l_014E
+	jne l_0159
 @
 
-; optimize OK (SPRITES), line = 63
+; optimize OK (SPRITES), line = 65
 
 	lda BSHIPY
 	cmp #$21
-	jcc l_0160
+	jcc l_016B
 
-; optimize FAIL (0, SPRITES), line = 64
+; optimize FAIL (0, SPRITES), line = 66
 
 	dec BSHIPY
 	jsr COPYSHIP
-l_0160
+l_016B
 
 ; GenerateCaseStatementEpilog
 	jmp a_0002
-l_014E
+l_0159
 
 ; GenerateCaseEqualityCheck
 	lda :STACKORIGIN+1,x
 	cmp #$01
-	jne l_0171
+	jne l_017C
 @
 
-; optimize OK (SPRITES), line = 68
+; optimize OK (SPRITES), line = 70
 
 	lda BSHIPY
 	cmp #$A0
-	jcs l_0183
+	jcs l_018E
 
-; optimize FAIL (0, SPRITES), line = 69
+; optimize FAIL (0, SPRITES), line = 71
 
 	inc BSHIPY
 	jsr COPYSHIP
-l_0183
+l_018E
 
 ; GenerateCaseStatementEpilog
 	jmp a_0002
-l_0171
+l_017C
 
 ; GenerateCaseEpilog
 a_0002
 
-; optimize OK (SPRITES), line = 73
+; optimize OK (SPRITES), line = 75
 
 	lda #$03
 	sta BMASK
 
 ; --- ForToDoEpilog
 	dec B01I
-	jpl l_00E6
-l_00F4
+	jpl l_00F1
+l_00FF
 
 ; ------------------------------------------------------------
 
-@FORTMP_00E3	= $00
+BMASK	= $FF
+@FORTMP_00EE	= $00
 @exit
 	.ifdef @new
 	lda <@VarData
@@ -870,7 +893,7 @@ P0_ADR	= $1400
 P1_ADR	= $1500
 GFX_SHIP_ADR	= $1000
 GFX_SHIP_SEG	= $0A
-SHIP_COL	= $0F0F
+SHIP_COL	= $0E0E
 SHIP_LEFT_LIMIT	= $30
 SHIP_RIGHT_LIMIT	= $C0
 SHIP_TOP_LIMIT	= $20
@@ -884,7 +907,6 @@ GAME_LMS	= $E000
 BHPOSP0	= $00
 BHPOSP1	= $01
 BSHIPY	= $02
-BMASK	= $FF
 B01I	= $FE
 WSHIPX	= $00
 
@@ -908,15 +930,6 @@ WSHIPX	= $00
 
  phr 
 
-; ---------------------  ASM Block 058  ---------------------
-
- sta WSYNC
-
-; optimize OK (main.pas), line = 28
-
-	lda #$0F
-	sta REGISTERS.COLBK
-
 ; optimize OK (main.pas), line = 30
 
 	lda REGISTERS.PORTA
@@ -926,66 +939,164 @@ WSHIPX	= $00
 
 	and #$0F
 	cmp #$0F
-	jeq l_01C4
+	jeq l_01CB
 	jsr SPRITES.MOVESHIP
-l_01C4
+l_01CB
 
-; optimize OK (main.pas), line = 33
+; optimize FAIL ('SYS.SETDLI', main.pas), line = 33
 
-	lda #$00
-	sta REGISTERS.COLBK
+	inx
+	mva PSTARS :STACKORIGIN,x
+	mva PSTARS+1 :STACKORIGIN+STACKWIDTH,x
+	jsr SYS.SETDLI
 
-; ---------------------  ASM Block 059  ---------------------
+; ---------------------  ASM Block 058  ---------------------
 
  plr 
 	rti						; ret
 .endl
 
+.local	STARS						; PROCEDURE | INTERRUPT
+
+; ---------------------  ASM Block 059  ---------------------
+
+ phr 
+
+; optimize OK (main.pas), line = 42
+
+	lda #$7C
+	sta B01I
+
+l_01DF
+; --- ForToDoCondition
+
+; ---------------------  ASM Block 060  ---------------------
+
+ sta WSYNC
+
+; optimize OK (main.pas), line = 44
+
+	ldy B01I
+	lda adr.ASTARS,y
+	sta REGISTERS.HPOSM3
+
+; optimize OK (main.pas), line = 45
+
+	lda adr.ASTARS,y
+	sub adr.ASPEED,y
+	sta adr.ASTARS,y
+
+; optimize OK (main.pas), line = 46
+
+	lda SYSTEM.RND
+	sta REGISTERS.COLPM3
+
+; --- ForToDoEpilog
+	dec B01I
+	jpl l_01DF
+l_01ED
+
+; optimize FAIL ('SYS.SETDLI', main.pas), line = 49
+
+	inx
+	mva PJOY :STACKORIGIN,x
+	mva PJOY+1 :STACKORIGIN+STACKWIDTH,x
+	jsr SYS.SETDLI
+
+; ---------------------  ASM Block 061  ---------------------
+
+ plr 
+
+; ------------------------------------------------------------
+
+@FORTMP_01DC	= $00
+	rti						; ret
+.endl
+
 .local	INIT						; PROCEDURE
 
-; optimize FAIL ('SYSTEM.PAUSE_006A', main.pas), line = 41
+; optimize FAIL ('SYSTEM.PAUSE_006A', main.pas), line = 56
 
 	jsr SYSTEM.PAUSE_006A
 	lda #$00
 	sta REGISTERS.DMACTL
-
-; optimize FAIL ('SYS.SYSTEMOFF', main.pas), line = 43
-
 	jsr SYS.SYSTEMOFF
 
-; optimize OK (main.pas), line = 44
+; optimize OK (main.pas), line = 58
+
+	lda #$7C
+	sta B01I
+
+l_0220
+; --- ForToDoCondition
+
+; optimize OK (main.pas), line = 59
+
+	ldy B01I
+	lda SYSTEM.RND
+	sta adr.ASTARS,y
+
+; optimize OK (main.pas), line = 60
+
+	and #$03
+	add #$01
+	sta adr.ASPEED,y
+
+; --- ForToDoEpilog
+	dec B01I
+	jpl l_0220
+l_022E
+
+; optimize FAIL ('SPRITES.INIT', main.pas), line = 63
+
+	jsr SPRITES.INIT
+
+; optimize FAIL ('GR.MODE2', main.pas), line = 64
+
+	jsr GR.MODE2
+	lda #$02
+	sta REGISTERS.COLPF2
+
+; optimize OK (main.pas), line = 65
 
 	lda REGISTERS.PACTL
 	ora #$04
 	sta REGISTERS.PACTL
 
-; optimize FAIL ('SPRITES.INIT', main.pas), line = 45
+; optimize OK (main.pas), line = 66
 
-	jsr SPRITES.INIT
+	lda <JOY
+	sta PJOY
+	lda >JOY
+	sta PJOY+1
+	lda <STARS
+	sta PSTARS
+	lda >STARS
+	sta PSTARS+1
 
-; optimize FAIL ('GR.MODE2', main.pas), line = 46
-
-	jsr GR.MODE2
-
-; optimize FAIL ('SYS.SETVBI', main.pas), line = 47
+; optimize FAIL ('SYS.SETVBI', main.pas), line = 68
 
 	inx
 	mva <VBI :STACKORIGIN,x
 	mva >VBI :STACKORIGIN+STACKWIDTH,x
 	jsr SYS.SETVBI
 
-; optimize FAIL ('SYS.SETDLI', main.pas), line = 48
+; optimize FAIL ('SYS.SETDLI', main.pas), line = 69
 
 	inx
 	mva <JOY :STACKORIGIN,x
 	mva >JOY :STACKORIGIN+STACKWIDTH,x
 	jsr SYS.SETDLI
 
-; optimize FAIL ('SYSTEM.PAUSE_006A', main.pas), line = 50
+; optimize FAIL ('SYSTEM.PAUSE_006A', main.pas), line = 71
 
 	jsr SYSTEM.PAUSE_006A
 	lda #$3E
 	sta REGISTERS.DMACTL
+
+; ------------------------------------------------------------
+
+@FORTMP_021D	= $00
 @exit
 	.ifdef @new
 	lda <@VarData
@@ -999,16 +1110,16 @@ l_01C4
 .endl
 l_0007
 
-; optimize FAIL ('INIT', main.pas), line = 54
+; optimize FAIL ('INIT', main.pas), line = 75
 
 	jsr INIT
 
 ; --- RepeatUntilProlog
-l_01EC
+l_026D
 
-; optimize OK (main.pas), line = 55
+; optimize OK (main.pas), line = 76
 
-	jmp l_01EC
+	jmp l_026D
 
 ; ------------------------------------------------------------
 
@@ -1018,7 +1129,7 @@ P0_ADR	= $1400
 P1_ADR	= $1500
 GFX_SHIP_ADR	= $1000
 GFX_SHIP_SEG	= $0A
-SHIP_COL	= $0F0F
+SHIP_COL	= $0E0E
 SHIP_LEFT_LIMIT	= $30
 SHIP_RIGHT_LIMIT	= $C0
 SHIP_TOP_LIMIT	= $20
@@ -1029,6 +1140,13 @@ JOY_UP	= $02
 JOY_DOWN	= $01
 DL_2	= $1100
 GAME_LMS	= $E000
+B01I	= $FE
+adr.ASTARS	= $1200
+.var ASTARS	= adr.ASTARS .word
+adr.ASPEED	= $127D
+.var ASPEED	= adr.ASPEED .word
+PJOY	= DATAORIGIN+$000F
+PSTARS	= DATAORIGIN+$0011
 @exit
 
 @halt	ldx #$00
@@ -1114,7 +1232,7 @@ DATAORIGIN
 .by  $28 $00 $18 $00 $2D $0C
 
 VARINITSIZE	= *-DATAORIGIN
-VARDATASIZE	= 15
+VARDATASIZE	= 19
 
 PROGRAMSTACK	= DATAORIGIN+VARDATASIZE
 

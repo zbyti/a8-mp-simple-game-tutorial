@@ -5,7 +5,7 @@ P1_ADR              = PM_ADR + $500;              // player 1 start memory addre
 GFX_SHIP_ADR        = $1000;                      // ship gfx memory start address, ship size = 20 bytes, 16 bytes for gfx and 4 bytes fo top/bottom empty rows
 GFX_SHIP_SEG        = 10;                         // ship gfx 10 byte segment, 10B for P0 & 10B for P1
 
-SHIP_COL            = $0f0f;
+SHIP_COL            = $0e0e;
 SHIP_LEFT_LIMIT     = 48;
 SHIP_RIGHT_LIMIT    = SHIP_LEFT_LIMIT + (16 * 9);
 SHIP_TOP_LIMIT      = 32;

@@ -23,7 +23,6 @@ var
   bHposp0    : byte absolute 0;
   bHposp1    : byte absolute 1;
   bShipY     : byte absolute 2;
-  bMask      : byte absolute $ff;
   b01i       : byte absolute $fe;
   wShipX     : word absolute 0;
 
@@ -36,15 +35,18 @@ end;
 procedure init;
 begin
   FillByte(pointer(M0_ADR), $500, 0);
+  FillByte(pointer(M0_ADR + 32), $90, $ff);
 
   PMBASE := hi(PM_ADR);
+  COLPM3 := $a; COLPM01 := SHIP_COL;
   bShipY := 80; bHposp0 := SHIP_LEFT_LIMIT; bHposp1 := SHIP_LEFT_LIMIT + 8; HPOSP01 := wShipX;
-  COLPM01 := SHIP_COL; SIZEP01 := 0; PRIOR := 0; GRACTL := %011;
+  SIZEP01 := 0; SIZEM := 0; PRIOR := 0; GRACTL := %011;
 
   copyShip;
 end;
 
 procedure moveShip;
+var bMask: byte absolute $ff;
 begin
   bMask := %1100;
   for b01i := 1 downto 0 do begin
