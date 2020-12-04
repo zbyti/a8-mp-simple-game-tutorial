@@ -657,20 +657,20 @@ l_00E4
 	lda BHPOSP1
 	cmp #$9C
 	jcs l_0116
+
+; optimize OK (SPRITES), line = 58
+
 	lda WSHIPX
 	add #$01
 	sta WSHIPX
 	lda WSHIPX+1
 	adc #$01
 	sta WSHIPX+1
-l_0116
-
-; optimize OK (SPRITES), line = 58
-
 	lda WSHIPX
 	sta REGISTERS.HPOSP01
 	lda WSHIPX+1
 	sta REGISTERS.HPOSP01+1
+l_0116
 
 ; GenerateCaseStatementEpilog
 	jmp a_0002
@@ -682,25 +682,25 @@ l_0104
 	jne l_0128
 @
 
-; optimize OK (SPRITES), line = 61
+; optimize OK (SPRITES), line = 62
 
 	lda BHPOSP0
 	cmp #$31
 	jcc l_013A
+
+; optimize OK (SPRITES), line = 63
+
 	lda WSHIPX
 	sub #$01
 	sta WSHIPX
 	lda WSHIPX+1
 	sbc #$01
 	sta WSHIPX+1
-l_013A
-
-; optimize OK (SPRITES), line = 62
-
 	lda WSHIPX
 	sta REGISTERS.HPOSP01
 	lda WSHIPX+1
 	sta REGISTERS.HPOSP01+1
+l_013A
 
 ; GenerateCaseStatementEpilog
 	jmp a_0002
@@ -712,17 +712,17 @@ l_0128
 	jne l_014C
 @
 
-; optimize OK (SPRITES), line = 65
+; optimize OK (SPRITES), line = 67
 
 	lda BSHIPY
 	cmp #$21
 	jcc l_015E
+
+; optimize FAIL (0, SPRITES), line = 68
+
 	dec BSHIPY
-l_015E
-
-; optimize FAIL ('COPYSHIP', SPRITES), line = 66
-
 	jsr COPYSHIP
+l_015E
 
 ; GenerateCaseStatementEpilog
 	jmp a_0002
@@ -734,17 +734,17 @@ l_014C
 	jne l_016F
 @
 
-; optimize OK (SPRITES), line = 69
+; optimize OK (SPRITES), line = 72
 
 	lda BSHIPY
 	cmp #$C8
 	jcs l_0181
+
+; optimize FAIL (0, SPRITES), line = 73
+
 	inc BSHIPY
-l_0181
-
-; optimize FAIL ('COPYSHIP', SPRITES), line = 70
-
 	jsr COPYSHIP
+l_0181
 
 ; GenerateCaseStatementEpilog
 	jmp a_0002
@@ -753,7 +753,7 @@ l_016F
 ; GenerateCaseEpilog
 a_0002
 
-; optimize OK (SPRITES), line = 73
+; optimize OK (SPRITES), line = 77
 
 	lda BMASK
 	lsr @

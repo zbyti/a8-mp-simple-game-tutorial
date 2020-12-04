@@ -614,21 +614,21 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    656
    657 224E A5 01			lda BHPOSP1
    658 2250 C9 9C			cmp #$9C
-   659 2252 B0 0D			jcs l_0116
-   660 2254 A5 00			lda WSHIPX
-   661 2256 18 69 01			add #$01
-   662 2259 85 00			sta WSHIPX
-   663 225B A5 01			lda WSHIPX+1
-   664 225D 69 01			adc #$01
-   665 225F 85 01			sta WSHIPX+1
-   666 2261			l_0116
-   667
-   668 				; optimize OK (SPRITES), line = 58
-   669
-   670 2261 A5 00			lda WSHIPX
-   671 2263 8D 00 D0			sta REGISTERS.HPOSP01
-   672 2266 A5 01			lda WSHIPX+1
-   673 2268 8D 01 D0			sta REGISTERS.HPOSP01+1
+   659 2252 B0 17			jcs l_0116
+   660
+   661 				; optimize OK (SPRITES), line = 58
+   662
+   663 2254 A5 00			lda WSHIPX
+   664 2256 18 69 01			add #$01
+   665 2259 85 00			sta WSHIPX
+   666 225B A5 01			lda WSHIPX+1
+   667 225D 69 01			adc #$01
+   668 225F 85 01			sta WSHIPX+1
+   669 2261 A5 00			lda WSHIPX
+   670 2263 8D 00 D0			sta REGISTERS.HPOSP01
+   671 2266 A5 01			lda WSHIPX+1
+   672 2268 8D 01 D0			sta REGISTERS.HPOSP01+1
+   673 226B			l_0116
    674
    675 				; GenerateCaseStatementEpilog
    676 226B 4C BC 22			jmp a_0002
@@ -640,25 +640,25 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    682 2272 D0 20			jne l_0128
    683 2274			@
    684
-   685 				; optimize OK (SPRITES), line = 61
+   685 				; optimize OK (SPRITES), line = 62
    686
    687 2274 A5 00			lda BHPOSP0
    688 2276 C9 31			cmp #$31
-   689 2278 90 0D			jcc l_013A
-   690 227A A5 00			lda WSHIPX
-   691 227C 38 E9 01			sub #$01
-   692 227F 85 00			sta WSHIPX
-   693 2281 A5 01			lda WSHIPX+1
-   694 2283 E9 01			sbc #$01
-   695 2285 85 01			sta WSHIPX+1
-   696 2287			l_013A
-   697
-   698 				; optimize OK (SPRITES), line = 62
-   699
-   700 2287 A5 00			lda WSHIPX
-   701 2289 8D 00 D0			sta REGISTERS.HPOSP01
-   702 228C A5 01			lda WSHIPX+1
-   703 228E 8D 01 D0			sta REGISTERS.HPOSP01+1
+   689 2278 90 17			jcc l_013A
+   690
+   691 				; optimize OK (SPRITES), line = 63
+   692
+   693 227A A5 00			lda WSHIPX
+   694 227C 38 E9 01			sub #$01
+   695 227F 85 00			sta WSHIPX
+   696 2281 A5 01			lda WSHIPX+1
+   697 2283 E9 01			sbc #$01
+   698 2285 85 01			sta WSHIPX+1
+   699 2287 A5 00			lda WSHIPX
+   700 2289 8D 00 D0			sta REGISTERS.HPOSP01
+   701 228C A5 01			lda WSHIPX+1
+   702 228E 8D 01 D0			sta REGISTERS.HPOSP01+1
+   703 2291			l_013A
    704
    705 				; GenerateCaseStatementEpilog
    706 2291 4C BC 22			jmp a_0002
@@ -670,17 +670,17 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    712 2298 D0 0E			jne l_014C
    713 229A			@
    714
-   715 				; optimize OK (SPRITES), line = 65
+   715 				; optimize OK (SPRITES), line = 67
    716
    717 229A A5 02			lda BSHIPY
    718 229C C9 21			cmp #$21
-   719 229E 90 02			jcc l_015E
-   720 22A0 C6 02			dec BSHIPY
-   721 22A2			l_015E
+   719 229E 90 05			jcc l_015E
+   720
+   721 				; optimize FAIL (0, SPRITES), line = 68
    722
-   723 				; optimize FAIL ('COPYSHIP', SPRITES), line = 66
-   724
-   725 22A2 20 8F 21			jsr COPYSHIP
+   723 22A0 C6 02			dec BSHIPY
+   724 22A2 20 8F 21			jsr COPYSHIP
+   725 22A5			l_015E
    726
    727 				; GenerateCaseStatementEpilog
    728 22A5 4C BC 22			jmp a_0002
@@ -692,17 +692,17 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    734 22AC D0 0E			jne l_016F
    735 22AE			@
    736
-   737 				; optimize OK (SPRITES), line = 69
+   737 				; optimize OK (SPRITES), line = 72
    738
    739 22AE A5 02			lda BSHIPY
    740 22B0 C9 C8			cmp #$C8
-   741 22B2 B0 02			jcs l_0181
-   742 22B4 E6 02			inc BSHIPY
-   743 22B6			l_0181
+   741 22B2 B0 05			jcs l_0181
+   742
+   743 				; optimize FAIL (0, SPRITES), line = 73
    744
-   745 				; optimize FAIL ('COPYSHIP', SPRITES), line = 70
-   746
-   747 22B6 20 8F 21			jsr COPYSHIP
+   745 22B4 E6 02			inc BSHIPY
+   746 22B6 20 8F 21			jsr COPYSHIP
+   747 22B9			l_0181
    748
    749 				; GenerateCaseStatementEpilog
    750 22B9 4C BC 22			jmp a_0002
@@ -711,7 +711,7 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    753 				; GenerateCaseEpilog
    754 22BC			a_0002
    755
-   756 				; optimize OK (SPRITES), line = 73
+   756 				; optimize OK (SPRITES), line = 77
    757
    758 22BC A5 FF			lda BMASK
    759 22BE 4A				lsr @
