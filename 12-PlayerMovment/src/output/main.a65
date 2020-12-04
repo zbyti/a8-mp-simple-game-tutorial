@@ -610,21 +610,21 @@ fill	:10 sta $1300+#*$80,y
 ; optimize OK (SPRITES), line = 50
 
 	lda #$01
-	sta TMP2
+	sta B01I
 
 l_00E0
 ; --- ForToDoCondition
 
 ; optimize OK (SPRITES), line = 51
 
-	lda TMP2
+	lda B01I
 	jeq l_0100
 	lda #$0C
-	sta TMP1
+	sta BMASK
 	jmp l_010E
 l_0100
 	lda #$03
-	sta TMP1
+	sta BMASK
 l_010E
 
 ; ------------------------------------------------------------
@@ -641,7 +641,7 @@ l_010E
 ; as Pointer
 
 	inx
-	mva TMP1 :STACKORIGIN,x
+	mva BMASK :STACKORIGIN,x
 
 ; Generate Binary Operation for BYTE
 	jsr andAL_CL					; and al, cl
@@ -758,7 +758,7 @@ l_018F
 a_0002
 
 ; --- ForToDoEpilog
-	dec TMP2
+	dec B01I
 	jpl l_00E0
 l_00EE
 
@@ -801,8 +801,8 @@ SHIP_BOTTOM_LIMIT	= $C8
 BHPOSP0	= $00
 BHPOSP1	= $01
 BSHIPY	= $02
-TMP1	= $FF
-TMP2	= $FE
+BMASK	= $FF
+B01I	= $FE
 WSHIPX	= $00
 
 .endl							; UNIT SPRITES
@@ -813,9 +813,10 @@ WSHIPX	= $00
 
  phr 
 
-; optimize OK (main.pas), line = 18
+; optimize OK (main.pas), line = 17
 
-	lda #$05
+	lda SYSTEM.RND
+	and #$0F
 	sta SPRITES.JOYDIRECTION
 	jsr SPRITES.MOVESHIP
 
@@ -859,11 +860,11 @@ l_0007
 	jsr INIT
 
 ; --- RepeatUntilProlog
-l_01C9
+l_01CF
 
 ; optimize OK (main.pas), line = 31
 
-	jmp l_01C9
+	jmp l_01CF
 
 ; ------------------------------------------------------------
 

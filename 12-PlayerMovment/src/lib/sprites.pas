@@ -23,8 +23,8 @@ var
   bHposp0    : byte absolute 0;
   bHposp1    : byte absolute 1;
   bShipY     : byte absolute 2;
-  tmp1       : byte absolute $ff;
-  tmp2       : byte absolute $fe;
+  bMask      : byte absolute $ff;
+  b01i       : byte absolute $fe;
   wShipX     : word absolute 0;
 
 procedure copyShip;
@@ -47,9 +47,9 @@ end;
 
 procedure moveShip;
 begin
-  for tmp2 := 1 downto 0 do begin
-    if tmp2 > 0 then tmp1 := %1100 else tmp1 := %0011;
-    case (joyDirection and tmp1) of
+  for b01i := 1 downto 0 do begin
+    if b01i > 0 then bMask := %1100 else bMask := %0011;
+    case (joyDirection and bMask) of
       %0100: begin // right
         if bHposp1 < SHIP_RIGHT_LIMIT then Inc(wShipX,$0101);
         HPOSP01 := wShipX;
