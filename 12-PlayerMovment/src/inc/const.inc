@@ -7,7 +7,7 @@ GFX_SHIP_SEG        = 10;                         // ship gfx 10 byte segment, 1
 
 SHIP_COL            = $0f0f;
 SHIP_LEFT_LIMIT     = 48;
-SHIP_RIGHT_LIMIT    = SHIP_LEFT_LIMIT + 8 + (16 * 4);
+SHIP_RIGHT_LIMIT    = SHIP_LEFT_LIMIT + (16 * 5);
 SHIP_TOP_LIMIT      = 32;
 SHIP_BOTTOM_LIMIT   = 180;
 
