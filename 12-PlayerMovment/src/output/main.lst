@@ -361,9 +361,9 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    400 				; ---------------------  ASM Block 049  ---------------------
    401
    402
-   403 				      bit NMIST \ bpl vbi   ; check kind of interrupt
+   403 				      bit NMIST \ bpl vbi     ; check kind of interrupt
    403 214A 2C 0F D4		      BIT NMIST 
-   403 214D 10 03		 BPL VBI   
+   403 214D 10 03		 BPL VBI     
    404 = 214F			.def  :__dlijmp
    405 214F 4C 57 21		      jmp __off               ; VDSLST
    406 2152 E6 14		vbi:  inc RTCLOK+2

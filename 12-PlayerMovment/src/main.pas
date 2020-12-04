@@ -27,10 +27,9 @@ begin
   systemOff;
   PACTL := PACTL or %100;
   sprites.init;
+  setVbi(@vbi);
 
   Pause; DMACTL := %111110;
-
-  setVbi(@vbi);
 end;
 
 begin

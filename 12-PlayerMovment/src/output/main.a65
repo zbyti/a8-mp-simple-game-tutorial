@@ -400,7 +400,7 @@ COLPM01	= $D012
 ; ---------------------  ASM Block 049  ---------------------
 
 
-      bit NMIST \ bpl vbi   ; check kind of interrupt
+      bit NMIST \ bpl vbi     ; check kind of interrupt
 .def  :__dlijmp
       jmp __off               ; VDSLST
 vbi:  inc RTCLOK+2
