@@ -40,7 +40,7 @@ begin
   PMBASE := hi(PM_ADR);
   COLPM3 := $a; COLPM01 := SHIP_COL;
   bShipY := 80; bHposp0 := SHIP_LEFT_LIMIT; bHposp1 := SHIP_LEFT_LIMIT + 8; HPOSP01 := wShipX;
-  SIZEP01 := 0; SIZEM := 0; PRIOR := 0; GRACTL := %011;
+  SIZEP01 := 0; SIZEM := 0; PRIOR := %0000; GRACTL := %011;
 
   copyShip;
 end;

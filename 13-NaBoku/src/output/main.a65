@@ -972,7 +972,7 @@ l_01DF
 
 ; ---------------------  ASM Block 060  ---------------------
 
- sta WSYNC
+ sta WSYNC 
 
 ; optimize OK (main.pas), line = 44
 
@@ -1024,19 +1024,33 @@ l_01ED
 
 ; optimize OK (main.pas), line = 58
 
+	lda #$00
+	sta :edx
+	lda #$E0
+	sta :edx+1
+	lda #$C0
+	sta :ecx
+	lda #$03
+	sta :ecx+1
+	lda #$00
+	sta :eax
+	jsr @fill
+
+; optimize OK (main.pas), line = 60
+
 	lda #$7C
 	sta B01I
 
-l_0220
+l_0224
 ; --- ForToDoCondition
 
-; optimize OK (main.pas), line = 59
+; optimize OK (main.pas), line = 61
 
 	ldy B01I
 	lda SYSTEM.RND
 	sta adr.ASTARS,y
 
-; optimize OK (main.pas), line = 60
+; optimize OK (main.pas), line = 62
 
 	and #$03
 	add #$01
@@ -1044,26 +1058,28 @@ l_0220
 
 ; --- ForToDoEpilog
 	dec B01I
-	jpl l_0220
-l_022E
+	jpl l_0224
+l_0232
 
-; optimize FAIL ('SPRITES.INIT', main.pas), line = 63
+; optimize FAIL ('SPRITES.INIT', main.pas), line = 65
 
 	jsr SPRITES.INIT
 
-; optimize FAIL ('GR.MODE2', main.pas), line = 64
+; optimize FAIL ('GR.MODE2', main.pas), line = 66
 
 	jsr GR.MODE2
+	lda #$00
+	sta REGISTERS.COLBK
 	lda #$02
 	sta REGISTERS.COLPF2
 
-; optimize OK (main.pas), line = 65
+; optimize OK (main.pas), line = 67
 
 	lda REGISTERS.PACTL
 	ora #$04
 	sta REGISTERS.PACTL
 
-; optimize OK (main.pas), line = 66
+; optimize OK (main.pas), line = 68
 
 	lda <JOY
 	sta PJOY
@@ -1074,21 +1090,21 @@ l_022E
 	lda >STARS
 	sta PSTARS+1
 
-; optimize FAIL ('SYS.SETVBI', main.pas), line = 68
+; optimize FAIL ('SYS.SETVBI', main.pas), line = 70
 
 	inx
 	mva <VBI :STACKORIGIN,x
 	mva >VBI :STACKORIGIN+STACKWIDTH,x
 	jsr SYS.SETVBI
 
-; optimize FAIL ('SYS.SETDLI', main.pas), line = 69
+; optimize FAIL ('SYS.SETDLI', main.pas), line = 71
 
 	inx
 	mva <JOY :STACKORIGIN,x
 	mva >JOY :STACKORIGIN+STACKWIDTH,x
 	jsr SYS.SETDLI
 
-; optimize FAIL ('SYSTEM.PAUSE_006A', main.pas), line = 71
+; optimize FAIL ('SYSTEM.PAUSE_006A', main.pas), line = 73
 
 	jsr SYSTEM.PAUSE_006A
 	lda #$3E
@@ -1096,7 +1112,7 @@ l_022E
 
 ; ------------------------------------------------------------
 
-@FORTMP_021D	= $00
+@FORTMP_0221	= $00
 @exit
 	.ifdef @new
 	lda <@VarData
@@ -1110,16 +1126,16 @@ l_022E
 .endl
 l_0007
 
-; optimize FAIL ('INIT', main.pas), line = 75
+; optimize FAIL ('INIT', main.pas), line = 77
 
 	jsr INIT
 
 ; --- RepeatUntilProlog
-l_026D
+l_0275
 
-; optimize OK (main.pas), line = 76
+; optimize OK (main.pas), line = 78
 
-	jmp l_026D
+	jmp l_0275
 
 ; ------------------------------------------------------------
 

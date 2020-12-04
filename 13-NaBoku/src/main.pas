@@ -55,13 +55,15 @@ procedure init;
 begin
   Pause; DMACTL := 0; systemOff;
 
+  FillByte(pointer(GAME_LMS), $3c0, 0);
+
   for b01i := 124 downto 0 do begin
      aStars[b01i] := RND;
      aSpeed[b01i] := (RND and 3) + 1;
   end;
 
   sprites.init;
-  mode2; COLPF2 := 2;
+  mode2; COLBK := 0; COLPF2 := 2;
   PACTL := PACTL or %100;
   pJoy := @joy; pStars := @stars;
 
