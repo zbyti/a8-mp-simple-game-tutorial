@@ -10,7 +10,7 @@ Macro: RESOURCE.RCASM [Source: resource.asm]
      6 				mcpy	ift main.DL_2+len >= $bc20
     11 2075 20 41 20			jsr sys.off
     13 2078 A9 96 85 88 A9 20 +  MWA #DATA EDX
-    13 2080 A9 00 85 8C A9 18 +  MWA #MAIN.DL_2 ECX
+    13 2080 A9 00 85 8C A9 11 +  MWA #MAIN.DL_2 ECX
     13 2088 A9 20 85 84 A9 00 +  MWA #LEN EAX
     13 2090 20 00 20		 JSR RESOURCE.MEMCPY
     15 2093 4C 65 20			jmp sys.on
@@ -22,19 +22,19 @@ Source: const.inc
      4 = 1500			P1_ADR              = PM_ADR + $500;              // player 1 start memory address
      5 = 1000			GFX_SHIP_ADR        = $1000;                      // ship gfx memory start address, ship size = 20 bytes, 16 bytes for gfx and 4 bytes fo top/bottom empty rows
      6 = 000A			GFX_SHIP_SEG        = 10;                         // ship gfx 10 byte segment, 10B for P0 & 10B for P1
-     7 = 1800			DL_2                = $1800;                      // display list memory start address for ANTIC mode 2
-     8 = E000			GAME_LMS            = $e000;                      // Load Memory Scan address
-    10 = 0030			SHIP_LEFT_LIMIT     = 48;
-    11 = 009C			SHIP_RIGHT_LIMIT    = SHIP_LEFT_LIMIT + 8 + 100;
-    12 = 0020			SHIP_TOP_LIMIT      = 32;
-    13 = 00C8			SHIP_BOTTOM_LIMIT   = 200;
-     3 1800			dl2
-     4 1800 70 70 70		:3  .byte $70
-     5 1803 42 00 E0		    .byte $42,a(GAME_LMS)
-     6 1806 02 02 02 02 02 02 + :23 .byte 2
-     7 181D 41 00 18		    .byte $41,a(dl2)
+     8 = 0030			SHIP_LEFT_LIMIT     = 48;
+     9 = 009C			SHIP_RIGHT_LIMIT    = SHIP_LEFT_LIMIT + 8 + 100;
+    10 = 0020			SHIP_TOP_LIMIT      = 32;
+    11 = 00C8			SHIP_BOTTOM_LIMIT   = 200;
+    13 = 1100			DL_2                = $1100;                      // display list memory start address for ANTIC mode 2
+    14 = E000			GAME_LMS            = $e000;                      // Load Memory Scan address
+     3 1100			dl2
+     4 1100 70 70 70		:3  .byte $70
+     5 1103 42 00 E0		    .byte $42,a(GAME_LMS)
+     6 1106 02 02 02 02 02 02 + :23 .byte 2
+     7 111D 41 00 11		    .byte $41,a(dl2)
     23 					.print '$R RCASM   ',main.DL_2,'..',main.DL_2+len-1," 'res/gr_dl.asm'"
-    23 				$R RCASM   $1800..$181F 'res/gr_dl.asm'
+    23 				$R RCASM   $1100..$111F 'res/gr_dl.asm'
     25 02E2-02E3> 75 20			ini mcpy
 Source: main.a65
    102 20B6				RCDATA 'res/gfx_ship.bin' GFX_SHIP_ADR 0 0 0 0 0 0 0 0
@@ -753,12 +753,12 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    795 = 1500			P1_ADR	= $1500
    796 = 1000			GFX_SHIP_ADR	= $1000
    797 = 000A			GFX_SHIP_SEG	= $0A
-   798 = 1800			DL_2	= $1800
-   799 = E000			GAME_LMS	= $E000
-   800 = 0030			SHIP_LEFT_LIMIT	= $30
-   801 = 009C			SHIP_RIGHT_LIMIT	= $9C
-   802 = 0020			SHIP_TOP_LIMIT	= $20
-   803 = 00C8			SHIP_BOTTOM_LIMIT	= $C8
+   798 = 0030			SHIP_LEFT_LIMIT	= $30
+   799 = 009C			SHIP_RIGHT_LIMIT	= $9C
+   800 = 0020			SHIP_TOP_LIMIT	= $20
+   801 = 00C8			SHIP_BOTTOM_LIMIT	= $C8
+   802 = 1100			DL_2	= $1100
+   803 = E000			GAME_LMS	= $E000
    804 = 0000			BHPOSP0	= $00
    805 = 0001			BHPOSP1	= $01
    806 = 0002			BSHIPY	= $02
@@ -842,12 +842,12 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    884 = 1500			P1_ADR	= $1500
    885 = 1000			GFX_SHIP_ADR	= $1000
    886 = 000A			GFX_SHIP_SEG	= $0A
-   887 = 1800			DL_2	= $1800
-   888 = E000			GAME_LMS	= $E000
-   889 = 0030			SHIP_LEFT_LIMIT	= $30
-   890 = 009C			SHIP_RIGHT_LIMIT	= $9C
-   891 = 0020			SHIP_TOP_LIMIT	= $20
-   892 = 00C8			SHIP_BOTTOM_LIMIT	= $C8
+   887 = 0030			SHIP_LEFT_LIMIT	= $30
+   888 = 009C			SHIP_RIGHT_LIMIT	= $9C
+   889 = 0020			SHIP_TOP_LIMIT	= $20
+   890 = 00C8			SHIP_BOTTOM_LIMIT	= $C8
+   891 = 1100			DL_2	= $1100
+   892 = E000			GAME_LMS	= $E000
    893 22FF			@exit
    894
    895 22FF A2 00		@halt	ldx #$00
