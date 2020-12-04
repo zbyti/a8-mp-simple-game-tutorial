@@ -549,10 +549,20 @@ A	= DATAORIGIN+$000B
 
 ; optimize OK (SPRITES), line = 40
 
+	.LOCAL
+	ldy #$00
+	tya
+fill	:10 sta $1300+#*$80,y
+	iny
+	bpl fill
+	.ENDL
+
+; optimize OK (SPRITES), line = 42
+
 	lda #$10
 	sta REGISTERS.PMBASE
 
-; optimize OK (SPRITES), line = 41
+; optimize OK (SPRITES), line = 43
 
 	lda #$50
 	sta BSHIPY
@@ -565,7 +575,7 @@ A	= DATAORIGIN+$000B
 	lda WSHIPX+1
 	sta REGISTERS.HPOSP01+1
 
-; optimize OK (SPRITES), line = 42
+; optimize OK (SPRITES), line = 44
 
 	lda #$0F
 	sta REGISTERS.COLPM01
@@ -577,18 +587,11 @@ A	= DATAORIGIN+$000B
 	lda #$03
 	sta REGISTERS.GRACTL
 
-; optimize OK (SPRITES), line = 43
+; optimize FAIL ('COPYSHIP', SPRITES), line = 46
 
-	.LOCAL
-	ldy #$00
-	tya
-fill	:10 sta $1300+#*$80,y
-	iny
-	bpl fill
-	.ENDL
 	jsr COPYSHIP
 
-; optimize FAIL ('SYSTEM.PAUSE_006A', SPRITES), line = 45
+; optimize FAIL ('SYSTEM.PAUSE_006A', SPRITES), line = 48
 
 	jsr SYSTEM.PAUSE_006A
 	lda #$3E
@@ -607,7 +610,7 @@ fill	:10 sta $1300+#*$80,y
 
 .local	MOVESHIP					; PROCEDURE
 
-; optimize OK (SPRITES), line = 50
+; optimize OK (SPRITES), line = 53
 
 	lda #$01
 	sta B01I
@@ -615,7 +618,7 @@ fill	:10 sta $1300+#*$80,y
 l_00E0
 ; --- ForToDoCondition
 
-; optimize OK (SPRITES), line = 51
+; optimize OK (SPRITES), line = 54
 
 	lda B01I
 	jeq l_0100
@@ -656,7 +659,7 @@ l_010E
 	jne l_0124
 @
 
-; optimize OK (SPRITES), line = 54
+; optimize OK (SPRITES), line = 57
 
 	lda BHPOSP1
 	cmp #$9C
@@ -669,7 +672,7 @@ l_010E
 	sta WSHIPX+1
 l_0136
 
-; optimize OK (SPRITES), line = 55
+; optimize OK (SPRITES), line = 58
 
 	lda WSHIPX
 	sta REGISTERS.HPOSP01
@@ -686,7 +689,7 @@ l_0124
 	jne l_0148
 @
 
-; optimize OK (SPRITES), line = 58
+; optimize OK (SPRITES), line = 61
 
 	lda BHPOSP0
 	cmp #$31
@@ -699,7 +702,7 @@ l_0124
 	sta WSHIPX+1
 l_015A
 
-; optimize OK (SPRITES), line = 59
+; optimize OK (SPRITES), line = 62
 
 	lda WSHIPX
 	sta REGISTERS.HPOSP01
@@ -716,7 +719,7 @@ l_0148
 	jne l_016C
 @
 
-; optimize OK (SPRITES), line = 62
+; optimize OK (SPRITES), line = 65
 
 	lda BSHIPY
 	cmp #$21
@@ -724,7 +727,7 @@ l_0148
 	dec BSHIPY
 l_017E
 
-; optimize FAIL ('COPYSHIP', SPRITES), line = 63
+; optimize FAIL ('COPYSHIP', SPRITES), line = 66
 
 	jsr COPYSHIP
 
@@ -738,7 +741,7 @@ l_016C
 	jne l_018F
 @
 
-; optimize OK (SPRITES), line = 66
+; optimize OK (SPRITES), line = 69
 
 	lda BSHIPY
 	cmp #$C8
@@ -746,7 +749,7 @@ l_016C
 	inc BSHIPY
 l_01A1
 
-; optimize FAIL ('COPYSHIP', SPRITES), line = 67
+; optimize FAIL ('COPYSHIP', SPRITES), line = 70
 
 	jsr COPYSHIP
 
@@ -815,10 +818,17 @@ WSHIPX	= $00
 
 ; optimize OK (main.pas), line = 17
 
+	lda REGISTERS.RTCLOK
+	and #$03
+	jne l_01D0
+
+; optimize OK (main.pas), line = 18
+
 	lda SYSTEM.RND
 	and #$0F
 	sta SPRITES.JOYDIRECTION
 	jsr SPRITES.MOVESHIP
+l_01D0
 
 ; ---------------------  ASM Block 056  ---------------------
 
@@ -828,15 +838,15 @@ WSHIPX	= $00
 
 .local	INIT						; PROCEDURE
 
-; optimize FAIL ('SYS.SYSTEMOFF', main.pas), line = 24
+; optimize FAIL ('SYS.SYSTEMOFF', main.pas), line = 26
 
 	jsr SYS.SYSTEMOFF
 
-; optimize FAIL ('SPRITES.INIT', main.pas), line = 25
+; optimize FAIL ('SPRITES.INIT', main.pas), line = 27
 
 	jsr SPRITES.INIT
 
-; optimize FAIL ('SYS.SETVBI', main.pas), line = 26
+; optimize FAIL ('SYS.SETVBI', main.pas), line = 28
 
 	inx
 	mva <VBI :STACKORIGIN,x
@@ -855,16 +865,16 @@ WSHIPX	= $00
 .endl
 l_0007
 
-; optimize FAIL ('INIT', main.pas), line = 30
+; optimize FAIL ('INIT', main.pas), line = 32
 
 	jsr INIT
 
 ; --- RepeatUntilProlog
-l_01CF
+l_01E8
 
-; optimize OK (main.pas), line = 31
+; optimize OK (main.pas), line = 33
 
-	jmp l_01CF
+	jmp l_01E8
 
 ; ------------------------------------------------------------
 
