@@ -41,7 +41,7 @@ begin
 
   PMBASE := hi(PM_ADR);
   bShipY := 80; bHposp0 := SHIP_LEFT_LIMIT; bHposp1 := SHIP_LEFT_LIMIT + 8; HPOSP01 := wShipX;
-  COLPM01 := $0f0f; SIZEP01 := 0; PRIOR := 0; GRACTL := %011;
+  COLPM01 := SHIP_COL; SIZEP01 := 0; PRIOR := 0; GRACTL := %011;
 
   copyShip;
 
