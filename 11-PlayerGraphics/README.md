@@ -1,277 +1,155 @@
-# 11. Player Graphics
+# 12. Player & Joy
 
-Mam nadzieję, że przeczytałeś z uwagą materiały z części 10 ninejszczego tutoriala ;) pełen tej nadzieji będę zapełniał rejetry danymi bez wdawania się w szczegóły, które powinny być Ci już w miarę znajome ;)
+## Na wstępie trochę organizacyjnie
 
-## Projekt graficzny
+Od ostatniej części tutka kod przeszadł mały refaktoring dlatego warto byś pobieżnie rzucił okiem do katalogu `src` tej części kursu.
 
-Aby wykonać grafikę naszego pojazdu możesz posłużyć się dowolnym narzędziem, nawet papierem milimetrowym i ołówkiem oraz wyliczyć wartości poszczególnych bajtów ręcznie ;)
-
-Godnym polecenia jest [Sprite Editor XL](http://bocianu.atari.pl/blog/spriteXL) z którego można skorzystać w przeglądarce internetowej.
-
-Ja poszedłem na skróty i narysowałem pojazd w hi-res w narzędziu w którym będziemy rysowali nasz zestaw znaków, oczywiście musiałem pamiętać, że stateczek jaki wyrysowałem na 2 znakach po przeniesieniu tych samych danych na pamięć duszka będzie szerokości `4` znaków ekranowych bo każdy piksel z pół cyklu koloru będzie rysowany w jednym cyklu, mówiąc po ludzku: grafika będzie 2x rozciągnięta horyzontalnie w stosunku do tego co narysujemy w programie FontMaker. Założenie mamy też takie, że duszki będę *jednowierszowe* co to znaczy powinieneś już wiedzieć z lektury wzmiankowanych materiałów.
-
-Po narysowaniu wyeksportowałem dane o tak:
-
-![eksport-duszka.png](gfx/eksport-duszka.png)
-
-## Jak użyć tych liczb?
-
-Jest wiele sposóbów by w Mad Pascalu skorzystać z danych, które przed chwilą wyeksportowaliśmy. Możemy np. wrzucić je do jakiejś statycznej tablicy, użyć jako `dat` w bloku **ASM** itd. Ja wybrałem sposób chyba najbardziej elegancki, dołączam te dane jako zasób binarny.
-
-Aby to zrobić to w dowolnym edytorze obsługującym pliki binarne (ja skorzystałem z Sublime Text ustawiając kodowanie na **Hexadecimal**) wklejami nasze dane i zapisujemy je jako np. `gfx_ship_bin`.
-
-Aby uniknąć podczas poruszania się góra / dół (za pomocą kopiowania danych) pozostawiania starych danych dodałem łącznie cztery `0` do wyeksportowanych danych po jednym na początku każdego znaku i po jednym na jego końcu, w ten sposób z `8` bajtów na jednego duszka (pół rakiety) zrobiło mi się ich `10` :] Gdy poruszać się będiemy więcej niż o jedną linię rastra to będzie trzeba dodać tych `0` odpowiednio więcej, na ten moment zapewniliśmy sobie czyszczenie przy ruchu góra/dół o jedną linię.
-
-Nasz dane powinny wyglądać tak:
+Podstawowa zmiania to wyniesienie derekty dołączającej zasoby:
 
 ```
-0070 7b1e 3f32 1f7b 7000 0000 c060 30d8
-f0e0 0000
-```
-
-Teraz stwórzmy plik z zasobami `gfx.rc` w katalogi `res` a w nim napiszmy co następuje:
-
-```
-GFX_SHIP_ADR rcdata 'res/gfx_ship.bin'
-```
-
-Ja zapewne pamiętasz z części poświęconej **Display List** stała `GFX_SHIP_ADR` wskazuje miejsce w pamięci gdzie życzylibyśmy sobie by znalazły się nasze dane. Skoro tak to ją zadeklarujmy w pliku `const.inc` w katalogu głównym:
-
-```
-GFX_SHIP_ADR = $1000;
-```
-
-Ok. Grafika powinna siedzieć już w pamięci.
-
-## Wywołujemy duchy :]
-
-W pliku `main.pas` (później powynosimy kod do odpowiednich bibliotek) dołączmy nasze zasoby jako stałe:
-
-```pascal
-{$i const.inc}
+{$r res/gr.rc}
 {$r res/gfx.rc}
 ```
 
-Teraz napiszmy procedurę inicjującam naszą aplikację / grę:
+do głównego pliku `main.pas`, także w bibliotekach katalogu `lib` jest już porządek.
+
+Plik `const.inc` trafiły do folderu `inc` gdzie będziemy trzymać podobne skrawki kodu doklejane dyrektywą `include` - oczywiście jeżeli będzie taka potrzeba.
+
+Kod odpowiedzialny za sprajty trafił do dedykowaego modułu.
+
+Mam nadzieję, że do tej pory nauczyłeś się już korzystać z mapy pamięci Atari bo mogę od teraz nie omawiać wszystkich rejestrów, które wystąpią w kodzie. Gdy napotkasz nazwę rejestru, która nic Ci nie mówi, albo nie wiesz dlaczego wstawiam takie a nie inne wartości to zatrzymaj się na moment i poszperaj w internecie albo w książce.
+
+## Para buch, koła w ruch!
+
+Skoro mamy już nasz pojazd na ekranie czas sprawić by był nam powolny ;) Rozpocznijmy od zakreślenia granic w jakich będzie się on przemieszczał:
 
 ```pascal
-procedure init;
+SHIP_LEFT_LIMIT     = 48;
+SHIP_RIGHT_LIMIT    = SHIP_LEFT_LIMIT + (16 * 5);
+SHIP_TOP_LIMIT      = 32;
+SHIP_BOTTOM_LIMIT   = 10 * 18;
+```
+
+* `SHIP_LEFT_LIMIT` z poprzedniej części powinieneś wiedzieć dlaczego  ma taką a nie inną wartość.
+* `SHIP_RIGHT_LIMIT` ni mniej ni więcej pozwoli przemieścić się naszej rakiecie maksymalnie o jej `5` szerokości w prawo - czyli lekko poza środek ekranu.
+* `SHIP_TOP_LIMIT` jeszcze nie wiem jakie wymiary będzie miał nasz playfield, więc wartość standardowa dla atarowskiego ekranu.
+* `SHIP_BOTTOM_LIMIT` na początek możemy zejść maksymalnie `18` wierszy od góry ekranu.
+
+Przyda nam się też zmienna przechowyjąca odczytany stan manipulatora:
+
+```pascal
+interface
+var joyDirection: byte absolute 3;
+```
+
+## Joystick
+
+Do poruszania naszymi sprajtami będziemy używać *dżoja* w porcie pierwszym. W tym celu (dla pewności) ustawmy drugi bit na `1` w rejestrze `PACTL`:
+
+```pascal
+PACTL := PACTL or %100;
+```
+
+zapewni nam to że młodszy [nibble](https://pl.wikipedia.org/wiki/P%C3%B3%C5%82bajt) rejestru `PORTA` będzie zwracał nam stan *manipulatorów wychyłkowych* :D
+
+Pozycja spoczynkowa to wartość `%1111`, wygaszenie któregoś z tych bitów poinformuje nas o kierunku wychylenia *przyjemnej pałęczki*.
+
+```
+     Decimal                   Binary
+               14                       1110
+                |                         |
+            10  | 6                 1010  | 0110
+              \ |/                      \ |/
+          11-- 15 ---7           1011-- 1111 --0111
+              / |\                      / |\
+             9  | 5                 1001  | 0101
+                |                         |
+               13                       1101
+```
+
+Przy okazji (jak widać na powyższym) kolejny raz można zobaczyć dlaczego pisząc kod czasem posługuję się liczbami w systemie binarnym a czasem szesnastkowym, najrzadzej systemem dziesiętnym.
+
+O ile wartości dziesiętne stanu joya nie wiele mogą mówić to już wartości binarne pozwolają dokonać ciekawej obserwacji. Gdy podzielimy te cztery bity na pół to okaże się, że kierunki ukośne są złożeniem `góra/dół/prawo/lewo`. Jakoż, że od strony programistycznej implementacja skosów wymagała by od nas wykonania po sobie kodu odpowiadającego za przesunięcie pionowe i poziome to nie będziemy kodu powielać tylko zastosujemy sztuczkę.
+
+Tutaj warto wspomnieć o decyjach jakie podejmue się na 8-bit komuterze. Można napisać szybszy kod obsługując każdy z `8` kierunków osobno ale odbędzie się to kosztem zużycia cennej pamięci. Napisać kod bardzo kompaktowo ale pójdzie na to masa cylki procesora. Ja proponuję kompromis między długością kodu a szybkością jego wykonania.
+
+Tutaj warto też wspomnieć, że czas wykonania naszej procedury nie będzie stały, dlatego przy obliczaniu cyklożarłoczności procedury bierzemy zawsze najdłuższą ścieżkę naszego algorytmu. W naszym przypadku skosy będą wykonywały się dłużej niż np. ruch tylko w prawo.
+
+Napiszmy stałe, które będą odpowiadały ruchom joysticka:
+
+```pascal
+JOY_LEFT            = %1000;
+JOY_RIGHT           = %0100;
+JOY_UP              = %0010;
+JOY_DOWN            = %0001;
+```
+
+Jak widzisz, pomijam nieistotne części nibbla dla danego kierunku aby łatwiej było mi zrobić moja dwu przebiegową procedurę zakładając odpowednią maskę.
+
+Najlepiej zobaczmy gotowy kod:
+
+```pascal
+procedure moveShip;
 begin
-  systemOff; DMACTL := 0;
-
-  // tutaj będzie nasz kod
-
-  pause; DMACTL := %00111110;
+  bMask := %1100;
+  for b01i := 1 downto 0 do begin
+    case (joyDirection and bMask) of
+      JOY_RIGHT: begin
+        if bHposp1 < SHIP_RIGHT_LIMIT then begin
+          Inc(wShipX,$0101); HPOSP01 := wShipX;
+        end;
+      end;
+      JOY_LEFT: begin
+        if bHposp0 > SHIP_LEFT_LIMIT then begin
+          Dec(wShipX,$0101); HPOSP01 := wShipX;
+        end;
+      end;
+      JOY_UP: begin
+        if bShipY > SHIP_TOP_LIMIT then begin
+          Dec(bShipY); copyShip;
+        end;
+      end;
+      JOY_DOWN: begin
+        if bShipY < SHIP_BOTTOM_LIMIT then begin
+          Inc(bShipY); copyShip;
+        end;
+      end;
+    end;
+    bMask := %0011;
+  end;
 end;
 ```
 
-Procedura przygotowuje nasz komputer do pracy: wyłącza system, wyłącza **ANTIC** a na końcu czeka na **VBLK** i podczas gdy działo elektronowe wraca do lewego górnego rogu ekranu mu odpalami **ANTIC** w włączonymi *jednowierszowymi sprajtami* i polem gry o *normalnej* szerokości.
+Pętla **FOR** zapewnia nam dwa przebiegi na wypadek gdyby kierunek był skosem i trzeba było wykonać dwa warunki zawarte w instrukcji `case`. `bMask` korzysta z poczynionej wcześniej obserwacji, że góra/dół ma swója połówkę nibbla a lewo/prawo swoją, dzięki operacji `and` i odpowiedniej masce jesteśmy za pomocą tego kodu obsłużyć także skosy :]
 
-Znaczenie bitów dla **DMACTL** możesz przypomnie sobie np. [tutaj](http://atariki.krap.pl/index.php/Rejestry_ANTIC-a).
+Pozorny minus jest taki, że jeżli kierunek nie był skosem to dokonamy nieptrzebnych operacji, ustaliliśmy jednak już wcześniej, że interesje nas tylko maksymalny czas wykonania procedur. Jeżeli wszystko chcemy mieć zsynchronizowane na ekranie to zaoszczędzone cykle na niewiele nam się przydadzą. No chyba, że będziemy śrubować kod i wrzucić coś w wolne cykle, ale to już zabaw przeznaczona raczej dla języka maszynowego ;)
 
-#### Będziemy potrzebowali jeszcze paru stałych
+Warto wspomnieć o `Inc(wShipX,$0101);`. Ta sztuczka dzięki połączeniu `HPOSP0` i `HPOSP1` w jeden 16-bit rejestr pozwala nam w zwięzły sposób zwiększyć oba 8-bit rejestry o jeden. W sysetmie szesnaskowym od razu widać co robimy, że w zmiennej typu `word` młodszy i starszy bajt inkremetujemy o jeden. Gdybym napisał dziesiętnie liczbę **257** zamiast `$0101` to nie było by to takie oczywiste co się dzieje już na pierwszy rzut oka gdy posługujemy się systemem szesnastkowym.
 
-W pliku `const.inc` dodajemy:
-
-```pascal
-PM_ADR              = $1000;          // players & missiles memory (2K) start address
-M0_ADR              = PM_ADR + $300;  // missile 0 start memory address
-P0_ADR              = PM_ADR + $400;  // player 0 start memory address
-P1_ADR              = PM_ADR + $500;  // player 1 start memory address
-GFX_SHIP_ADR        = $1000;          // ship gfx memory start address, ship size = 20 bytes, 16 bytes for gfx and 4 bytes fo top/bottom empty rows
-GFX_SHIP_SEG        = 10;             // ship gfx 10 byte segment, 10B for P0 & 10B for P1
-
-```
-
-Wyjaśnienia wymgają może dwie rzeczy:
-
-* Adres `PM_ADR` wykorzystywany przez `PMBASE` jest identyczny z `GFX_SHIP_ADR` z takiego to powodu, że pierwsze $300 bajtów pamięci którą rezerwuję na duszki jest niewykorzystywane, więc szkoda zmarnować taką ilość pamięci. Pamięc efektywnie wykorzystywana przez duszki zaczyna się od początku pamięci pierwszego **missile** czyli `M0_ADR`.
-*  `P0_ADR` i `P1_ADR` dodają odpowednio do `PM_ADR` `$400` i `$500` ponieważ - jak może pamiętasz - pamięć dla **players** zaczyna się od `PMBASE  + $400` i ma offset `$100`.
-
-Także w tej chwili mamy ustalone adresy dla nszych graczy i sprajtów w ogóle.
-
-#### Teraz potrzebujemy paru rejestrów
-
-W pliku `lib/registers.pas` dodajemy:
+Porcedura `copyShip` powinna być Ci znan z poprzedniej części, a przynajmniej jej implementacja:
 
 ```pascal
-var
-  RTCLOK  : byte absolute $14;
-  HPOSP0  : byte absolute $D000;  // (W) Horizontal position of player 0
-  HPOSP1  : byte absolute $D001;  // (W) Horizontal position of player 1
-  SIZEP0  : byte absolute $D008;  // (W) Size of player 0
-  SIZEP1  : byte absolute $D009;  // (W) Size of player 1
-  COLPM0  : byte absolute $D012;  // (W) Color and luminance of player and missile 0
-  COLPM1  : byte absolute $D013;  // (W) Color and luminance of player and missile 1
-  PRIOR   : byte absolute $D01B;  // (W) Priority selection register
-  GRACTL  : byte absolute $D01D;  // (W) Used with DMACTL to latch all stick and paddle triggers
-  PORTB   : byte absolute $D301;  // (W/R) Port B. Reads or writes data to and/or from jacks three and four
-  DMACTL  : byte absolute $D400;  // (W) Direct Memory Access (DMA) control
-  DLIST   : word absolute $D402;  // Display list pointer
-  PMBASE  : byte absolute $D407;  // (W) MSB of the player/missile base address used to locate the graphics for your players and missiles
-  NMIEN   : byte absolute $D40E;  // (W) Non-maskable interrupt (NMI) enable
-  NMIVEC  : word absolute $FFFA;  // The NMI interrupts are vectored through 65530 ($FFFA) to the NMI service routine
-
-  HPOSP01 : word absolute $D000;
-  SIZEP01 : word absolute $D008;
-  COLPM01 : word absolute $D012;
-  ```
-
-  Jak łatwo zauważyć stworzyłem sobie zmienne pomocnicze `HPOSP01`, `SIZEP01` i `COLPM01`. Skoro nasz pojazd składa się z dwóch duszków P0 i P1 to będę do tych rejestrów wpisywał dane *po sobie*, ułatwi nam to troch zapis.
-
-#### Odrobina zmiennych własnych
-
-W `main.pas` deklarujemy:
-
-```pascal
-var
-  bHposp0   : byte absolute 0;
-  bHposp1   : byte absolute 1;
-  wShipHpos : word absolute 0;
-```
-
-Jak widać przygotowaliśmy zmienne na stronie zerowej do przechowywania pozycji `X` naszego pojazdu których wartość będziemy przepisywać do odpowiednich rejestrów.
-
-`wShipHpos` to stara sztuczka, która pozwali nam za jednym zamachaem wrzucić `bHposp0` i `bHposp1` do naszego *podwójnego* rejestru `HPOSP01` :]
-
-#### Napełniamy procedurę `init` treścią
-
-```pascal
-procedure init;
+procedure copyShip;
 begin
-  systemOff; DMACTL := 0;
-
-  PMBASE := hi(PM_ADR);
-  bHposp0 := 44; bHposp1 := 52; HPOSP01 := wShipHpos;
-  COLPM01 := $0f0f; SIZEP01 := 0; PRIOR := 0; GRACTL := %00000011;
-
-  FillByte(pointer(M0_ADR), $500, 0);
-  Move(pointer(GFX_SHIP_ADR), pointer(P0_ADR + 8), GFX_SHIP_SEG);
-  Move(pointer(GFX_SHIP_ADR + GFX_SHIP_SEG), pointer(P1_ADR + 8), GFX_SHIP_SEG);
-
-  pause; DMACTL := %00111110;
+  Move(pointer(GFX_SHIP_ADR), pointer(P0_ADR + bShipY), GFX_SHIP_SEG);
+  Move(pointer(GFX_SHIP_ADR + GFX_SHIP_SEG), pointer(P1_ADR + bShipY), GFX_SHIP_SEG);
 end;
-
 ```
 
-No to idziemy przez kod step-by-step:
-
-* `PMBASE := hi(PM_ADR;` wpisujemy do rejestru starszy bajt adresu pamięci jaką przeznaczyliśmy na duszki
-* `bHposp0 := 44; bHposp1 := 52; HPOSP01 := wShipHpos;` ustalamy pozycję na osi `X` dla naszych *graczy*. By P0 i P1 były obok siebie ich pozycja musi się różnić o ich szerokość czyli `8`.
-* `COLPM01 := $0f0f;` nasz kolejny *podwójny* rejestr, ustawiamy biały kolor `$0f` dla obu sprajtów.
-* `SIZEP01 := 0;` zapewnia nam normalną szerokoć dla obu **playerów**
-* `PRIOR := 0;` wybieramy kolejność/priorytet wyświetalnia grafiki ma ekranie
-* `GRACTL := %00000011;` bit 0 ustawiony na `1` włącza pociski, bit 1 ustaiony na `1` włącza graczy
-* `FillByte(pointer(M0_ADR), $500, 0);` nie wiemy w jakim stanie jest pamięć naszego komputera dlatego czyścimy ją sobie od `M0_ADR` przez kolejnych `5` stron pamięci wypełniając zerami. Pamięć na duszki (w naszym przypadku) to `2KB` czyli `8` stron z czego `3` pierwsze są nie wykorzystane i wrzucilśmu już tam grafikę naszego pojazdu dlatego czyścimy tylko `5` pozostałych.
-* `Move(pointer(GFX_SHIP_ADR), pointer(P0_ADR + 8), GFX_SHIP_SEG);` kopiujemy z naszej matrycy statku jego pierwszy segment i wrzucamy od początku pamięci przeznaczonej dla **P0** + `8` ponieważ pierwsze 8 lini skaningowych nie jest *rysowanych*
-* `Move(pointer(GFX_SHIP_ADR + GFX_SHIP_SEG), pointer(P1_ADR + 8), GFX_SHIP_SEG);` kopiujemy *dziób* naszej rakiety do gracza 1 czyli **P1** i również dodajemy `8`
-
-## Upragnione efekty
-
-W pliku `main.pas` wywołujemy procedurę `init`
-
-```pascal
-begin
-  init;
-  repeat until false;
-end.
-```
-
-Naszym oczom ukazuje się poniższy widok (jeżeli używamy systemu PAL, dla NTSC trzeba dodać więcej niż 8 do współrzędnej `Y`):
-
-![duszek.png](gfx/duszek.png)
-
-Przydało by się jeszcze by nasz pojazd się poruszał. Wykorzystajmy do tego przygotowaną wcześniej procedurę do obsługi **VBI** aby zapewnić sobie miarowy ruch, wpiszmy:
+Pozostało już tylko *zczytać* stan dżoja na przerwani **VBI** i gotowe! :]
 
 ```pascal
 procedure vbi; interrupt;
 begin
   asm { phr };
 
-  Inc(hposp0); Inc(hposp1); HPOSP01 := wShipHpos;
+  joyDirection := PORTA;
+  if (joyDirection and %1111) <> %1111 then moveShip;
 
   asm { plr };
 end;
 ```
 
-Zaresjetrujmy naszą procedurę za pomocą `setVbi(@vbi);`, skompilujmy nasz program i podziwiajmy naszego pierwszego animowanego duszka :]
+Procedurę `moveShip` wywołujemy tylko wtedy gdy stan joysticka w porcie pierwszym jest inny niż spoczynkowy.
 
-![ship.gif](gfx/ship.gif)
-
-## Nasz kod
-
-Na koniec dnia nasz plik `main.pas` powinine wyglądać w ten sposób:
-
-```pascal
-{$librarypath 'lib'}
-
-program Game;
-
-uses registers, gr, sys;
-
-const
-{$i const.inc}
-{$r res/gfx.rc}
-
-var
-  bHposp0   : byte absolute 0;
-  bHposp1   : byte absolute 1;
-  wShipHpos : word absolute 0;
-
-
-procedure vbi; interrupt;
-begin
-  asm { phr };
-
-  Inc(hposp0); Inc(hposp1); HPOSP01 := wShipHpos;
-
-  asm { plr };
-end;
-
-procedure init;
-begin
-  systemOff; DMACTL := 0;
-
-  PMBASE := hi(PM_ADR);
-  bHposp0 := 44; bHposp1 := 52; HPOSP01 := wShipHpos;
-  COLPM01 := $0f0f; SIZEP01 := 0; PRIOR := 0; GRACTL := %00000011;
-
-  FillByte(pointer(M0_ADR), $500, 0);
-  Move(pointer(GFX_SHIP_ADR), pointer(P0_ADR + 8), GFX_SHIP_SEG);
-  Move(pointer(GFX_SHIP_ADR + GFX_SHIP_SEG), pointer(P1_ADR + 8), GFX_SHIP_SEG);
-
-  pause; DMACTL := %00111110; setVbi(@vbi);
-end;
-
-begin
-  init;
-  repeat until false;
-end.
-```
-
-## Dodatek - Parametry ekranu
-
->**$D000 HPOSP0**
->
->(W) Horizontal position of player 0. Values from zero to 227 ($E3) are possible but, depending on the size of the playfield, the range can be from 48 as the leftmost position to 208 as the rightmost position. Other positions will be "off screen". Here are the normal screen boundaries for players and missiles. The values may vary somewhat due to the nature of your TV screen. Players and missiles may be located outside these boundaries, but will not be visible (off screen):
-
-```
-                               Top
-                           32 for single,
-                        16 for double line
-                            resolution
-                  +--------------------------------+
-                  |                                |
-                  |                                |
-                  |                                |
-     48 for both  |                                | 208 for both
-     resolutions  |                                | resolutions
-                  |                                |
-                  |                                |
-                  |                                |
-                  +--------------------------------+
-                              Bottom
-                          224 for single,
-                        112 for double line
-                             resolution
-```
+Pzostała już tylko kompilacja swiżego kodu i można spróbować rozbić sprajt o krawędź ekranu :D
