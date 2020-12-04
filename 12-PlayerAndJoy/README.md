@@ -1,4 +1,4 @@
-# 12. Player Movment
+# 12. Player & Joy
 
 ## Na wstępie trochę organizacyjnie
 
