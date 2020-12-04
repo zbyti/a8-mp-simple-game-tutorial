@@ -24,7 +24,7 @@ Source: const.inc
      6 = 000A			GFX_SHIP_SEG        = 10;                         // ship gfx 10 byte segment, 10B for P0 & 10B for P1
      8 = 0F0F			SHIP_COL            = $0f0f;
      9 = 0030			SHIP_LEFT_LIMIT     = 48;
-    10 = 009C			SHIP_RIGHT_LIMIT    = SHIP_LEFT_LIMIT + 8 + 100;
+    10 = 0078			SHIP_RIGHT_LIMIT    = SHIP_LEFT_LIMIT + 8 + (16 * 4);
     11 = 0020			SHIP_TOP_LIMIT      = 32;
     12 = 00B4			SHIP_BOTTOM_LIMIT   = 180;
     14 = 0008			JOY_LEFT            = %1000;
@@ -619,7 +619,7 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    656 				; optimize OK (SPRITES), line = 57
    657
    658 224E A5 01			lda BHPOSP1
-   659 2250 C9 9C			cmp #$9C
+   659 2250 C9 78			cmp #$78
    660 2252 B0 17			jcs l_0116
    661
    662 				; optimize OK (SPRITES), line = 58
@@ -759,7 +759,7 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    796 = 000A			GFX_SHIP_SEG	= $0A
    797 = 0F0F			SHIP_COL	= $0F0F
    798 = 0030			SHIP_LEFT_LIMIT	= $30
-   799 = 009C			SHIP_RIGHT_LIMIT	= $9C
+   799 = 0078			SHIP_RIGHT_LIMIT	= $78
    800 = 0020			SHIP_TOP_LIMIT	= $20
    801 = 00B4			SHIP_BOTTOM_LIMIT	= $B4
    802 = 0008			JOY_LEFT	= $08
@@ -852,7 +852,7 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    889 = 000A			GFX_SHIP_SEG	= $0A
    890 = 0F0F			SHIP_COL	= $0F0F
    891 = 0030			SHIP_LEFT_LIMIT	= $30
-   892 = 009C			SHIP_RIGHT_LIMIT	= $9C
+   892 = 0078			SHIP_RIGHT_LIMIT	= $78
    893 = 0020			SHIP_TOP_LIMIT	= $20
    894 = 00B4			SHIP_BOTTOM_LIMIT	= $B4
    895 = 0008			JOY_LEFT	= $08
