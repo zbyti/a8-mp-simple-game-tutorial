@@ -40,7 +40,7 @@ begin
   asm { phr };
 
   for b01i := 124 downto 0 do begin
-    asm { sta WSYNC};
+    asm { sta WSYNC };
     HPOSM3 := aStars[b01i];
     Dec(aStars[b01i],aSpeed[b01i]);
     COLPM3 := RND;
