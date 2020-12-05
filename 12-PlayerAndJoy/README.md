@@ -152,4 +152,4 @@ end;
 
 Procedurę `moveShip` wywołujemy tylko wtedy gdy stan joysticka w porcie pierwszym jest inny niż spoczynkowy.
 
-Pzostała już tylko kompilacja swiżego kodu i można spróbować rozbić sprajt o krawędź ekranu :D
+Pozostała już tylko kompilacja swiżego kodu i można spróbować rozbić sprajt o krawędź ekranu :D
