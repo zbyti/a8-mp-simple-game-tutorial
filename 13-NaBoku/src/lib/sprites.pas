@@ -45,11 +45,10 @@ begin
 end;
 
 procedure moveShip;
-var bMask: byte absolute $ff;
 begin
-  bMask := %1100;
+  bMask01 := %1100;
   for b01i := 1 downto 0 do begin
-    case (joyDirection and bMask) of
+    case (joyDirection and bMask01) of
       JOY_RIGHT: begin
         if bHposp1 < SHIP_RIGHT_LIMIT then begin
           Inc(wShipX,$0101); HPOSP01 := wShipX;
@@ -71,7 +70,7 @@ begin
         end;
       end;
     end;
-    bMask := %0011;
+    bMask01 := %0011;
   end;
 end;
 

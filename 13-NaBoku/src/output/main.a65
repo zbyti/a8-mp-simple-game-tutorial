@@ -400,8 +400,10 @@ NMIVEC	= $FFFA
 HPOSP01	= $D000
 SIZEP01	= $D008
 COLPM01	= $D012
-B00I	= $FF
-B01I	= $FE
+BMASK01	= $FF
+BMASK02	= $FE
+B01I	= $FD
+B02I	= $FC
 
 .endl							; UNIT REGISTERS
 
@@ -711,12 +713,12 @@ fill	:10 sta $1300+#*$80,y
 
 .local	MOVESHIP					; PROCEDURE
 
-; optimize OK (SPRITES), line = 50
+; optimize OK (SPRITES), line = 49
 
 	lda #$0C
-	sta BMASK
+	sta REGISTERS.BMASK01
 
-; optimize OK (SPRITES), line = 51
+; optimize OK (SPRITES), line = 50
 
 	lda #$01
 	sta REGISTERS.B01I
@@ -724,22 +726,22 @@ fill	:10 sta $1300+#*$80,y
 l_00F1
 ; --- ForToDoCondition
 
-; optimize OK (SPRITES), line = 52
+; optimize OK (SPRITES), line = 51
 
 	lda JOYDIRECTION
-	and BMASK
+	and REGISTERS.BMASK01
 	sta @CASETMP_0002
 	cmp #$04
 	jne l_0110
 @
 
-; optimize OK (SPRITES), line = 54
+; optimize OK (SPRITES), line = 53
 
 	lda BHPOSP1
 	cmp #$C0
 	jcs l_0122
 
-; optimize OK (SPRITES), line = 55
+; optimize OK (SPRITES), line = 54
 
 	lda WSHIPX
 	add #$01
@@ -759,13 +761,13 @@ l_0110
 	jne l_0134
 @
 
-; optimize OK (SPRITES), line = 59
+; optimize OK (SPRITES), line = 58
 
 	lda BHPOSP0
 	cmp #$31
 	jcc l_0146
 
-; optimize OK (SPRITES), line = 60
+; optimize OK (SPRITES), line = 59
 
 	lda WSHIPX
 	sub #$01
@@ -785,13 +787,13 @@ l_0134
 	jne l_0158
 @
 
-; optimize OK (SPRITES), line = 64
+; optimize OK (SPRITES), line = 63
 
 	lda BSHIPY
 	cmp #$21
 	jcc l_016A
 
-; optimize FAIL (0, SPRITES), line = 65
+; optimize FAIL (0, SPRITES), line = 64
 
 	dec BSHIPY
 	jsr COPYSHIP
@@ -803,13 +805,13 @@ l_0158
 	jne l_017B
 @
 
-; optimize OK (SPRITES), line = 69
+; optimize OK (SPRITES), line = 68
 
 	lda BSHIPY
 	cmp #$A0
 	jcs l_018D
 
-; optimize FAIL (0, SPRITES), line = 70
+; optimize FAIL (0, SPRITES), line = 69
 
 	inc BSHIPY
 	jsr COPYSHIP
@@ -818,10 +820,10 @@ l_018D
 l_017B
 a_0002
 
-; optimize OK (SPRITES), line = 74
+; optimize OK (SPRITES), line = 73
 
 	lda #$03
-	sta BMASK
+	sta REGISTERS.BMASK01
 
 ; --- ForToDoEpilog
 	dec REGISTERS.B01I
@@ -830,7 +832,6 @@ l_00FF
 
 ; ------------------------------------------------------------
 
-BMASK	= $FF
 @FORTMP_00EE	= $00
 @CASETMP_0002	= DATAORIGIN+$000F
 
