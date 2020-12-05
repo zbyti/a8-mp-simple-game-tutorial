@@ -33,7 +33,7 @@ SHIP_BOTTOM_LIMIT   = 10 * 18;
 * `SHIP_LEFT_LIMIT` z poprzedniej części powinieneś wiedzieć dlaczego  ma taką a nie inną wartość.
 * `SHIP_RIGHT_LIMIT` ni mniej ni więcej pozwoli przemieścić się naszej rakiecie maksymalnie o jej `5` szerokości w prawo - czyli lekko poza środek ekranu.
 * `SHIP_TOP_LIMIT` jeszcze nie wiem jakie wymiary będzie miał nasz playfield, więc wartość standardowa dla atarowskiego ekranu.
-* `SHIP_BOTTOM_LIMIT` na początek możemy zejść maksymalnie `18` wierszy od góry ekranu.
+* `SHIP_BOTTOM_LIMIT` na początek możemy zejść maksymalnie `18` wierszy (no, trochę więcej bo mnożymy przez 10) od góry ekranu.
 
 Przyda nam się też zmienna przechowyjąca odczytany stan manipulatora:
 
