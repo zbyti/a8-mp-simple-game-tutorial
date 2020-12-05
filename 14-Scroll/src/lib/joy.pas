@@ -22,22 +22,22 @@ begin
     case (joyDirection and bMask1) of
       JOY_RIGHT: begin
         if bHposp1 < SHIP_RIGHT_LIMIT then begin
-          Inc(wShipX,$0101); HPOSP01 := wShipX;
+          Inc(wShipX,$0202); HPOSP01 := wShipX;
         end;
       end;
       JOY_LEFT: begin
         if bHposp0 > SHIP_LEFT_LIMIT then begin
-          Dec(wShipX,$0101); HPOSP01 := wShipX;
+          Dec(wShipX,$0202); HPOSP01 := wShipX;
         end;
       end;
       JOY_UP: begin
         if bShipY > SHIP_TOP_LIMIT then begin
-          Dec(bShipY); copyShip;
+          Dec(bShipY,2); copyShip;
         end;
       end;
       JOY_DOWN: begin
         if bShipY < SHIP_BOTTOM_LIMIT then begin
-          Inc(bShipY); copyShip;
+          Inc(bShipY,2); copyShip;
         end;
       end;
     end;

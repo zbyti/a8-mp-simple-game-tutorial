@@ -369,7 +369,7 @@ M0_ADR	= $1300
 P0_ADR	= $1400
 P1_ADR	= $1500
 GFX_SHIP_ADR	= $1000
-GFX_SHIP_SEG	= $0A
+GFX_SHIP_SEG	= $0C
 SHIP_COL	= $0E0E
 SHIP_LEFT_LIMIT	= $30
 SHIP_RIGHT_LIMIT	= $C0
@@ -608,7 +608,7 @@ A	= DATAORIGIN+$000D
 	sta :edx
 	lda #$10
 	sta :edx+1
-	lda #$0A
+	lda #$0C
 	sta :eax
 	lda #$00
 	sta :eax+1
@@ -620,11 +620,11 @@ A	= DATAORIGIN+$000D
 	sta :ecx
 	lda #$15
 	sta :ecx+1
-	lda #$0A
+	lda #$0C
 	sta :edx
 	lda #$10
 	sta :edx+1
-	lda #$0A
+	lda #$0C
 	sta :eax
 	lda #$00
 	sta :eax+1
@@ -762,10 +762,10 @@ l_00F1
 ; optimize OK (JOY), line = 25
 
 	lda SPRITES.WSHIPX
-	add #$01
+	add #$02
 	sta SPRITES.WSHIPX
 	lda SPRITES.WSHIPX+1
-	adc #$01
+	adc #$02
 	sta SPRITES.WSHIPX+1
 	lda SPRITES.WSHIPX
 	sta GLOBALS.HPOSP01
@@ -788,10 +788,10 @@ l_0110
 ; optimize OK (JOY), line = 30
 
 	lda SPRITES.WSHIPX
-	sub #$01
+	sub #$02
 	sta SPRITES.WSHIPX
 	lda SPRITES.WSHIPX+1
-	sbc #$01
+	sbc #$02
 	sta SPRITES.WSHIPX+1
 	lda SPRITES.WSHIPX
 	sta GLOBALS.HPOSP01
@@ -811,31 +811,33 @@ l_0134
 	cmp #$21
 	jcc l_016A
 
-; optimize FAIL (0, JOY), line = 35
+; optimize OK (JOY), line = 35
 
-	dec SPRITES.BSHIPY
+	sub #$02
+	sta SPRITES.BSHIPY
 	jsr SPRITES.COPYSHIP
 l_016A
 
 	jmp a_0002
 l_0158
 	cmp #$01
-	jne l_017B
+	jne l_0178
 @
 
 ; optimize OK (JOY), line = 39
 
 	lda SPRITES.BSHIPY
 	cmp #$A0
-	jcs l_018D
+	jcs l_018A
 
-; optimize FAIL (0, JOY), line = 40
+; optimize OK (JOY), line = 40
 
-	inc SPRITES.BSHIPY
+	add #$02
+	sta SPRITES.BSHIPY
 	jsr SPRITES.COPYSHIP
-l_018D
+l_018A
 
-l_017B
+l_0178
 a_0002
 
 ; optimize OK (JOY), line = 44
@@ -916,9 +918,9 @@ JOYDIRECTION	= $03
 
 	and #$0F
 	cmp #$0F
-	jeq l_01CE
+	jeq l_01C8
 	jsr JOY.MOVESHIP
-l_01CE
+l_01C8
 
 ; optimize OK (main.pas), line = 31
 
@@ -949,7 +951,7 @@ l_01CE
 	lda #$7C
 	sta GLOBALS.B1I
 
-l_01E6
+l_01E0
 ; --- ForToDoCondition
 
 ; ---------------------  ASM Block 061  ---------------------
@@ -975,8 +977,8 @@ l_01E6
 
 ; --- ForToDoEpilog
 	dec GLOBALS.B1I
-	jpl l_01E6
-l_01F4
+	jpl l_01E0
+l_01EE
 
 ; optimize FAIL ('SYS.SETDLI', main.pas), line = 49
 
@@ -991,7 +993,7 @@ l_01F4
 
 ; ------------------------------------------------------------
 
-@FORTMP_01E3	= $00
+@FORTMP_01DD	= $00
 	rti						; ret
 .endl
 
@@ -1023,7 +1025,7 @@ l_01F4
 	lda #$7C
 	sta GLOBALS.B1I
 
-l_022B
+l_0225
 ; --- ForToDoCondition
 
 ; optimize OK (main.pas), line = 61
@@ -1040,8 +1042,8 @@ l_022B
 
 ; --- ForToDoEpilog
 	dec GLOBALS.B1I
-	jpl l_022B
-l_0239
+	jpl l_0225
+l_0233
 
 ; optimize FAIL ('SPRITES.INIT', main.pas), line = 65
 
@@ -1094,7 +1096,7 @@ l_0239
 
 ; ------------------------------------------------------------
 
-@FORTMP_0228	= $00
+@FORTMP_0222	= $00
 @exit
 	.ifdef @new
 	lda <@VarData
@@ -1113,11 +1115,11 @@ l_0007
 	jsr INIT
 
 ; --- RepeatUntilProlog
-l_027C
+l_0276
 
 ; optimize OK (main.pas), line = 78
 
-	jmp l_027C
+	jmp l_0276
 
 ; ------------------------------------------------------------
 
