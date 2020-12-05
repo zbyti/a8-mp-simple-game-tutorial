@@ -98,8 +98,8 @@ FPEXP	.ds 1
 	?EXTDETECT = 0
 	?VBXDETECT = 0
 
-	RCASM 'res/gr_dl.asm' REGISTERS.DL_2 0 0 0 0 0 0 0 0
-	RCDATA 'res/gfx_ship.bin' REGISTERS.GFX_SHIP_ADR 0 0 0 0 0 0 0 0
+	RCASM 'res/gr_dl.asm' GLOBALS.DL_2 0 0 0 0 0 0 0 0
+	RCDATA 'res/gfx_ship.bin' GLOBALS.GFX_SHIP_ADR 0 0 0 0 0 0 0 0
 .endl
 
 ; ------------------------------------------------------------
@@ -360,7 +360,7 @@ RNDSEED	= DATAORIGIN+$0009
 
 ; ------------------------------------------------------------
 
-.local	REGISTERS					; UNIT
+.local	GLOBALS						; UNIT
 
 ; ------------------------------------------------------------
 
@@ -422,7 +422,7 @@ BMASK2	= $FE
 B1I	= $FD
 B2I	= $FC
 
-.endl							; UNIT REGISTERS
+.endl							; UNIT GLOBALS
 
 ; ------------------------------------------------------------
 
@@ -527,15 +527,15 @@ A	= DATAORIGIN+$000D
 ; optimize OK (SYS), line = 63
 
 	lda #$00
-	sta REGISTERS.NMIEN
+	sta GLOBALS.NMIEN
 	lda #$FE
-	sta REGISTERS.PORTB
+	sta GLOBALS.PORTB
 	lda <NMI
-	sta REGISTERS.NMIVEC
+	sta GLOBALS.NMIVEC
 	lda >NMI
-	sta REGISTERS.NMIVEC+1
+	sta GLOBALS.NMIVEC+1
 	lda #$C0
-	sta REGISTERS.NMIEN
+	sta GLOBALS.NMIEN
 @exit
 	.ifdef @new
 	lda <@VarData
@@ -567,9 +567,9 @@ A	= DATAORIGIN+$000D
 ; optimize OK (GR), line = 17
 
 	lda #$00
-	sta REGISTERS.DLIST
+	sta GLOBALS.DLIST
 	lda #$11
-	sta REGISTERS.DLIST+1
+	sta GLOBALS.DLIST+1
 @exit
 	.ifdef @new
 	lda <@VarData
@@ -662,15 +662,15 @@ fill	:10 sta $1300+#*$80,y
 ; optimize OK (SPRITES), line = 33
 
 	lda #$10
-	sta REGISTERS.PMBASE
+	sta GLOBALS.PMBASE
 
 ; optimize OK (SPRITES), line = 34
 
 	lda #$0A
-	sta REGISTERS.COLPM3
+	sta GLOBALS.COLPM3
 	lda #$0E
-	sta REGISTERS.COLPM01
-	sta REGISTERS.COLPM01+1
+	sta GLOBALS.COLPM01
+	sta GLOBALS.COLPM01+1
 
 ; optimize OK (SPRITES), line = 35
 
@@ -681,19 +681,19 @@ fill	:10 sta $1300+#*$80,y
 	lda #$38
 	sta BHPOSP1
 	lda WSHIPX
-	sta REGISTERS.HPOSP01
+	sta GLOBALS.HPOSP01
 	lda WSHIPX+1
-	sta REGISTERS.HPOSP01+1
+	sta GLOBALS.HPOSP01+1
 
 ; optimize OK (SPRITES), line = 36
 
 	lda #$00
-	sta REGISTERS.SIZEP01
-	sta REGISTERS.SIZEP01+1
-	sta REGISTERS.SIZEM
-	sta REGISTERS.PRIOR
+	sta GLOBALS.SIZEP01
+	sta GLOBALS.SIZEP01+1
+	sta GLOBALS.SIZEM
+	sta GLOBALS.PRIOR
 	lda #$03
-	sta REGISTERS.GRACTL
+	sta GLOBALS.GRACTL
 
 ; optimize FAIL ('COPYSHIP', SPRITES), line = 38
 
@@ -734,12 +734,12 @@ WSHIPX	= $00
 ; optimize OK (JOY), line = 20
 
 	lda #$0C
-	sta REGISTERS.BMASK1
+	sta GLOBALS.BMASK1
 
 ; optimize OK (JOY), line = 21
 
 	lda #$01
-	sta REGISTERS.B1I
+	sta GLOBALS.B1I
 
 l_00F1
 ; --- ForToDoCondition
@@ -747,7 +747,7 @@ l_00F1
 ; optimize OK (JOY), line = 22
 
 	lda JOYDIRECTION
-	and REGISTERS.BMASK1
+	and GLOBALS.BMASK1
 	sta @CASETMP_0002
 	cmp #$04
 	jne l_0110
@@ -768,9 +768,9 @@ l_00F1
 	adc #$01
 	sta SPRITES.WSHIPX+1
 	lda SPRITES.WSHIPX
-	sta REGISTERS.HPOSP01
+	sta GLOBALS.HPOSP01
 	lda SPRITES.WSHIPX+1
-	sta REGISTERS.HPOSP01+1
+	sta GLOBALS.HPOSP01+1
 l_0122
 
 	jmp a_0002
@@ -794,9 +794,9 @@ l_0110
 	sbc #$01
 	sta SPRITES.WSHIPX+1
 	lda SPRITES.WSHIPX
-	sta REGISTERS.HPOSP01
+	sta GLOBALS.HPOSP01
 	lda SPRITES.WSHIPX+1
-	sta REGISTERS.HPOSP01+1
+	sta GLOBALS.HPOSP01+1
 l_0146
 
 	jmp a_0002
@@ -841,10 +841,10 @@ a_0002
 ; optimize OK (JOY), line = 44
 
 	lda #$03
-	sta REGISTERS.BMASK1
+	sta GLOBALS.BMASK1
 
 ; --- ForToDoEpilog
-	dec REGISTERS.B1I
+	dec GLOBALS.B1I
 	jpl l_00F1
 l_00FF
 
@@ -905,11 +905,11 @@ JOYDIRECTION	= $03
 ; optimize OK (main.pas), line = 28
 
 	lda #$0F
-	sta REGISTERS.COLBK
+	sta GLOBALS.COLBK
 
 ; optimize OK (main.pas), line = 30
 
-	lda REGISTERS.PORTA
+	lda GLOBALS.PORTA
 	sta JOY.JOYDIRECTION
 
 ; optimize OK (main.pas), line = 31
@@ -923,7 +923,7 @@ l_01CE
 ; optimize OK (main.pas), line = 33
 
 	lda #$00
-	sta REGISTERS.COLBK
+	sta GLOBALS.COLBK
 
 ; optimize FAIL ('SYS.SETDLI', main.pas), line = 35
 
@@ -960,7 +960,7 @@ l_01E6
 
 	ldy B01I
 	lda adr.ASTARS,y
-	sta REGISTERS.HPOSM3
+	sta GLOBALS.HPOSM3
 
 ; optimize OK (main.pas), line = 47
 
@@ -971,7 +971,7 @@ l_01E6
 ; optimize OK (main.pas), line = 48
 
 	lda SYSTEM.RND
-	sta REGISTERS.COLPM3
+	sta GLOBALS.COLPM3
 
 ; --- ForToDoEpilog
 	dec B01I
@@ -1001,7 +1001,7 @@ l_01F4
 
 	jsr SYSTEM.PAUSE_006A
 	lda #$00
-	sta REGISTERS.DMACTL
+	sta GLOBALS.DMACTL
 	jsr SYS.SYSTEMOFF
 
 ; optimize OK (main.pas), line = 60
@@ -1021,14 +1021,14 @@ l_01F4
 ; optimize OK (main.pas), line = 62
 
 	lda #$7C
-	sta REGISTERS.B1I
+	sta GLOBALS.B1I
 
 l_022B
 ; --- ForToDoCondition
 
 ; optimize OK (main.pas), line = 63
 
-	ldy REGISTERS.B1I
+	ldy GLOBALS.B1I
 	lda SYSTEM.RND
 	sta adr.ASTARS,y
 
@@ -1039,7 +1039,7 @@ l_022B
 	sta adr.ASPEED,y
 
 ; --- ForToDoEpilog
-	dec REGISTERS.B1I
+	dec GLOBALS.B1I
 	jpl l_022B
 l_0239
 
@@ -1051,15 +1051,15 @@ l_0239
 
 	jsr GR.MODE2
 	lda #$00
-	sta REGISTERS.COLBK
+	sta GLOBALS.COLBK
 	lda #$02
-	sta REGISTERS.COLPF2
+	sta GLOBALS.COLPF2
 
 ; optimize OK (main.pas), line = 69
 
-	lda REGISTERS.PACTL
+	lda GLOBALS.PACTL
 	ora #$04
-	sta REGISTERS.PACTL
+	sta GLOBALS.PACTL
 
 ; optimize OK (main.pas), line = 70
 
@@ -1090,7 +1090,7 @@ l_0239
 
 	jsr SYSTEM.PAUSE_006A
 	lda #$3E
-	sta REGISTERS.DMACTL
+	sta GLOBALS.DMACTL
 
 ; ------------------------------------------------------------
 
@@ -1164,8 +1164,8 @@ ATARI
 	jsr MAIN.SYSTEM.@UnitInit
 	eif
 
-	.ifdef MAIN.REGISTERS.@UnitInit
-	jsr MAIN.REGISTERS.@UnitInit
+	.ifdef MAIN.GLOBALS.@UnitInit
+	jsr MAIN.GLOBALS.@UnitInit
 	eif
 
 	.ifdef MAIN.SYS.@UnitInit
@@ -1191,8 +1191,8 @@ ATARI
 	.print 'SYSTEM: ',MAIN.SYSTEM,'..',MAIN.SYSTEM+.SIZEOF(MAIN.SYSTEM)-1
 	eif
 
-	ift .SIZEOF(MAIN.REGISTERS) > 0
-	.print 'REGISTERS: ',MAIN.REGISTERS,'..',MAIN.REGISTERS+.SIZEOF(MAIN.REGISTERS)-1
+	ift .SIZEOF(MAIN.GLOBALS) > 0
+	.print 'GLOBALS: ',MAIN.GLOBALS,'..',MAIN.GLOBALS+.SIZEOF(MAIN.GLOBALS)-1
 	eif
 
 	ift .SIZEOF(MAIN.SYS) > 0

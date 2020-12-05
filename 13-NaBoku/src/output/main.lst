@@ -3,14 +3,14 @@ mads 2.1.1
     98 = 0000				?EXTDETECT = 0
     99 = 0000				?VBXDETECT = 0
    100
-   101 2075				RCASM 'res/gr_dl.asm' REGISTERS.DL_2 0 0 0 0 0 0 0 0
+   101 2075				RCASM 'res/gr_dl.asm' GLOBALS.DL_2 0 0 0 0 0 0 0 0
 Macro: RESOURCE.RCASM [Source: resource.asm]
      2 2075				org RESORIGIN
-     4 = 001A			len = .sizeof(_REGISTERS.DL_2)
-     6 				mcpy	ift main.REGISTERS.DL_2+len >= $bc20
+     4 = 001A			len = .sizeof(_GLOBALS.DL_2)
+     6 				mcpy	ift main.GLOBALS.DL_2+len >= $bc20
     11 2075 20 41 20			jsr sys.off
     13 2078 A9 96 85 88 A9 20 +  MWA #DATA EDX
-    13 2080 A9 00 85 8C A9 11 +  MWA #MAIN.REGISTERS.DL_2 ECX
+    13 2080 A9 00 85 8C A9 11 +  MWA #MAIN.GLOBALS.DL_2 ECX
     13 2088 A9 1A 85 84 A9 00 +  MWA #LEN EAX
     13 2090 20 00 20		 JSR RESOURCE.MEMCPY
     15 2093 4C 65 20			jmp sys.on
@@ -38,16 +38,16 @@ Source: const.inc
      5 1103 42 00 E0		    .byte $42,a(GAME_LMS)
      6 1106 02 02 02 02 02 02 + :17 .byte 2
      7 1117 41 00 11		    .byte $41,a(dl2)
-    23 					.print '$R RCASM   ',main.REGISTERS.DL_2,'..',main.REGISTERS.DL_2+len-1," 'res/gr_dl.asm'"
+    23 					.print '$R RCASM   ',main.GLOBALS.DL_2,'..',main.GLOBALS.DL_2+len-1," 'res/gr_dl.asm'"
     23 				$R RCASM   $1100..$1119 'res/gr_dl.asm'
     25 02E2-02E3> 75 20			ini mcpy
 Source: main.a65
-   102 20B0				RCDATA 'res/gfx_ship.bin' REGISTERS.GFX_SHIP_ADR 0 0 0 0 0 0 0 0
+   102 20B0				RCDATA 'res/gfx_ship.bin' GLOBALS.GFX_SHIP_ADR 0 0 0 0 0 0 0 0
 Macro: RESOURCE.RCDATA [Source: resource.asm]
      2 = 0014			len = .filesize('res/gfx_ship.bin')
-    28 20B0				org main.REGISTERS.GFX_SHIP_ADR
+    28 20B0				org main.GLOBALS.GFX_SHIP_ADR
     30 1000-1013> 00 70 7B 1E + 	ins 'res/gfx_ship.bin'
-    32 					.print '$R RCDATA  ',main.REGISTERS.GFX_SHIP_ADR,'..',*-1," 'res/gfx_ship.bin'"
+    32 					.print '$R RCDATA  ',main.GLOBALS.GFX_SHIP_ADR,'..',*-1," 'res/gfx_ship.bin'"
     32 				$R RCDATA  $1000..$1013 'res/gfx_ship.bin'
 Source: main.a65
    103 				.endl
@@ -323,7 +323,7 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    360
    361 				; ------------------------------------------------------------
    362
-   363 2149			.local	REGISTERS					; UNIT
+   363 2149			.local	GLOBALS						; UNIT
    364
    365 				; ------------------------------------------------------------
    366
@@ -385,7 +385,7 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    422 = 00FD			B1I	= $FD
    423 = 00FC			B2I	= $FC
    424
-   425 				.endl							; UNIT REGISTERS
+   425 				.endl							; UNIT GLOBALS
    426
    427 				; ------------------------------------------------------------
    428
@@ -492,15 +492,15 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    527 				; optimize OK (SYS), line = 63
    528
    529 2188 A9 00			lda #$00
-   530 218A 8D 0E D4			sta REGISTERS.NMIEN
+   530 218A 8D 0E D4			sta GLOBALS.NMIEN
    531 218D A9 FE			lda #$FE
-   532 218F 8D 01 D3			sta REGISTERS.PORTB
+   532 218F 8D 01 D3			sta GLOBALS.PORTB
    533 2192 A9 49			lda <NMI
-   534 2194 8D FA FF			sta REGISTERS.NMIVEC
+   534 2194 8D FA FF			sta GLOBALS.NMIVEC
    535 2197 A9 21			lda >NMI
-   536 2199 8D FB FF			sta REGISTERS.NMIVEC+1
+   536 2199 8D FB FF			sta GLOBALS.NMIVEC+1
    537 219C A9 C0			lda #$C0
-   538 219E 8D 0E D4			sta REGISTERS.NMIEN
+   538 219E 8D 0E D4			sta GLOBALS.NMIEN
    539 21A1			@exit
    540 					.ifdef @new
    541 					lda <@VarData
@@ -532,9 +532,9 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    567 				; optimize OK (GR), line = 17
    568
    569 21A3 A9 00			lda #$00
-   570 21A5 8D 02 D4			sta REGISTERS.DLIST
+   570 21A5 8D 02 D4			sta GLOBALS.DLIST
    571 21A8 A9 11			lda #$11
-   572 21AA 8D 03 D4			sta REGISTERS.DLIST+1
+   572 21AA 8D 03 D4			sta GLOBALS.DLIST+1
    573 21AD			@exit
    574 					.ifdef @new
    575 					lda <@VarData
@@ -627,15 +627,15 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    662 				; optimize OK (SPRITES), line = 33
    663
    664 2214 A9 10			lda #$10
-   665 2216 8D 07 D4			sta REGISTERS.PMBASE
+   665 2216 8D 07 D4			sta GLOBALS.PMBASE
    666
    667 				; optimize OK (SPRITES), line = 34
    668
    669 2219 A9 0A			lda #$0A
-   670 221B 8D 15 D0			sta REGISTERS.COLPM3
+   670 221B 8D 15 D0			sta GLOBALS.COLPM3
    671 221E A9 0E			lda #$0E
-   672 2220 8D 12 D0			sta REGISTERS.COLPM01
-   673 2223 8D 13 D0			sta REGISTERS.COLPM01+1
+   672 2220 8D 12 D0			sta GLOBALS.COLPM01
+   673 2223 8D 13 D0			sta GLOBALS.COLPM01+1
    674
    675 				; optimize OK (SPRITES), line = 35
    676
@@ -646,19 +646,19 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    681 222E A9 38			lda #$38
    682 2230 85 01			sta BHPOSP1
    683 2232 A5 00			lda WSHIPX
-   684 2234 8D 00 D0			sta REGISTERS.HPOSP01
+   684 2234 8D 00 D0			sta GLOBALS.HPOSP01
    685 2237 A5 01			lda WSHIPX+1
-   686 2239 8D 01 D0			sta REGISTERS.HPOSP01+1
+   686 2239 8D 01 D0			sta GLOBALS.HPOSP01+1
    687
    688 				; optimize OK (SPRITES), line = 36
    689
    690 223C A9 00			lda #$00
-   691 223E 8D 08 D0			sta REGISTERS.SIZEP01
-   692 2241 8D 09 D0			sta REGISTERS.SIZEP01+1
-   693 2244 8D 0C D0			sta REGISTERS.SIZEM
-   694 2247 8D 1B D0			sta REGISTERS.PRIOR
+   691 223E 8D 08 D0			sta GLOBALS.SIZEP01
+   692 2241 8D 09 D0			sta GLOBALS.SIZEP01+1
+   693 2244 8D 0C D0			sta GLOBALS.SIZEM
+   694 2247 8D 1B D0			sta GLOBALS.PRIOR
    695 224A A9 03			lda #$03
-   696 224C 8D 1D D0			sta REGISTERS.GRACTL
+   696 224C 8D 1D D0			sta GLOBALS.GRACTL
    697
    698 				; optimize FAIL ('COPYSHIP', SPRITES), line = 38
    699
@@ -699,12 +699,12 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    734 				; optimize OK (JOY), line = 20
    735
    736 2254 A9 0C			lda #$0C
-   737 2256 85 FF			sta REGISTERS.BMASK1
+   737 2256 85 FF			sta GLOBALS.BMASK1
    738
    739 				; optimize OK (JOY), line = 21
    740
    741 2258 A9 01			lda #$01
-   742 225A 85 FD			sta REGISTERS.B1I
+   742 225A 85 FD			sta GLOBALS.B1I
    743
    744 225C			l_00F1
    745 				; --- ForToDoCondition
@@ -712,7 +712,7 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    747 				; optimize OK (JOY), line = 22
    748
    749 225C A5 03			lda JOYDIRECTION
-   750 225E 25 FF			and REGISTERS.BMASK1
+   750 225E 25 FF			and GLOBALS.BMASK1
    751 2260 8D 07 24			sta @CASETMP_0002
    752 2263 C9 04			cmp #$04
    753 2265 D0 20			jne l_0110
@@ -733,9 +733,9 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    768 2276 69 01			adc #$01
    769 2278 85 01			sta SPRITES.WSHIPX+1
    770 227A A5 00			lda SPRITES.WSHIPX
-   771 227C 8D 00 D0			sta REGISTERS.HPOSP01
+   771 227C 8D 00 D0			sta GLOBALS.HPOSP01
    772 227F A5 01			lda SPRITES.WSHIPX+1
-   773 2281 8D 01 D0			sta REGISTERS.HPOSP01+1
+   773 2281 8D 01 D0			sta GLOBALS.HPOSP01+1
    774 2284			l_0122
    775
    776 2284 4C CC 22			jmp a_0002
@@ -759,9 +759,9 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    794 229A E9 01			sbc #$01
    795 229C 85 01			sta SPRITES.WSHIPX+1
    796 229E A5 00			lda SPRITES.WSHIPX
-   797 22A0 8D 00 D0			sta REGISTERS.HPOSP01
+   797 22A0 8D 00 D0			sta GLOBALS.HPOSP01
    798 22A3 A5 01			lda SPRITES.WSHIPX+1
-   799 22A5 8D 01 D0			sta REGISTERS.HPOSP01+1
+   799 22A5 8D 01 D0			sta GLOBALS.HPOSP01+1
    800 22A8			l_0146
    801
    802 22A8 4C CC 22			jmp a_0002
@@ -806,10 +806,10 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    841 				; optimize OK (JOY), line = 44
    842
    843 22CC A9 03			lda #$03
-   844 22CE 85 FF			sta REGISTERS.BMASK1
+   844 22CE 85 FF			sta GLOBALS.BMASK1
    845
    846 				; --- ForToDoEpilog
-   847 22D0 C6 FD			dec REGISTERS.B1I
+   847 22D0 C6 FD			dec GLOBALS.B1I
    848 22D2 10 88			jpl l_00F1
    849 22D4			l_00FF
    850
@@ -870,11 +870,11 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    905 				; optimize OK (main.pas), line = 28
    906
    907 22E9 A9 0F			lda #$0F
-   908 22EB 8D 1A D0			sta REGISTERS.COLBK
+   908 22EB 8D 1A D0			sta GLOBALS.COLBK
    909
    910 				; optimize OK (main.pas), line = 30
    911
-   912 22EE AD 00 D3			lda REGISTERS.PORTA
+   912 22EE AD 00 D3			lda GLOBALS.PORTA
    913 22F1 85 03			sta JOY.JOYDIRECTION
    914
    915 				; optimize OK (main.pas), line = 31
@@ -888,7 +888,7 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    923 				; optimize OK (main.pas), line = 33
    924
    925 22FC A9 00			lda #$00
-   926 22FE 8D 1A D0			sta REGISTERS.COLBK
+   926 22FE 8D 1A D0			sta GLOBALS.COLBK
    927
    928 				; optimize FAIL ('SYS.SETDLI', main.pas), line = 35
    929
@@ -925,7 +925,7 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    960
    961 2321 A4 FE			ldy B01I
    962 2323 B9 00 12			lda adr.ASTARS,y
-   963 2326 8D 07 D0			sta REGISTERS.HPOSM3
+   963 2326 8D 07 D0			sta GLOBALS.HPOSM3
    964
    965 				; optimize OK (main.pas), line = 47
    966
@@ -936,7 +936,7 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    971 				; optimize OK (main.pas), line = 48
    972
    973 2333 AD 0A D2			lda SYSTEM.RND
-   974 2336 8D 15 D0			sta REGISTERS.COLPM3
+   974 2336 8D 15 D0			sta GLOBALS.COLPM3
    975
    976 				; --- ForToDoEpilog
    977 2339 C6 FE			dec B01I
@@ -966,7 +966,7 @@ Macro: UNITINITIALIZATION [Source: main.a65]
   1001
   1002 2351 20 3E 21			jsr SYSTEM.PAUSE_006A
   1003 2354 A9 00			lda #$00
-  1004 2356 8D 00 D4			sta REGISTERS.DMACTL
+  1004 2356 8D 00 D4			sta GLOBALS.DMACTL
   1005 2359 20 87 21			jsr SYS.SYSTEMOFF
   1006
   1007 				; optimize OK (main.pas), line = 60
@@ -986,14 +986,14 @@ Macro: UNITINITIALIZATION [Source: main.a65]
   1021 				; optimize OK (main.pas), line = 62
   1022
   1023 2373 A9 7C			lda #$7C
-  1024 2375 85 FD			sta REGISTERS.B1I
+  1024 2375 85 FD			sta GLOBALS.B1I
   1025
   1026 2377			l_022B
   1027 				; --- ForToDoCondition
   1028
   1029 				; optimize OK (main.pas), line = 63
   1030
-  1031 2377 A4 FD			ldy REGISTERS.B1I
+  1031 2377 A4 FD			ldy GLOBALS.B1I
   1032 2379 AD 0A D2			lda SYSTEM.RND
   1033 237C 99 00 12			sta adr.ASTARS,y
   1034
@@ -1004,7 +1004,7 @@ Macro: UNITINITIALIZATION [Source: main.a65]
   1039 2384 99 7D 12			sta adr.ASPEED,y
   1040
   1041 				; --- ForToDoEpilog
-  1042 2387 C6 FD			dec REGISTERS.B1I
+  1042 2387 C6 FD			dec GLOBALS.B1I
   1043 2389 10 EC			jpl l_022B
   1044 238B			l_0239
   1045
@@ -1016,15 +1016,15 @@ Macro: UNITINITIALIZATION [Source: main.a65]
   1051
   1052 238E 20 A3 21			jsr GR.MODE2
   1053 2391 A9 00			lda #$00
-  1054 2393 8D 1A D0			sta REGISTERS.COLBK
+  1054 2393 8D 1A D0			sta GLOBALS.COLBK
   1055 2396 A9 02			lda #$02
-  1056 2398 8D 18 D0			sta REGISTERS.COLPF2
+  1056 2398 8D 18 D0			sta GLOBALS.COLPF2
   1057
   1058 				; optimize OK (main.pas), line = 69
   1059
-  1060 239B AD 02 D3			lda REGISTERS.PACTL
+  1060 239B AD 02 D3			lda GLOBALS.PACTL
   1061 239E 09 04			ora #$04
-  1062 23A0 8D 02 D3			sta REGISTERS.PACTL
+  1062 23A0 8D 02 D3			sta GLOBALS.PACTL
   1063
   1064 				; optimize OK (main.pas), line = 70
   1065
@@ -1055,7 +1055,7 @@ Macro: UNITINITIALIZATION [Source: main.a65]
   1090
   1091 23CF 20 3E 21			jsr SYSTEM.PAUSE_006A
   1092 23D2 A9 3E			lda #$3E
-  1093 23D4 8D 00 D4			sta REGISTERS.DMACTL
+  1093 23D4 8D 00 D4			sta GLOBALS.DMACTL
   1094
   1095 				; ------------------------------------------------------------
   1096
@@ -1131,8 +1131,8 @@ Macro: UNITINITIALIZATION [Source: main.a65]
   1164 					jsr MAIN.SYSTEM.@UnitInit
   1165 					eif
   1166 				
-  1167 					.ifdef MAIN.REGISTERS.@UnitInit
-  1168 					jsr MAIN.REGISTERS.@UnitInit
+  1167 					.ifdef MAIN.GLOBALS.@UnitInit
+  1168 					jsr MAIN.GLOBALS.@UnitInit
   1169 					eif
   1170 				
   1171 					.ifdef MAIN.SYS.@UnitInit
@@ -1159,8 +1159,8 @@ Macro: UNITINITIALIZATION [Source: main.a65]
   1191 				SYSTEM: $2104..$2148
   1192 					eif
   1193
-  1194 					ift .SIZEOF(MAIN.REGISTERS) > 0
-  1195 					.print 'REGISTERS: ',MAIN.REGISTERS,'..',MAIN.REGISTERS+.SIZEOF(MAIN.REGISTERS)-1
+  1194 					ift .SIZEOF(MAIN.GLOBALS) > 0
+  1195 					.print 'GLOBALS: ',MAIN.GLOBALS,'..',MAIN.GLOBALS+.SIZEOF(MAIN.GLOBALS)-1
   1196 					eif
   1197
   1198 					ift .SIZEOF(MAIN.SYS) > 0
