@@ -124,7 +124,7 @@ Pętla **FOR** zapewnia nam dwa przebiegi na wypadek gdyby kierunek był skosem 
 
 Pozorny minus jest taki, że jeżli kierunek nie był skosem to dokonamy nieptrzebnych operacji, ustaliliśmy jednak już wcześniej, że interesje nas tylko maksymalny czas wykonania procedur. Jeżeli wszystko chcemy mieć zsynchronizowane na ekranie to zaoszczędzone cykle na niewiele nam się przydadzą. No chyba, że będziemy śrubować kod i wrzucić coś w wolne cykle, ale to już zabaw przeznaczona raczej dla języka maszynowego ;)
 
-Warto wspomnieć o `Inc(wShipX,$0101);`. Ta sztuczka dzięki połączeniu `HPOSP0` i `HPOSP1` w jeden 16-bit rejestr pozwala nam w zwięzły sposób zwiększyć oba 8-bit rejestry o jeden. W sysetmie szesnaskowym od razu widać co robimy, że w zmiennej typu `word` młodszy i starszy bajt inkremetujemy o jeden. Gdybym napisał dziesiętnie liczbę **257** zamiast `$0101` to nie było by to takie oczywiste co się dzieje już na pierwszy rzut oka jak to jest widoczne gdy posługujemy się systemem szesnastkowym.
+Warto wspomnieć o `Inc(wShipX,$0101);`. Ta sztuczka dzięki połączeniu `HPOSP0` i `HPOSP1` w jeden 16-bit rejestr pozwala nam w zwięzły sposób zwiększyć oba 8-bit rejestry o jeden. W systemie szesnaskowym od razu widać co robimy, że w zmiennej typu `word` młodszy i starszy bajt inkremetujemy o jeden. Gdybym napisał dziesiętnie liczbę **257** zamiast `$0101` to nie było by to takie oczywiste co się dzieje już na pierwszy rzut oka jak to jest widoczne gdy posługujemy się systemem szesnastkowym.
 
 Porcedura `copyShip` powinna być Ci znan z poprzedniej części, a przynajmniej jej implementacja:
 
