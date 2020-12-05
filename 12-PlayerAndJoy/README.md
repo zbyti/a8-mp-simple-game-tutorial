@@ -35,7 +35,7 @@ SHIP_BOTTOM_LIMIT   = 10 * 18;
 * `SHIP_TOP_LIMIT` jeszcze nie wiem jakie wymiary będzie miał nasz playfield, więc wartość standardowa dla atarowskiego ekranu.
 * `SHIP_BOTTOM_LIMIT` na początek możemy zejść maksymalnie `18` wierszy (no, trochę więcej bo mnożymy przez 10) od góry ekranu.
 
-Przyda nam się też zmienna przechowyjąca odczytany stan manipulatora:
+Przyda nam się też zmienna przechowująca odczytany stan manipulatora:
 
 ```pascal
 interface
