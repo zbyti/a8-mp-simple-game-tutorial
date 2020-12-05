@@ -12,9 +12,6 @@ implementation
 
 uses registers;
 
-const
-{$i inc/const.inc}
-
 procedure mode2;
 begin
   DLIST := DL_2;

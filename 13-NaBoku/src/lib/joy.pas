@@ -15,14 +15,11 @@ implementation
 
 uses registers, sprites;
 
-const
-{$i inc/const.inc}
-
 procedure moveShip;
 begin
-  bMask01 := %1100;
-  for b01i := 1 downto 0 do begin
-    case (joyDirection and bMask01) of
+  bMask1 := %1100;
+  for b1i := 1 downto 0 do begin
+    case (joyDirection and bMask1) of
       JOY_RIGHT: begin
         if bHposp1 < SHIP_RIGHT_LIMIT then begin
           Inc(wShipX,$0101); HPOSP01 := wShipX;
@@ -44,7 +41,7 @@ begin
         end;
       end;
     end;
-    bMask01 := %0011;
+    bMask1 := %0011;
   end;
 end;
 

@@ -98,8 +98,8 @@ FPEXP	.ds 1
 	?EXTDETECT = 0
 	?VBXDETECT = 0
 
-	RCASM 'res/gr_dl.asm' DL_2 0 0 0 0 0 0 0 0
-	RCDATA 'res/gfx_ship.bin' GFX_SHIP_ADR 0 0 0 0 0 0 0 0
+	RCASM 'res/gr_dl.asm' REGISTERS.DL_2 0 0 0 0 0 0 0 0
+	RCDATA 'res/gfx_ship.bin' REGISTERS.GFX_SHIP_ADR 0 0 0 0 0 0 0 0
 .endl
 
 ; ------------------------------------------------------------
@@ -364,6 +364,23 @@ RNDSEED	= DATAORIGIN+$0009
 
 ; ------------------------------------------------------------
 
+PM_ADR	= $1000
+M0_ADR	= $1300
+P0_ADR	= $1400
+P1_ADR	= $1500
+GFX_SHIP_ADR	= $1000
+GFX_SHIP_SEG	= $0A
+SHIP_COL	= $0E0E
+SHIP_LEFT_LIMIT	= $30
+SHIP_RIGHT_LIMIT	= $C0
+SHIP_TOP_LIMIT	= $20
+SHIP_BOTTOM_LIMIT	= $A0
+JOY_LEFT	= $08
+JOY_RIGHT	= $04
+JOY_UP	= $02
+JOY_DOWN	= $01
+DL_2	= $1100
+GAME_LMS	= $E000
 RTCLOK	= $14
 HPOSP0	= $D000
 HPOSP1	= $D001
@@ -400,10 +417,10 @@ NMIVEC	= $FFFA
 HPOSP01	= $D000
 SIZEP01	= $D008
 COLPM01	= $D012
-BMASK01	= $FF
-BMASK02	= $FE
-B01I	= $FD
-B02I	= $FC
+BMASK1	= $FF
+BMASK2	= $FE
+B1I	= $FD
+B2I	= $FC
 
 .endl							; UNIT REGISTERS
 
@@ -547,7 +564,7 @@ A	= DATAORIGIN+$000D
 
 .local	MODE2						; PROCEDURE
 
-; optimize OK (GR), line = 20
+; optimize OK (GR), line = 17
 
 	lda #$00
 	sta REGISTERS.DLIST
@@ -573,24 +590,6 @@ A	= DATAORIGIN+$000D
 
 ; ------------------------------------------------------------
 
-PM_ADR	= $1000
-M0_ADR	= $1300
-P0_ADR	= $1400
-P1_ADR	= $1500
-GFX_SHIP_ADR	= $1000
-GFX_SHIP_SEG	= $0A
-SHIP_COL	= $0E0E
-SHIP_LEFT_LIMIT	= $30
-SHIP_RIGHT_LIMIT	= $C0
-SHIP_TOP_LIMIT	= $20
-SHIP_BOTTOM_LIMIT	= $A0
-JOY_LEFT	= $08
-JOY_RIGHT	= $04
-JOY_UP	= $02
-JOY_DOWN	= $01
-DL_2	= $1100
-GAME_LMS	= $E000
-
 .endl							; UNIT GR
 
 ; ------------------------------------------------------------
@@ -599,7 +598,7 @@ GAME_LMS	= $E000
 
 .local	COPYSHIP					; PROCEDURE
 
-; optimize OK (SPRITES), line = 27
+; optimize OK (SPRITES), line = 24
 
 	lda BSHIPY
 	sta :ecx
@@ -615,7 +614,7 @@ GAME_LMS	= $E000
 	sta :eax+1
 	jsr @move
 
-; optimize OK (SPRITES), line = 28
+; optimize OK (SPRITES), line = 25
 
 	lda BSHIPY
 	sta :ecx
@@ -644,7 +643,7 @@ GAME_LMS	= $E000
 
 .local	INIT						; PROCEDURE
 
-; optimize OK (SPRITES), line = 33
+; optimize OK (SPRITES), line = 30
 
 	.LOCAL
 	ldy #$00
@@ -654,18 +653,18 @@ fill	:10 sta $1300+#*$80,y
 	bpl fill
 	.ENDL
 
-; optimize OK (SPRITES), line = 34
+; optimize OK (SPRITES), line = 31
 
 	ldy #256-$90
 	lda #$FF
 	sta:rne $1320+$90-256,y+
 
-; optimize OK (SPRITES), line = 36
+; optimize OK (SPRITES), line = 33
 
 	lda #$10
 	sta REGISTERS.PMBASE
 
-; optimize OK (SPRITES), line = 37
+; optimize OK (SPRITES), line = 34
 
 	lda #$0A
 	sta REGISTERS.COLPM3
@@ -673,7 +672,7 @@ fill	:10 sta $1300+#*$80,y
 	sta REGISTERS.COLPM01
 	sta REGISTERS.COLPM01+1
 
-; optimize OK (SPRITES), line = 38
+; optimize OK (SPRITES), line = 35
 
 	lda #$50
 	sta BSHIPY
@@ -686,7 +685,7 @@ fill	:10 sta $1300+#*$80,y
 	lda WSHIPX+1
 	sta REGISTERS.HPOSP01+1
 
-; optimize OK (SPRITES), line = 39
+; optimize OK (SPRITES), line = 36
 
 	lda #$00
 	sta REGISTERS.SIZEP01
@@ -696,7 +695,7 @@ fill	:10 sta $1300+#*$80,y
 	lda #$03
 	sta REGISTERS.GRACTL
 
-; optimize FAIL ('COPYSHIP', SPRITES), line = 41
+; optimize FAIL ('COPYSHIP', SPRITES), line = 38
 
 	jsr COPYSHIP
 @exit
@@ -723,23 +722,6 @@ BHPOSP0	= $00
 BHPOSP1	= $01
 BSHIPY	= $02
 WSHIPX	= $00
-PM_ADR	= $1000
-M0_ADR	= $1300
-P0_ADR	= $1400
-P1_ADR	= $1500
-GFX_SHIP_ADR	= $1000
-GFX_SHIP_SEG	= $0A
-SHIP_COL	= $0E0E
-SHIP_LEFT_LIMIT	= $30
-SHIP_RIGHT_LIMIT	= $C0
-SHIP_TOP_LIMIT	= $20
-SHIP_BOTTOM_LIMIT	= $A0
-JOY_LEFT	= $08
-JOY_RIGHT	= $04
-JOY_UP	= $02
-JOY_DOWN	= $01
-DL_2	= $1100
-GAME_LMS	= $E000
 
 .endl							; UNIT SPRITES
 
@@ -749,35 +731,35 @@ GAME_LMS	= $E000
 
 .local	MOVESHIP					; PROCEDURE
 
-; optimize OK (JOY), line = 23
+; optimize OK (JOY), line = 20
 
 	lda #$0C
-	sta REGISTERS.BMASK01
+	sta REGISTERS.BMASK1
 
-; optimize OK (JOY), line = 24
+; optimize OK (JOY), line = 21
 
 	lda #$01
-	sta REGISTERS.B01I
+	sta REGISTERS.B1I
 
 l_00F1
 ; --- ForToDoCondition
 
-; optimize OK (JOY), line = 25
+; optimize OK (JOY), line = 22
 
 	lda JOYDIRECTION
-	and REGISTERS.BMASK01
+	and REGISTERS.BMASK1
 	sta @CASETMP_0002
 	cmp #$04
 	jne l_0110
 @
 
-; optimize OK (JOY), line = 27
+; optimize OK (JOY), line = 24
 
 	lda SPRITES.BHPOSP1
 	cmp #$C0
 	jcs l_0122
 
-; optimize OK (JOY), line = 28
+; optimize OK (JOY), line = 25
 
 	lda SPRITES.WSHIPX
 	add #$01
@@ -797,13 +779,13 @@ l_0110
 	jne l_0134
 @
 
-; optimize OK (JOY), line = 32
+; optimize OK (JOY), line = 29
 
 	lda SPRITES.BHPOSP0
 	cmp #$31
 	jcc l_0146
 
-; optimize OK (JOY), line = 33
+; optimize OK (JOY), line = 30
 
 	lda SPRITES.WSHIPX
 	sub #$01
@@ -823,13 +805,13 @@ l_0134
 	jne l_0158
 @
 
-; optimize OK (JOY), line = 37
+; optimize OK (JOY), line = 34
 
 	lda SPRITES.BSHIPY
 	cmp #$21
 	jcc l_016A
 
-; optimize FAIL (0, JOY), line = 38
+; optimize FAIL (0, JOY), line = 35
 
 	dec SPRITES.BSHIPY
 	jsr SPRITES.COPYSHIP
@@ -841,13 +823,13 @@ l_0158
 	jne l_017B
 @
 
-; optimize OK (JOY), line = 42
+; optimize OK (JOY), line = 39
 
 	lda SPRITES.BSHIPY
 	cmp #$A0
 	jcs l_018D
 
-; optimize FAIL (0, JOY), line = 43
+; optimize FAIL (0, JOY), line = 40
 
 	inc SPRITES.BSHIPY
 	jsr SPRITES.COPYSHIP
@@ -856,13 +838,13 @@ l_018D
 l_017B
 a_0002
 
-; optimize OK (JOY), line = 47
+; optimize OK (JOY), line = 44
 
 	lda #$03
-	sta REGISTERS.BMASK01
+	sta REGISTERS.BMASK1
 
 ; --- ForToDoEpilog
-	dec REGISTERS.B01I
+	dec REGISTERS.B1I
 	jpl l_00F1
 l_00FF
 
@@ -895,23 +877,6 @@ l_00FF
 ; ------------------------------------------------------------
 
 JOYDIRECTION	= $03
-PM_ADR	= $1000
-M0_ADR	= $1300
-P0_ADR	= $1400
-P1_ADR	= $1500
-GFX_SHIP_ADR	= $1000
-GFX_SHIP_SEG	= $0A
-SHIP_COL	= $0E0E
-SHIP_LEFT_LIMIT	= $30
-SHIP_RIGHT_LIMIT	= $C0
-SHIP_TOP_LIMIT	= $20
-SHIP_BOTTOM_LIMIT	= $A0
-JOY_LEFT	= $08
-JOY_RIGHT	= $04
-JOY_UP	= $02
-JOY_DOWN	= $01
-DL_2	= $1100
-GAME_LMS	= $E000
 
 .endl							; UNIT JOY
 
@@ -937,17 +902,17 @@ GAME_LMS	= $E000
 
  sta WSYNC 
 
-; optimize OK (main.pas), line = 31
+; optimize OK (main.pas), line = 28
 
 	lda #$0F
 	sta REGISTERS.COLBK
 
-; optimize OK (main.pas), line = 33
+; optimize OK (main.pas), line = 30
 
 	lda REGISTERS.PORTA
 	sta JOY.JOYDIRECTION
 
-; optimize OK (main.pas), line = 34
+; optimize OK (main.pas), line = 31
 
 	and #$0F
 	cmp #$0F
@@ -955,12 +920,12 @@ GAME_LMS	= $E000
 	jsr JOY.MOVESHIP
 l_01CE
 
-; optimize OK (main.pas), line = 36
+; optimize OK (main.pas), line = 33
 
 	lda #$00
 	sta REGISTERS.COLBK
 
-; optimize FAIL ('SYS.SETDLI', main.pas), line = 38
+; optimize FAIL ('SYS.SETDLI', main.pas), line = 35
 
 	inx
 	mva PSTARS :STACKORIGIN,x
@@ -979,7 +944,7 @@ l_01CE
 
  phr 
 
-; optimize OK (main.pas), line = 47
+; optimize OK (main.pas), line = 44
 
 	lda #$7C
 	sta B01I
@@ -991,19 +956,19 @@ l_01E6
 
  sta WSYNC 
 
-; optimize OK (main.pas), line = 49
+; optimize OK (main.pas), line = 46
 
 	ldy B01I
 	lda adr.ASTARS,y
 	sta REGISTERS.HPOSM3
 
-; optimize OK (main.pas), line = 50
+; optimize OK (main.pas), line = 47
 
 	lda adr.ASTARS,y
 	sub adr.ASPEED,y
 	sta adr.ASTARS,y
 
-; optimize OK (main.pas), line = 51
+; optimize OK (main.pas), line = 48
 
 	lda SYSTEM.RND
 	sta REGISTERS.COLPM3
@@ -1013,7 +978,7 @@ l_01E6
 	jpl l_01E6
 l_01F4
 
-; optimize FAIL ('SYS.SETDLI', main.pas), line = 54
+; optimize FAIL ('SYS.SETDLI', main.pas), line = 51
 
 	inx
 	mva PJOY :STACKORIGIN,x
@@ -1032,14 +997,14 @@ l_01F4
 
 .local	INIT						; PROCEDURE
 
-; optimize FAIL ('SYSTEM.PAUSE_006A', main.pas), line = 61
+; optimize FAIL ('SYSTEM.PAUSE_006A', main.pas), line = 58
 
 	jsr SYSTEM.PAUSE_006A
 	lda #$00
 	sta REGISTERS.DMACTL
 	jsr SYS.SYSTEMOFF
 
-; optimize OK (main.pas), line = 63
+; optimize OK (main.pas), line = 60
 
 	lda #$00
 	sta :edx
@@ -1053,36 +1018,36 @@ l_01F4
 	sta :eax
 	jsr @fill
 
-; optimize OK (main.pas), line = 65
+; optimize OK (main.pas), line = 62
 
 	lda #$7C
-	sta B01I
+	sta REGISTERS.B1I
 
 l_022B
 ; --- ForToDoCondition
 
-; optimize OK (main.pas), line = 66
+; optimize OK (main.pas), line = 63
 
-	ldy B01I
+	ldy REGISTERS.B1I
 	lda SYSTEM.RND
 	sta adr.ASTARS,y
 
-; optimize OK (main.pas), line = 67
+; optimize OK (main.pas), line = 64
 
 	and #$03
 	add #$01
 	sta adr.ASPEED,y
 
 ; --- ForToDoEpilog
-	dec B01I
+	dec REGISTERS.B1I
 	jpl l_022B
 l_0239
 
-; optimize FAIL ('SPRITES.INIT', main.pas), line = 70
+; optimize FAIL ('SPRITES.INIT', main.pas), line = 67
 
 	jsr SPRITES.INIT
 
-; optimize FAIL ('GR.MODE2', main.pas), line = 71
+; optimize FAIL ('GR.MODE2', main.pas), line = 68
 
 	jsr GR.MODE2
 	lda #$00
@@ -1090,13 +1055,13 @@ l_0239
 	lda #$02
 	sta REGISTERS.COLPF2
 
-; optimize OK (main.pas), line = 72
+; optimize OK (main.pas), line = 69
 
 	lda REGISTERS.PACTL
 	ora #$04
 	sta REGISTERS.PACTL
 
-; optimize OK (main.pas), line = 73
+; optimize OK (main.pas), line = 70
 
 	lda <JOYHANDLER
 	sta PJOY
@@ -1107,21 +1072,21 @@ l_0239
 	lda >STARS
 	sta PSTARS+1
 
-; optimize FAIL ('SYS.SETVBI', main.pas), line = 75
+; optimize FAIL ('SYS.SETVBI', main.pas), line = 72
 
 	inx
 	mva <VBI :STACKORIGIN,x
 	mva >VBI :STACKORIGIN+STACKWIDTH,x
 	jsr SYS.SETVBI
 
-; optimize FAIL ('SYS.SETDLI', main.pas), line = 76
+; optimize FAIL ('SYS.SETDLI', main.pas), line = 73
 
 	inx
 	mva <JOYHANDLER :STACKORIGIN,x
 	mva >JOYHANDLER :STACKORIGIN+STACKWIDTH,x
 	jsr SYS.SETDLI
 
-; optimize FAIL ('SYSTEM.PAUSE_006A', main.pas), line = 78
+; optimize FAIL ('SYSTEM.PAUSE_006A', main.pas), line = 75
 
 	jsr SYSTEM.PAUSE_006A
 	lda #$3E
@@ -1143,36 +1108,19 @@ l_0239
 .endl
 l_0007
 
-; optimize FAIL ('INIT', main.pas), line = 82
+; optimize FAIL ('INIT', main.pas), line = 79
 
 	jsr INIT
 
 ; --- RepeatUntilProlog
 l_027C
 
-; optimize OK (main.pas), line = 83
+; optimize OK (main.pas), line = 80
 
 	jmp l_027C
 
 ; ------------------------------------------------------------
 
-PM_ADR	= $1000
-M0_ADR	= $1300
-P0_ADR	= $1400
-P1_ADR	= $1500
-GFX_SHIP_ADR	= $1000
-GFX_SHIP_SEG	= $0A
-SHIP_COL	= $0E0E
-SHIP_LEFT_LIMIT	= $30
-SHIP_RIGHT_LIMIT	= $C0
-SHIP_TOP_LIMIT	= $20
-SHIP_BOTTOM_LIMIT	= $A0
-JOY_LEFT	= $08
-JOY_RIGHT	= $04
-JOY_UP	= $02
-JOY_DOWN	= $01
-DL_2	= $1100
-GAME_LMS	= $E000
 B01I	= $FE
 adr.ASTARS	= $1200
 .var ASTARS	= adr.ASTARS .word

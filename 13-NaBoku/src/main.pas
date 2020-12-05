@@ -7,9 +7,6 @@ program Game;
 
 uses registers, sys, gr, sprites, joy;
 
-const
-{$i inc/const.inc}
-
 
 var
   b01i   : byte absolute $fe;
@@ -62,9 +59,9 @@ begin
 
   FillByte(pointer(GAME_LMS), $3c0, 0);
 
-  for b01i := 124 downto 0 do begin
-     aStars[b01i] := RND;
-     aSpeed[b01i] := (RND and 3) + 1;
+  for b1i := 124 downto 0 do begin
+     aStars[b1i] := RND;
+     aSpeed[b1i] := (RND and 3) + 1;
   end;
 
   sprites.init;

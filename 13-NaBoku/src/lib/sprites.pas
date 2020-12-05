@@ -19,9 +19,6 @@ implementation
 
 uses registers;
 
-const
-{$i inc/const.inc}
-
 procedure copyShip;
 begin
   Move(pointer(GFX_SHIP_ADR), pointer(P0_ADR + bShipY), GFX_SHIP_SEG);

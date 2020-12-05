@@ -2,6 +2,9 @@ unit registers;
 
 interface
 
+const
+{$i inc/const.inc}
+
 var
   RTCLOK  : byte absolute $14;
   HPOSP0  : byte absolute $D000;  // (W) Horizontal position of player 0
@@ -43,10 +46,10 @@ var
 
 // auxiliary variables
 var
-  bMask01 : byte absolute $ff;
-  bMask02 : byte absolute $fe;
-  b01i    : byte absolute $fd;
-  b02i    : byte absolute $fc;
+  bMask1  : byte absolute $ff;
+  bMask2  : byte absolute $fe;
+  b1i     : byte absolute $fd;
+  b2i     : byte absolute $fc;
 
 implementation
 end.
