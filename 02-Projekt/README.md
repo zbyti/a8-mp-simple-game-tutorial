@@ -4,9 +4,9 @@ Zaprototypujmy grę przy użyciu Atari FontMaker:
 
 ![proto_00.png](gfx/proto_00.png)
 
-Ja możemy zauważyć, wyłania się znany motyw: *lecimy w prawo i żadna rakieta nie może się nam oprzeć* co brzmi jak credo prawicowych podrywaczy ;D
+Jak możemy zauważyć, wyłania się znany motyw: *lecimy w prawo i żadna rakieta nie może się nam oprzeć* co brzmi jak credo prawicowych podrywaczy ;D
 
-Teraz możemy popracować nad zestawem znaków. Tutaj nie będę udawał, że potrafię rysować: główny zestaw znaków wykonał Kaz, modyfikacji dokonał Madrafi, dopiero na końcu się tego dotknąłem i zmieniłem detale wedle własnego uznania.
+Teraz możemy popracować nad zestawem znaków. Tutaj nie będę udawał, że potrafię rysować: główny zestaw znaków wykonał Kaz, modyfikacji dokonał MADRAFi, dopiero na końcu się tego dotknąłem i zmieniłem detale wedle własnego uznania.
 
 ![proto_01.png](gfx/proto_01.png)
 
