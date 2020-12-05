@@ -50,7 +50,7 @@ Do poruszania naszymi sprajtami będziemy używać *dżoja* w porcie pierwszym. 
 PACTL := PACTL or %100;
 ```
 
-zapewni nam to że młodszy [nibble](https://pl.wikipedia.org/wiki/P%C3%B3%C5%82bajt) rejestru `PORTA` będzie zwracał nam stan *manipulatorów wychyłkowych* :D
+zapewni nam to, że młodszy [nibble](https://pl.wikipedia.org/wiki/P%C3%B3%C5%82bajt) rejestru `PORTA` będzie zwracał nam stan *manipulatorów wychyłkowych* :D
 
 Pozycja spoczynkowa to wartość `%1111`, wygaszenie któregoś z tych bitów poinformuje nas o kierunku wychylenia *przyjemnej pałęczki*.
 
