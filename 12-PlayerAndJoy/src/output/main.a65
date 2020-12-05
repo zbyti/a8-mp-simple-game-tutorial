@@ -845,18 +845,18 @@ l_01AF
 
 	jsr SPRITES.INIT
 
-; optimize FAIL ('SYSTEM.PAUSE_006A', main.pas), line = 31
-
-	jsr SYSTEM.PAUSE_006A
-	lda #$3E
-	sta REGISTERS.DMACTL
-
-; optimize FAIL ('SYS.SETVBI', main.pas), line = 33
+; optimize FAIL ('SYS.SETVBI', main.pas), line = 30
 
 	inx
 	mva <VBI :STACKORIGIN,x
 	mva >VBI :STACKORIGIN+STACKWIDTH,x
 	jsr SYS.SETVBI
+
+; optimize FAIL ('SYSTEM.PAUSE_006A', main.pas), line = 32
+
+	jsr SYSTEM.PAUSE_006A
+	lda #$3E
+	sta REGISTERS.DMACTL
 @exit
 	.ifdef @new
 	lda <@VarData
@@ -870,14 +870,14 @@ l_01AF
 .endl
 l_0007
 
-; optimize FAIL ('INIT', main.pas), line = 37
+; optimize FAIL ('INIT', main.pas), line = 36
 
 	jsr INIT
 
 ; --- RepeatUntilProlog
 l_01D1
 
-; optimize OK (main.pas), line = 38
+; optimize OK (main.pas), line = 37
 
 	jmp l_01D1
 

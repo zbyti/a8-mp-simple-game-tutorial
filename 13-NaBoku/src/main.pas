@@ -27,8 +27,13 @@ procedure joy; interrupt;
 begin
   asm { phr };
 
+  asm { sta WSYNC };
+  COLBK := $f;
+
   joyDirection := PORTA;
   if (joyDirection and %1111) <> %1111 then moveShip;
+
+  COLBK := 0;
 
   setDli(pStars);
 

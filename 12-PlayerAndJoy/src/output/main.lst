@@ -808,18 +808,18 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    845
    846 22E0 20 C3 21			jsr SPRITES.INIT
    847
-   848 				; optimize FAIL ('SYSTEM.PAUSE_006A', main.pas), line = 31
+   848 				; optimize FAIL ('SYS.SETVBI', main.pas), line = 30
    849
-   850 22E3 20 3F 21			jsr SYSTEM.PAUSE_006A
-   851 22E6 A9 3E			lda #$3E
-   852 22E8 8D 00 D4			sta REGISTERS.DMACTL
-   853
-   854 				; optimize FAIL ('SYS.SETVBI', main.pas), line = 33
-   855
-   856 22EB E8				inx
-   857 22EC A9 B4 95 98			mva <VBI :STACKORIGIN,x
-   858 22F0 A9 22 95 A8			mva >VBI :STACKORIGIN+STACKWIDTH,x
-   859 22F4 20 58 21			jsr SYS.SETVBI
+   850 22E3 E8				inx
+   851 22E4 A9 B4 95 98			mva <VBI :STACKORIGIN,x
+   852 22E8 A9 22 95 A8			mva >VBI :STACKORIGIN+STACKWIDTH,x
+   853 22EC 20 58 21			jsr SYS.SETVBI
+   854
+   855 				; optimize FAIL ('SYSTEM.PAUSE_006A', main.pas), line = 32
+   856
+   857 22EF 20 3F 21			jsr SYSTEM.PAUSE_006A
+   858 22F2 A9 3E			lda #$3E
+   859 22F4 8D 00 D4			sta REGISTERS.DMACTL
    860 22F7			@exit
    861 					.ifdef @new
    862 					lda <@VarData
@@ -833,14 +833,14 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    870 				.endl
    871 22F8			l_0007
    872
-   873 				; optimize FAIL ('INIT', main.pas), line = 37
+   873 				; optimize FAIL ('INIT', main.pas), line = 36
    874
    875 22F8 20 CD 22			jsr INIT
    876
    877 				; --- RepeatUntilProlog
    878 22FB			l_01D1
    879
-   880 				; optimize OK (main.pas), line = 38
+   880 				; optimize OK (main.pas), line = 37
    881
    882 22FB 4C FB 22			jmp l_01D1
    883

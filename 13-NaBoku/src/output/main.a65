@@ -1,5 +1,5 @@
 ; ------------------------------------------------------------
-; Mad Pascal Compiler version 1.6.5 [2020/12/01] for 6502
+; Mad Pascal Compiler version 1.6.5 [2020/12/05] for 6502
 ; ------------------------------------------------------------
 
 STACKWIDTH	= 16
@@ -722,40 +722,20 @@ fill	:10 sta $1300+#*$80,y
 l_00F1
 ; --- ForToDoCondition
 
-; ------------------------------------------------------------
+; optimize OK (SPRITES), line = 53
 
-; Push BYTE / CHAR / SHORTINT / BOOLEAN
-; as Pointer
-
-	inx
-	mva JOYDIRECTION :STACKORIGIN,x
-
-; ------------------------------------------------------------
-
-; Push BYTE / CHAR / SHORTINT / BOOLEAN
-; as Pointer
-
-	inx
-	mva BMASK :STACKORIGIN,x
-
-; Generate Binary Operation for BYTE
-	jsr andAL_CL					; and al, cl
-	dex
-
-; GenerateCaseProlog
-	dex
-
-; GenerateCaseEqualityCheck
-	lda :STACKORIGIN+1,x
+	lda JOYDIRECTION
+	and BMASK
+	sta @CASETMP_0002
 	cmp #$04
-	jne l_0111
+	jne l_0110
 @
 
 ; optimize OK (SPRITES), line = 55
 
 	lda BHPOSP1
 	cmp #$C0
-	jcs l_0123
+	jcs l_0122
 
 ; optimize OK (SPRITES), line = 56
 
@@ -769,23 +749,19 @@ l_00F1
 	sta REGISTERS.HPOSP01
 	lda WSHIPX+1
 	sta REGISTERS.HPOSP01+1
-l_0123
+l_0122
 
-; GenerateCaseStatementEpilog
 	jmp a_0002
-l_0111
-
-; GenerateCaseEqualityCheck
-	lda :STACKORIGIN+1,x
+l_0110
 	cmp #$08
-	jne l_0135
+	jne l_0134
 @
 
 ; optimize OK (SPRITES), line = 60
 
 	lda BHPOSP0
 	cmp #$31
-	jcc l_0147
+	jcc l_0146
 
 ; optimize OK (SPRITES), line = 61
 
@@ -799,57 +775,45 @@ l_0111
 	sta REGISTERS.HPOSP01
 	lda WSHIPX+1
 	sta REGISTERS.HPOSP01+1
-l_0147
+l_0146
 
-; GenerateCaseStatementEpilog
 	jmp a_0002
-l_0135
-
-; GenerateCaseEqualityCheck
-	lda :STACKORIGIN+1,x
+l_0134
 	cmp #$02
-	jne l_0159
+	jne l_0158
 @
 
 ; optimize OK (SPRITES), line = 65
 
 	lda BSHIPY
 	cmp #$21
-	jcc l_016B
+	jcc l_016A
 
 ; optimize FAIL (0, SPRITES), line = 66
 
 	dec BSHIPY
 	jsr COPYSHIP
-l_016B
+l_016A
 
-; GenerateCaseStatementEpilog
 	jmp a_0002
-l_0159
-
-; GenerateCaseEqualityCheck
-	lda :STACKORIGIN+1,x
+l_0158
 	cmp #$01
-	jne l_017C
+	jne l_017B
 @
 
 ; optimize OK (SPRITES), line = 70
 
 	lda BSHIPY
 	cmp #$A0
-	jcs l_018E
+	jcs l_018D
 
 ; optimize FAIL (0, SPRITES), line = 71
 
 	inc BSHIPY
 	jsr COPYSHIP
-l_018E
+l_018D
 
-; GenerateCaseStatementEpilog
-	jmp a_0002
-l_017C
-
-; GenerateCaseEpilog
+l_017B
 a_0002
 
 ; optimize OK (SPRITES), line = 75
@@ -866,6 +830,11 @@ l_00FF
 
 BMASK	= $FF
 @FORTMP_00EE	= $00
+@CASETMP_0002	= DATAORIGIN+$000F
+
+@VarData	= @CASETMP_0002
+@VarDataSize	= 1
+
 @exit
 	.ifdef @new
 	lda <@VarData
@@ -930,27 +899,41 @@ WSHIPX	= $00
 
  phr 
 
-; optimize OK (main.pas), line = 30
+; ---------------------  ASM Block 058  ---------------------
+
+ sta WSYNC 
+
+; optimize OK (main.pas), line = 31
+
+	lda #$0F
+	sta REGISTERS.COLBK
+
+; optimize OK (main.pas), line = 33
 
 	lda REGISTERS.PORTA
 	sta SPRITES.JOYDIRECTION
 
-; optimize OK (main.pas), line = 31
+; optimize OK (main.pas), line = 34
 
 	and #$0F
 	cmp #$0F
-	jeq l_01CB
+	jeq l_01CE
 	jsr SPRITES.MOVESHIP
-l_01CB
+l_01CE
 
-; optimize FAIL ('SYS.SETDLI', main.pas), line = 33
+; optimize OK (main.pas), line = 36
+
+	lda #$00
+	sta REGISTERS.COLBK
+
+; optimize FAIL ('SYS.SETDLI', main.pas), line = 38
 
 	inx
 	mva PSTARS :STACKORIGIN,x
 	mva PSTARS+1 :STACKORIGIN+STACKWIDTH,x
 	jsr SYS.SETDLI
 
-; ---------------------  ASM Block 058  ---------------------
+; ---------------------  ASM Block 059  ---------------------
 
  plr 
 	rti						; ret
@@ -958,71 +941,71 @@ l_01CB
 
 .local	STARS						; PROCEDURE | INTERRUPT
 
-; ---------------------  ASM Block 059  ---------------------
+; ---------------------  ASM Block 060  ---------------------
 
  phr 
 
-; optimize OK (main.pas), line = 42
+; optimize OK (main.pas), line = 47
 
 	lda #$7C
 	sta B01I
 
-l_01DF
+l_01E6
 ; --- ForToDoCondition
 
-; ---------------------  ASM Block 060  ---------------------
+; ---------------------  ASM Block 061  ---------------------
 
  sta WSYNC 
 
-; optimize OK (main.pas), line = 44
+; optimize OK (main.pas), line = 49
 
 	ldy B01I
 	lda adr.ASTARS,y
 	sta REGISTERS.HPOSM3
 
-; optimize OK (main.pas), line = 45
+; optimize OK (main.pas), line = 50
 
 	lda adr.ASTARS,y
 	sub adr.ASPEED,y
 	sta adr.ASTARS,y
 
-; optimize OK (main.pas), line = 46
+; optimize OK (main.pas), line = 51
 
 	lda SYSTEM.RND
 	sta REGISTERS.COLPM3
 
 ; --- ForToDoEpilog
 	dec B01I
-	jpl l_01DF
-l_01ED
+	jpl l_01E6
+l_01F4
 
-; optimize FAIL ('SYS.SETDLI', main.pas), line = 49
+; optimize FAIL ('SYS.SETDLI', main.pas), line = 54
 
 	inx
 	mva PJOY :STACKORIGIN,x
 	mva PJOY+1 :STACKORIGIN+STACKWIDTH,x
 	jsr SYS.SETDLI
 
-; ---------------------  ASM Block 061  ---------------------
+; ---------------------  ASM Block 062  ---------------------
 
  plr 
 
 ; ------------------------------------------------------------
 
-@FORTMP_01DC	= $00
+@FORTMP_01E3	= $00
 	rti						; ret
 .endl
 
 .local	INIT						; PROCEDURE
 
-; optimize FAIL ('SYSTEM.PAUSE_006A', main.pas), line = 56
+; optimize FAIL ('SYSTEM.PAUSE_006A', main.pas), line = 61
 
 	jsr SYSTEM.PAUSE_006A
 	lda #$00
 	sta REGISTERS.DMACTL
 	jsr SYS.SYSTEMOFF
 
-; optimize OK (main.pas), line = 58
+; optimize OK (main.pas), line = 63
 
 	lda #$00
 	sta :edx
@@ -1036,21 +1019,21 @@ l_01ED
 	sta :eax
 	jsr @fill
 
-; optimize OK (main.pas), line = 60
+; optimize OK (main.pas), line = 65
 
 	lda #$7C
 	sta B01I
 
-l_0224
+l_022B
 ; --- ForToDoCondition
 
-; optimize OK (main.pas), line = 61
+; optimize OK (main.pas), line = 66
 
 	ldy B01I
 	lda SYSTEM.RND
 	sta adr.ASTARS,y
 
-; optimize OK (main.pas), line = 62
+; optimize OK (main.pas), line = 67
 
 	and #$03
 	add #$01
@@ -1058,14 +1041,14 @@ l_0224
 
 ; --- ForToDoEpilog
 	dec B01I
-	jpl l_0224
-l_0232
+	jpl l_022B
+l_0239
 
-; optimize FAIL ('SPRITES.INIT', main.pas), line = 65
+; optimize FAIL ('SPRITES.INIT', main.pas), line = 70
 
 	jsr SPRITES.INIT
 
-; optimize FAIL ('GR.MODE2', main.pas), line = 66
+; optimize FAIL ('GR.MODE2', main.pas), line = 71
 
 	jsr GR.MODE2
 	lda #$00
@@ -1073,13 +1056,13 @@ l_0232
 	lda #$02
 	sta REGISTERS.COLPF2
 
-; optimize OK (main.pas), line = 67
+; optimize OK (main.pas), line = 72
 
 	lda REGISTERS.PACTL
 	ora #$04
 	sta REGISTERS.PACTL
 
-; optimize OK (main.pas), line = 68
+; optimize OK (main.pas), line = 73
 
 	lda <JOY
 	sta PJOY
@@ -1090,21 +1073,21 @@ l_0232
 	lda >STARS
 	sta PSTARS+1
 
-; optimize FAIL ('SYS.SETVBI', main.pas), line = 70
+; optimize FAIL ('SYS.SETVBI', main.pas), line = 75
 
 	inx
 	mva <VBI :STACKORIGIN,x
 	mva >VBI :STACKORIGIN+STACKWIDTH,x
 	jsr SYS.SETVBI
 
-; optimize FAIL ('SYS.SETDLI', main.pas), line = 71
+; optimize FAIL ('SYS.SETDLI', main.pas), line = 76
 
 	inx
 	mva <JOY :STACKORIGIN,x
 	mva >JOY :STACKORIGIN+STACKWIDTH,x
 	jsr SYS.SETDLI
 
-; optimize FAIL ('SYSTEM.PAUSE_006A', main.pas), line = 73
+; optimize FAIL ('SYSTEM.PAUSE_006A', main.pas), line = 78
 
 	jsr SYSTEM.PAUSE_006A
 	lda #$3E
@@ -1112,7 +1095,7 @@ l_0232
 
 ; ------------------------------------------------------------
 
-@FORTMP_0221	= $00
+@FORTMP_0228	= $00
 @exit
 	.ifdef @new
 	lda <@VarData
@@ -1126,16 +1109,16 @@ l_0232
 .endl
 l_0007
 
-; optimize FAIL ('INIT', main.pas), line = 77
+; optimize FAIL ('INIT', main.pas), line = 82
 
 	jsr INIT
 
 ; --- RepeatUntilProlog
-l_0275
+l_027C
 
-; optimize OK (main.pas), line = 78
+; optimize OK (main.pas), line = 83
 
-	jmp l_0275
+	jmp l_027C
 
 ; ------------------------------------------------------------
 
@@ -1161,8 +1144,8 @@ adr.ASTARS	= $1200
 .var ASTARS	= adr.ASTARS .word
 adr.ASPEED	= $127D
 .var ASPEED	= adr.ASPEED .word
-PJOY	= DATAORIGIN+$000F
-PSTARS	= DATAORIGIN+$0011
+PJOY	= DATAORIGIN+$0010
+PSTARS	= DATAORIGIN+$0012
 @exit
 
 @halt	ldx #$00
@@ -1248,7 +1231,7 @@ DATAORIGIN
 .by  $28 $00 $18 $00 $2D $0C
 
 VARINITSIZE	= *-DATAORIGIN
-VARDATASIZE	= 19
+VARDATASIZE	= 20
 
 PROGRAMSTACK	= DATAORIGIN+VARDATASIZE
 
