@@ -5,7 +5,7 @@
 
 program Game;
 
-uses registers, sys, gr, sprites;
+uses registers, sys, gr, sprites, joy;
 
 const
 {$i inc/const.inc}
