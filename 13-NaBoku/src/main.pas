@@ -8,7 +8,6 @@ program Game;
 uses globals, sys, gr, sprites, joy;
 
 var
-  b01i   : byte absolute $fe;
   aStars : array[0..124] of byte absolute $1200;
   aSpeed : array[0..124] of byte absolute $127d;
   pJoy, pStars : pointer;
