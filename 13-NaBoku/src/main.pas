@@ -39,10 +39,10 @@ procedure stars; interrupt;
 begin
   asm { phr };
 
-  for b01i := 124 downto 0 do begin
+  for b1i := 124 downto 0 do begin
     asm { sta WSYNC };
-    HPOSM3 := aStars[b01i];
-    Dec(aStars[b01i],aSpeed[b01i]);
+    HPOSM3 := aStars[b1i];
+    Dec(aStars[b1i],aSpeed[b1i]);
     COLPM3 := RND;
   end;
 

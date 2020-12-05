@@ -867,17 +867,17 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    902
    903 22E6 8D 0A D4		 sta WSYNC 
    904
-   905 				; optimize OK (main.pas), line = 28
+   905 				; optimize OK (main.pas), line = 26
    906
    907 22E9 A9 0F			lda #$0F
    908 22EB 8D 1A D0			sta GLOBALS.COLBK
    909
-   910 				; optimize OK (main.pas), line = 30
+   910 				; optimize OK (main.pas), line = 28
    911
    912 22EE AD 00 D3			lda GLOBALS.PORTA
    913 22F1 85 03			sta JOY.JOYDIRECTION
    914
-   915 				; optimize OK (main.pas), line = 31
+   915 				; optimize OK (main.pas), line = 29
    916
    917 22F3 29 0F			and #$0F
    918 22F5 C9 0F			cmp #$0F
@@ -885,12 +885,12 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    920 22F9 20 54 22			jsr JOY.MOVESHIP
    921 22FC			l_01CE
    922
-   923 				; optimize OK (main.pas), line = 33
+   923 				; optimize OK (main.pas), line = 31
    924
    925 22FC A9 00			lda #$00
    926 22FE 8D 1A D0			sta GLOBALS.COLBK
    927
-   928 				; optimize FAIL ('SYS.SETDLI', main.pas), line = 35
+   928 				; optimize FAIL ('SYS.SETDLI', main.pas), line = 33
    929
    930 2301 E8				inx
    931 2302 AD 0A 24 95 98		mva PSTARS :STACKORIGIN,x
@@ -909,10 +909,10 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    944
    945 2315 48 8A 48 98 48	 phr 
    946
-   947 				; optimize OK (main.pas), line = 44
+   947 				; optimize OK (main.pas), line = 42
    948
    949 231A A9 7C			lda #$7C
-   950 231C 85 FE			sta B01I
+   950 231C 85 FD			sta GLOBALS.B1I
    951
    952 231E			l_01E6
    953 				; --- ForToDoCondition
@@ -921,29 +921,29 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    956
    957 231E 8D 0A D4		 sta WSYNC 
    958
-   959 				; optimize OK (main.pas), line = 46
+   959 				; optimize OK (main.pas), line = 44
    960
-   961 2321 A4 FE			ldy B01I
+   961 2321 A4 FD			ldy GLOBALS.B1I
    962 2323 B9 00 12			lda adr.ASTARS,y
    963 2326 8D 07 D0			sta GLOBALS.HPOSM3
    964
-   965 				; optimize OK (main.pas), line = 47
+   965 				; optimize OK (main.pas), line = 45
    966
    967 2329 B9 00 12			lda adr.ASTARS,y
    968 232C 38 F9 7D 12			sub adr.ASPEED,y
    969 2330 99 00 12			sta adr.ASTARS,y
    970
-   971 				; optimize OK (main.pas), line = 48
+   971 				; optimize OK (main.pas), line = 46
    972
    973 2333 AD 0A D2			lda SYSTEM.RND
    974 2336 8D 15 D0			sta GLOBALS.COLPM3
    975
    976 				; --- ForToDoEpilog
-   977 2339 C6 FE			dec B01I
+   977 2339 C6 FD			dec GLOBALS.B1I
    978 233B 10 E1			jpl l_01E6
    979 233D			l_01F4
    980
-   981 				; optimize FAIL ('SYS.SETDLI', main.pas), line = 51
+   981 				; optimize FAIL ('SYS.SETDLI', main.pas), line = 49
    982
    983 233D E8				inx
    984 233E AD 08 24 95 98		mva PJOY :STACKORIGIN,x
@@ -962,14 +962,14 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    997
    998 2351			.local	INIT						; PROCEDURE
    999
-  1000 				; optimize FAIL ('SYSTEM.PAUSE_006A', main.pas), line = 58
+  1000 				; optimize FAIL ('SYSTEM.PAUSE_006A', main.pas), line = 56
   1001
   1002 2351 20 3E 21			jsr SYSTEM.PAUSE_006A
   1003 2354 A9 00			lda #$00
   1004 2356 8D 00 D4			sta GLOBALS.DMACTL
   1005 2359 20 87 21			jsr SYS.SYSTEMOFF
   1006
-  1007 				; optimize OK (main.pas), line = 60
+  1007 				; optimize OK (main.pas), line = 58
   1008
   1009 235C A9 00			lda #$00
   1010 235E 85 88			sta :edx
@@ -983,7 +983,7 @@ Macro: UNITINITIALIZATION [Source: main.a65]
   1018 236E 85 84			sta :eax
   1019 2370 20 80 20			jsr @fill
   1020
-  1021 				; optimize OK (main.pas), line = 62
+  1021 				; optimize OK (main.pas), line = 60
   1022
   1023 2373 A9 7C			lda #$7C
   1024 2375 85 FD			sta GLOBALS.B1I
@@ -991,13 +991,13 @@ Macro: UNITINITIALIZATION [Source: main.a65]
   1026 2377			l_022B
   1027 				; --- ForToDoCondition
   1028
-  1029 				; optimize OK (main.pas), line = 63
+  1029 				; optimize OK (main.pas), line = 61
   1030
   1031 2377 A4 FD			ldy GLOBALS.B1I
   1032 2379 AD 0A D2			lda SYSTEM.RND
   1033 237C 99 00 12			sta adr.ASTARS,y
   1034
-  1035 				; optimize OK (main.pas), line = 64
+  1035 				; optimize OK (main.pas), line = 62
   1036
   1037 237F 29 03			and #$03
   1038 2381 18 69 01			add #$01
@@ -1008,11 +1008,11 @@ Macro: UNITINITIALIZATION [Source: main.a65]
   1043 2389 10 EC			jpl l_022B
   1044 238B			l_0239
   1045
-  1046 				; optimize FAIL ('SPRITES.INIT', main.pas), line = 67
+  1046 				; optimize FAIL ('SPRITES.INIT', main.pas), line = 65
   1047
   1048 238B 20 E6 21			jsr SPRITES.INIT
   1049
-  1050 				; optimize FAIL ('GR.MODE2', main.pas), line = 68
+  1050 				; optimize FAIL ('GR.MODE2', main.pas), line = 66
   1051
   1052 238E 20 A3 21			jsr GR.MODE2
   1053 2391 A9 00			lda #$00
@@ -1020,13 +1020,13 @@ Macro: UNITINITIALIZATION [Source: main.a65]
   1055 2396 A9 02			lda #$02
   1056 2398 8D 18 D0			sta GLOBALS.COLPF2
   1057
-  1058 				; optimize OK (main.pas), line = 69
+  1058 				; optimize OK (main.pas), line = 67
   1059
   1060 239B AD 02 D3			lda GLOBALS.PACTL
   1061 239E 09 04			ora #$04
   1062 23A0 8D 02 D3			sta GLOBALS.PACTL
   1063
-  1064 				; optimize OK (main.pas), line = 70
+  1064 				; optimize OK (main.pas), line = 68
   1065
   1066 23A3 A9 E1			lda <JOYHANDLER
   1067 23A5 8D 08 24			sta PJOY
@@ -1037,21 +1037,21 @@ Macro: UNITINITIALIZATION [Source: main.a65]
   1072 23B2 A9 23			lda >STARS
   1073 23B4 8D 0B 24			sta PSTARS+1
   1074
-  1075 				; optimize FAIL ('SYS.SETVBI', main.pas), line = 72
+  1075 				; optimize FAIL ('SYS.SETVBI', main.pas), line = 70
   1076
   1077 23B7 E8				inx
   1078 23B8 A9 D6 95 98			mva <VBI :STACKORIGIN,x
   1079 23BC A9 22 95 A8			mva >VBI :STACKORIGIN+STACKWIDTH,x
   1080 23C0 20 57 21			jsr SYS.SETVBI
   1081
-  1082 				; optimize FAIL ('SYS.SETDLI', main.pas), line = 73
+  1082 				; optimize FAIL ('SYS.SETDLI', main.pas), line = 71
   1083
   1084 23C3 E8				inx
   1085 23C4 A9 E1 95 98			mva <JOYHANDLER :STACKORIGIN,x
   1086 23C8 A9 22 95 A8			mva >JOYHANDLER :STACKORIGIN+STACKWIDTH,x
   1087 23CC 20 6F 21			jsr SYS.SETDLI
   1088
-  1089 				; optimize FAIL ('SYSTEM.PAUSE_006A', main.pas), line = 75
+  1089 				; optimize FAIL ('SYSTEM.PAUSE_006A', main.pas), line = 73
   1090
   1091 23CF 20 3E 21			jsr SYSTEM.PAUSE_006A
   1092 23D2 A9 3E			lda #$3E
@@ -1073,139 +1073,138 @@ Macro: UNITINITIALIZATION [Source: main.a65]
   1108 				.endl
   1109 23D8			l_0007
   1110
-  1111 				; optimize FAIL ('INIT', main.pas), line = 79
+  1111 				; optimize FAIL ('INIT', main.pas), line = 77
   1112
   1113 23D8 20 51 23			jsr INIT
   1114
   1115 				; --- RepeatUntilProlog
   1116 23DB			l_027C
   1117
-  1118 				; optimize OK (main.pas), line = 80
+  1118 				; optimize OK (main.pas), line = 78
   1119
   1120 23DB 4C DB 23			jmp l_027C
   1121
   1122 				; ------------------------------------------------------------
   1123
-  1124 = 00FE			B01I	= $FE
-  1125 = 1200			adr.ASTARS	= $1200
-  1126 23DE			.var ASTARS	= adr.ASTARS .word
-  1127 = 127D			adr.ASPEED	= $127D
-  1128 23DE			.var ASPEED	= adr.ASPEED .word
-  1129 = 2408			PJOY	= DATAORIGIN+$0010
-  1130 = 240A			PSTARS	= DATAORIGIN+$0012
-  1131 23DE			@exit
-  1132
-  1133 23DE A2 00		@halt	ldx #$00
-  1134 23E0 9A				txs
-  1135 					.ifdef MAIN.@DEFINES.ROMOFF
-  1136 					inc portb
-  1137 					.endif
-  1138
-  1139 23E1 A0 01			ldy #$01
-  1140
-  1141 23E3 60				rts
-  1142
-  1143 				; ------------------------------------------------------------
-  1144
-  1145 23E4 00 00 00 00 00 00 + IOCB@COPY	:16 brk
-  1146
-  1147 				; ------------------------------------------------------------
-  1148
-  1149 23F4			.local	@DEFINES
-  1150 23F4			ATARI
-  1151 				.endl
-  1152
-  1153 23F4			.local	@RESOURCE
-  1154 				.endl
-  1155
-  1156 = 23F4 00 12		ASTARS
-  1156 = 23F6 7D 12		ASPEED
-  1156 				.endl							; MAIN
-  1157
+  1124 = 1200			adr.ASTARS	= $1200
+  1125 23DE			.var ASTARS	= adr.ASTARS .word
+  1126 = 127D			adr.ASPEED	= $127D
+  1127 23DE			.var ASPEED	= adr.ASPEED .word
+  1128 = 2408			PJOY	= DATAORIGIN+$0010
+  1129 = 240A			PSTARS	= DATAORIGIN+$0012
+  1130 23DE			@exit
+  1131
+  1132 23DE A2 00		@halt	ldx #$00
+  1133 23E0 9A				txs
+  1134 					.ifdef MAIN.@DEFINES.ROMOFF
+  1135 					inc portb
+  1136 					.endif
+  1137
+  1138 23E1 A0 01			ldy #$01
+  1139
+  1140 23E3 60				rts
+  1141
+  1142 				; ------------------------------------------------------------
+  1143
+  1144 23E4 00 00 00 00 00 00 + IOCB@COPY	:16 brk
+  1145
+  1146 				; ------------------------------------------------------------
+  1147
+  1148 23F4			.local	@DEFINES
+  1149 23F4			ATARI
+  1150 				.endl
+  1151
+  1152 23F4			.local	@RESOURCE
+  1153 				.endl
+  1154
+  1155 = 23F4 00 12		ASTARS
+  1155 = 23F6 7D 12		ASPEED
+  1155 				.endl							; MAIN
+  1156
+  1157 				; ------------------------------------------------------------
   1158 				; ------------------------------------------------------------
-  1159 				; ------------------------------------------------------------
-  1160
-  1161 				.macro	UNITINITIALIZATION
-  1162 				
-  1163 					.ifdef MAIN.SYSTEM.@UnitInit
-  1164 					jsr MAIN.SYSTEM.@UnitInit
-  1165 					eif
-  1166 				
-  1167 					.ifdef MAIN.GLOBALS.@UnitInit
-  1168 					jsr MAIN.GLOBALS.@UnitInit
-  1169 					eif
-  1170 				
-  1171 					.ifdef MAIN.SYS.@UnitInit
-  1172 					jsr MAIN.SYS.@UnitInit
-  1173 					eif
-  1174 				
-  1175 					.ifdef MAIN.GR.@UnitInit
-  1176 					jsr MAIN.GR.@UnitInit
-  1177 					eif
-  1178 				
-  1179 					.ifdef MAIN.SPRITES.@UnitInit
-  1180 					jsr MAIN.SPRITES.@UnitInit
-  1181 					eif
-  1182 				
-  1183 					.ifdef MAIN.JOY.@UnitInit
-  1184 					jsr MAIN.JOY.@UnitInit
-  1185 					eif
-  1186 				.endm
-  1187
-  1188 				; ------------------------------------------------------------
-  1189
-  1190 					ift .SIZEOF(MAIN.SYSTEM) > 0
-  1191 					.print 'SYSTEM: ',MAIN.SYSTEM,'..',MAIN.SYSTEM+.SIZEOF(MAIN.SYSTEM)-1
-  1191 				SYSTEM: $2104..$2148
-  1192 					eif
-  1193
-  1194 					ift .SIZEOF(MAIN.GLOBALS) > 0
-  1195 					.print 'GLOBALS: ',MAIN.GLOBALS,'..',MAIN.GLOBALS+.SIZEOF(MAIN.GLOBALS)-1
-  1196 					eif
-  1197
-  1198 					ift .SIZEOF(MAIN.SYS) > 0
-  1199 					.print 'SYS: ',MAIN.SYS,'..',MAIN.SYS+.SIZEOF(MAIN.SYS)-1
-  1199 				SYS: $2149..$21A2
-  1200 					eif
-  1201
-  1202 					ift .SIZEOF(MAIN.GR) > 0
-  1203 					.print 'GR: ',MAIN.GR,'..',MAIN.GR+.SIZEOF(MAIN.GR)-1
-  1203 				GR: $21A3..$21AE
-  1204 					eif
-  1205
-  1206 					ift .SIZEOF(MAIN.SPRITES) > 0
-  1207 					.print 'SPRITES: ',MAIN.SPRITES,'..',MAIN.SPRITES+.SIZEOF(MAIN.SPRITES)-1
-  1207 				SPRITES: $21AF..$2253
-  1208 					eif
-  1209
-  1210 					ift .SIZEOF(MAIN.JOY) > 0
-  1211 					.print 'JOY: ',MAIN.JOY,'..',MAIN.JOY+.SIZEOF(MAIN.JOY)-1
-  1211 				JOY: $2254..$22D5
-  1212 					eif
-  1213
-  1214 					.print 'CODE: ',CODEORIGIN,'..',MAIN.@RESOURCE-1
-  1214 				CODE: $2000..$23F3
-  1215
-  1216 				; ------------------------------------------------------------
-  1217
-  1218 23F8				.align $04
-  1219
-  1220 23F8			DATAORIGIN
-  1221 23F8 28 00 18 00 2D 0C	.by  $28 $00 $18 $00 $2D $0C
-  1222
-  1223 = 0006			VARINITSIZE	= *-DATAORIGIN
-  1224 = 0014			VARDATASIZE	= 20
-  1225
-  1226 = 240C			PROGRAMSTACK	= DATAORIGIN+VARDATASIZE
-  1227
-  1228 					.print 'DATA: ',DATAORIGIN,'..',PROGRAMSTACK
-  1228 				DATA: $23F8..$240C
-  1229
-  1230 02E0-02E1> C8 20			run START
-  1231
-  1232 				; ------------------------------------------------------------
-  1233
-  1234 				.macro	STATICDATA
-  1235 				.endm
-  1236
-  1237 					end
+  1159
+  1160 				.macro	UNITINITIALIZATION
+  1161 				
+  1162 					.ifdef MAIN.SYSTEM.@UnitInit
+  1163 					jsr MAIN.SYSTEM.@UnitInit
+  1164 					eif
+  1165 				
+  1166 					.ifdef MAIN.GLOBALS.@UnitInit
+  1167 					jsr MAIN.GLOBALS.@UnitInit
+  1168 					eif
+  1169 				
+  1170 					.ifdef MAIN.SYS.@UnitInit
+  1171 					jsr MAIN.SYS.@UnitInit
+  1172 					eif
+  1173 				
+  1174 					.ifdef MAIN.GR.@UnitInit
+  1175 					jsr MAIN.GR.@UnitInit
+  1176 					eif
+  1177 				
+  1178 					.ifdef MAIN.SPRITES.@UnitInit
+  1179 					jsr MAIN.SPRITES.@UnitInit
+  1180 					eif
+  1181 				
+  1182 					.ifdef MAIN.JOY.@UnitInit
+  1183 					jsr MAIN.JOY.@UnitInit
+  1184 					eif
+  1185 				.endm
+  1186
+  1187 				; ------------------------------------------------------------
+  1188
+  1189 					ift .SIZEOF(MAIN.SYSTEM) > 0
+  1190 					.print 'SYSTEM: ',MAIN.SYSTEM,'..',MAIN.SYSTEM+.SIZEOF(MAIN.SYSTEM)-1
+  1190 				SYSTEM: $2104..$2148
+  1191 					eif
+  1192
+  1193 					ift .SIZEOF(MAIN.GLOBALS) > 0
+  1194 					.print 'GLOBALS: ',MAIN.GLOBALS,'..',MAIN.GLOBALS+.SIZEOF(MAIN.GLOBALS)-1
+  1195 					eif
+  1196
+  1197 					ift .SIZEOF(MAIN.SYS) > 0
+  1198 					.print 'SYS: ',MAIN.SYS,'..',MAIN.SYS+.SIZEOF(MAIN.SYS)-1
+  1198 				SYS: $2149..$21A2
+  1199 					eif
+  1200
+  1201 					ift .SIZEOF(MAIN.GR) > 0
+  1202 					.print 'GR: ',MAIN.GR,'..',MAIN.GR+.SIZEOF(MAIN.GR)-1
+  1202 				GR: $21A3..$21AE
+  1203 					eif
+  1204
+  1205 					ift .SIZEOF(MAIN.SPRITES) > 0
+  1206 					.print 'SPRITES: ',MAIN.SPRITES,'..',MAIN.SPRITES+.SIZEOF(MAIN.SPRITES)-1
+  1206 				SPRITES: $21AF..$2253
+  1207 					eif
+  1208
+  1209 					ift .SIZEOF(MAIN.JOY) > 0
+  1210 					.print 'JOY: ',MAIN.JOY,'..',MAIN.JOY+.SIZEOF(MAIN.JOY)-1
+  1210 				JOY: $2254..$22D5
+  1211 					eif
+  1212
+  1213 					.print 'CODE: ',CODEORIGIN,'..',MAIN.@RESOURCE-1
+  1213 				CODE: $2000..$23F3
+  1214
+  1215 				; ------------------------------------------------------------
+  1216
+  1217 23F8				.align $04
+  1218
+  1219 23F8			DATAORIGIN
+  1220 23F8 28 00 18 00 2D 0C	.by  $28 $00 $18 $00 $2D $0C
+  1221
+  1222 = 0006			VARINITSIZE	= *-DATAORIGIN
+  1223 = 0014			VARDATASIZE	= 20
+  1224
+  1225 = 240C			PROGRAMSTACK	= DATAORIGIN+VARDATASIZE
+  1226
+  1227 					.print 'DATA: ',DATAORIGIN,'..',PROGRAMSTACK
+  1227 				DATA: $23F8..$240C
+  1228
+  1229 02E0-02E1> C8 20			run START
+  1230
+  1231 				; ------------------------------------------------------------
+  1232
+  1233 				.macro	STATICDATA
+  1234 				.endm
+  1235
+  1236 					end

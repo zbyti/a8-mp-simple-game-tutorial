@@ -902,17 +902,17 @@ JOYDIRECTION	= $03
 
  sta WSYNC 
 
-; optimize OK (main.pas), line = 28
+; optimize OK (main.pas), line = 26
 
 	lda #$0F
 	sta GLOBALS.COLBK
 
-; optimize OK (main.pas), line = 30
+; optimize OK (main.pas), line = 28
 
 	lda GLOBALS.PORTA
 	sta JOY.JOYDIRECTION
 
-; optimize OK (main.pas), line = 31
+; optimize OK (main.pas), line = 29
 
 	and #$0F
 	cmp #$0F
@@ -920,12 +920,12 @@ JOYDIRECTION	= $03
 	jsr JOY.MOVESHIP
 l_01CE
 
-; optimize OK (main.pas), line = 33
+; optimize OK (main.pas), line = 31
 
 	lda #$00
 	sta GLOBALS.COLBK
 
-; optimize FAIL ('SYS.SETDLI', main.pas), line = 35
+; optimize FAIL ('SYS.SETDLI', main.pas), line = 33
 
 	inx
 	mva PSTARS :STACKORIGIN,x
@@ -944,10 +944,10 @@ l_01CE
 
  phr 
 
-; optimize OK (main.pas), line = 44
+; optimize OK (main.pas), line = 42
 
 	lda #$7C
-	sta B01I
+	sta GLOBALS.B1I
 
 l_01E6
 ; --- ForToDoCondition
@@ -956,29 +956,29 @@ l_01E6
 
  sta WSYNC 
 
-; optimize OK (main.pas), line = 46
+; optimize OK (main.pas), line = 44
 
-	ldy B01I
+	ldy GLOBALS.B1I
 	lda adr.ASTARS,y
 	sta GLOBALS.HPOSM3
 
-; optimize OK (main.pas), line = 47
+; optimize OK (main.pas), line = 45
 
 	lda adr.ASTARS,y
 	sub adr.ASPEED,y
 	sta adr.ASTARS,y
 
-; optimize OK (main.pas), line = 48
+; optimize OK (main.pas), line = 46
 
 	lda SYSTEM.RND
 	sta GLOBALS.COLPM3
 
 ; --- ForToDoEpilog
-	dec B01I
+	dec GLOBALS.B1I
 	jpl l_01E6
 l_01F4
 
-; optimize FAIL ('SYS.SETDLI', main.pas), line = 51
+; optimize FAIL ('SYS.SETDLI', main.pas), line = 49
 
 	inx
 	mva PJOY :STACKORIGIN,x
@@ -997,14 +997,14 @@ l_01F4
 
 .local	INIT						; PROCEDURE
 
-; optimize FAIL ('SYSTEM.PAUSE_006A', main.pas), line = 58
+; optimize FAIL ('SYSTEM.PAUSE_006A', main.pas), line = 56
 
 	jsr SYSTEM.PAUSE_006A
 	lda #$00
 	sta GLOBALS.DMACTL
 	jsr SYS.SYSTEMOFF
 
-; optimize OK (main.pas), line = 60
+; optimize OK (main.pas), line = 58
 
 	lda #$00
 	sta :edx
@@ -1018,7 +1018,7 @@ l_01F4
 	sta :eax
 	jsr @fill
 
-; optimize OK (main.pas), line = 62
+; optimize OK (main.pas), line = 60
 
 	lda #$7C
 	sta GLOBALS.B1I
@@ -1026,13 +1026,13 @@ l_01F4
 l_022B
 ; --- ForToDoCondition
 
-; optimize OK (main.pas), line = 63
+; optimize OK (main.pas), line = 61
 
 	ldy GLOBALS.B1I
 	lda SYSTEM.RND
 	sta adr.ASTARS,y
 
-; optimize OK (main.pas), line = 64
+; optimize OK (main.pas), line = 62
 
 	and #$03
 	add #$01
@@ -1043,11 +1043,11 @@ l_022B
 	jpl l_022B
 l_0239
 
-; optimize FAIL ('SPRITES.INIT', main.pas), line = 67
+; optimize FAIL ('SPRITES.INIT', main.pas), line = 65
 
 	jsr SPRITES.INIT
 
-; optimize FAIL ('GR.MODE2', main.pas), line = 68
+; optimize FAIL ('GR.MODE2', main.pas), line = 66
 
 	jsr GR.MODE2
 	lda #$00
@@ -1055,13 +1055,13 @@ l_0239
 	lda #$02
 	sta GLOBALS.COLPF2
 
-; optimize OK (main.pas), line = 69
+; optimize OK (main.pas), line = 67
 
 	lda GLOBALS.PACTL
 	ora #$04
 	sta GLOBALS.PACTL
 
-; optimize OK (main.pas), line = 70
+; optimize OK (main.pas), line = 68
 
 	lda <JOYHANDLER
 	sta PJOY
@@ -1072,21 +1072,21 @@ l_0239
 	lda >STARS
 	sta PSTARS+1
 
-; optimize FAIL ('SYS.SETVBI', main.pas), line = 72
+; optimize FAIL ('SYS.SETVBI', main.pas), line = 70
 
 	inx
 	mva <VBI :STACKORIGIN,x
 	mva >VBI :STACKORIGIN+STACKWIDTH,x
 	jsr SYS.SETVBI
 
-; optimize FAIL ('SYS.SETDLI', main.pas), line = 73
+; optimize FAIL ('SYS.SETDLI', main.pas), line = 71
 
 	inx
 	mva <JOYHANDLER :STACKORIGIN,x
 	mva >JOYHANDLER :STACKORIGIN+STACKWIDTH,x
 	jsr SYS.SETDLI
 
-; optimize FAIL ('SYSTEM.PAUSE_006A', main.pas), line = 75
+; optimize FAIL ('SYSTEM.PAUSE_006A', main.pas), line = 73
 
 	jsr SYSTEM.PAUSE_006A
 	lda #$3E
@@ -1108,20 +1108,19 @@ l_0239
 .endl
 l_0007
 
-; optimize FAIL ('INIT', main.pas), line = 79
+; optimize FAIL ('INIT', main.pas), line = 77
 
 	jsr INIT
 
 ; --- RepeatUntilProlog
 l_027C
 
-; optimize OK (main.pas), line = 80
+; optimize OK (main.pas), line = 78
 
 	jmp l_027C
 
 ; ------------------------------------------------------------
 
-B01I	= $FE
 adr.ASTARS	= $1200
 .var ASTARS	= adr.ASTARS .word
 adr.ASPEED	= $127D
