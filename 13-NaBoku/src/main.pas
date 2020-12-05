@@ -5,7 +5,7 @@
 
 program Game;
 
-uses registers, sys, gr, sprites, joy;
+uses globals, sys, gr, sprites, joy;
 
 
 var

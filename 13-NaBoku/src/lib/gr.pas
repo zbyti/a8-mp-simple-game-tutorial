@@ -10,7 +10,7 @@ procedure mode2;
 
 implementation
 
-uses registers;
+uses globals;
 
 procedure mode2;
 begin

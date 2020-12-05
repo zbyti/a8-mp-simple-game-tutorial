@@ -14,7 +14,7 @@ procedure resetDli; assembler;
 
 implementation
 
-uses registers;
+uses globals;
 
 procedure nmi; assembler; interrupt;
 asm

@@ -17,7 +17,7 @@ procedure copyShip;
 
 implementation
 
-uses registers;
+uses globals;
 
 procedure copyShip;
 begin

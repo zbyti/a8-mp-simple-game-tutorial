@@ -13,7 +13,7 @@ procedure moveShip;
 
 implementation
 
-uses registers, sprites;
+uses globals, sprites;
 
 procedure moveShip;
 begin
