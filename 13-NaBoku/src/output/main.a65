@@ -400,6 +400,8 @@ NMIVEC	= $FFFA
 HPOSP01	= $D000
 SIZEP01	= $D008
 COLPM01	= $D012
+B00I	= $FF
+B01I	= $FE
 
 .endl							; UNIT REGISTERS
 
@@ -595,7 +597,7 @@ GAME_LMS	= $E000
 
 .local	COPYSHIP					; PROCEDURE
 
-; optimize OK (SPRITES), line = 31
+; optimize OK (SPRITES), line = 30
 
 	lda BSHIPY
 	sta :ecx
@@ -611,7 +613,7 @@ GAME_LMS	= $E000
 	sta :eax+1
 	jsr @move
 
-; optimize OK (SPRITES), line = 32
+; optimize OK (SPRITES), line = 31
 
 	lda BSHIPY
 	sta :ecx
@@ -640,7 +642,7 @@ GAME_LMS	= $E000
 
 .local	INIT						; PROCEDURE
 
-; optimize OK (SPRITES), line = 37
+; optimize OK (SPRITES), line = 36
 
 	.LOCAL
 	ldy #$00
@@ -650,18 +652,18 @@ fill	:10 sta $1300+#*$80,y
 	bpl fill
 	.ENDL
 
-; optimize OK (SPRITES), line = 38
+; optimize OK (SPRITES), line = 37
 
 	ldy #256-$90
 	lda #$FF
 	sta:rne $1320+$90-256,y+
 
-; optimize OK (SPRITES), line = 40
+; optimize OK (SPRITES), line = 39
 
 	lda #$10
 	sta REGISTERS.PMBASE
 
-; optimize OK (SPRITES), line = 41
+; optimize OK (SPRITES), line = 40
 
 	lda #$0A
 	sta REGISTERS.COLPM3
@@ -669,7 +671,7 @@ fill	:10 sta $1300+#*$80,y
 	sta REGISTERS.COLPM01
 	sta REGISTERS.COLPM01+1
 
-; optimize OK (SPRITES), line = 42
+; optimize OK (SPRITES), line = 41
 
 	lda #$50
 	sta BSHIPY
@@ -682,7 +684,7 @@ fill	:10 sta $1300+#*$80,y
 	lda WSHIPX+1
 	sta REGISTERS.HPOSP01+1
 
-; optimize OK (SPRITES), line = 43
+; optimize OK (SPRITES), line = 42
 
 	lda #$00
 	sta REGISTERS.SIZEP01
@@ -692,7 +694,7 @@ fill	:10 sta $1300+#*$80,y
 	lda #$03
 	sta REGISTERS.GRACTL
 
-; optimize FAIL ('COPYSHIP', SPRITES), line = 45
+; optimize FAIL ('COPYSHIP', SPRITES), line = 44
 
 	jsr COPYSHIP
 @exit
@@ -709,20 +711,20 @@ fill	:10 sta $1300+#*$80,y
 
 .local	MOVESHIP					; PROCEDURE
 
-; optimize OK (SPRITES), line = 51
+; optimize OK (SPRITES), line = 50
 
 	lda #$0C
 	sta BMASK
 
-; optimize OK (SPRITES), line = 52
+; optimize OK (SPRITES), line = 51
 
 	lda #$01
-	sta B01I
+	sta REGISTERS.B01I
 
 l_00F1
 ; --- ForToDoCondition
 
-; optimize OK (SPRITES), line = 53
+; optimize OK (SPRITES), line = 52
 
 	lda JOYDIRECTION
 	and BMASK
@@ -731,13 +733,13 @@ l_00F1
 	jne l_0110
 @
 
-; optimize OK (SPRITES), line = 55
+; optimize OK (SPRITES), line = 54
 
 	lda BHPOSP1
 	cmp #$C0
 	jcs l_0122
 
-; optimize OK (SPRITES), line = 56
+; optimize OK (SPRITES), line = 55
 
 	lda WSHIPX
 	add #$01
@@ -757,13 +759,13 @@ l_0110
 	jne l_0134
 @
 
-; optimize OK (SPRITES), line = 60
+; optimize OK (SPRITES), line = 59
 
 	lda BHPOSP0
 	cmp #$31
 	jcc l_0146
 
-; optimize OK (SPRITES), line = 61
+; optimize OK (SPRITES), line = 60
 
 	lda WSHIPX
 	sub #$01
@@ -783,13 +785,13 @@ l_0134
 	jne l_0158
 @
 
-; optimize OK (SPRITES), line = 65
+; optimize OK (SPRITES), line = 64
 
 	lda BSHIPY
 	cmp #$21
 	jcc l_016A
 
-; optimize FAIL (0, SPRITES), line = 66
+; optimize FAIL (0, SPRITES), line = 65
 
 	dec BSHIPY
 	jsr COPYSHIP
@@ -801,13 +803,13 @@ l_0158
 	jne l_017B
 @
 
-; optimize OK (SPRITES), line = 70
+; optimize OK (SPRITES), line = 69
 
 	lda BSHIPY
 	cmp #$A0
 	jcs l_018D
 
-; optimize FAIL (0, SPRITES), line = 71
+; optimize FAIL (0, SPRITES), line = 70
 
 	inc BSHIPY
 	jsr COPYSHIP
@@ -816,13 +818,13 @@ l_018D
 l_017B
 a_0002
 
-; optimize OK (SPRITES), line = 75
+; optimize OK (SPRITES), line = 74
 
 	lda #$03
 	sta BMASK
 
 ; --- ForToDoEpilog
-	dec B01I
+	dec REGISTERS.B01I
 	jpl l_00F1
 l_00FF
 
@@ -876,7 +878,6 @@ GAME_LMS	= $E000
 BHPOSP0	= $00
 BHPOSP1	= $01
 BSHIPY	= $02
-B01I	= $FE
 WSHIPX	= $00
 
 .endl							; UNIT SPRITES

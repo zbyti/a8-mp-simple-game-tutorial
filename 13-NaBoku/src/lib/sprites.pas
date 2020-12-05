@@ -23,7 +23,6 @@ var
   bHposp0    : byte absolute 0;
   bHposp1    : byte absolute 1;
   bShipY     : byte absolute 2;
-  b01i       : byte absolute $fe;
   wShipX     : word absolute 0;
 
 procedure copyShip;

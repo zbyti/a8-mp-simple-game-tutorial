@@ -41,5 +41,10 @@ var
   SIZEP01 : word absolute $D008;
   COLPM01 : word absolute $D012;
 
+// auxiliary variables
+var
+  b00i    : byte absolute $ff;
+  b01i    : byte absolute $fe;
+
 implementation
 end.
