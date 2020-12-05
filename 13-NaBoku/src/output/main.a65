@@ -927,7 +927,7 @@ GAME_LMS	= $E000
 	rti						; ret
 .endl
 
-.local	JOY						; PROCEDURE | INTERRUPT
+.local	JOYHANDLER					; PROCEDURE | INTERRUPT
 
 ; ---------------------  ASM Block 057  ---------------------
 
@@ -1098,9 +1098,9 @@ l_0239
 
 ; optimize OK (main.pas), line = 73
 
-	lda <JOY
+	lda <JOYHANDLER
 	sta PJOY
-	lda >JOY
+	lda >JOYHANDLER
 	sta PJOY+1
 	lda <STARS
 	sta PSTARS
@@ -1117,8 +1117,8 @@ l_0239
 ; optimize FAIL ('SYS.SETDLI', main.pas), line = 76
 
 	inx
-	mva <JOY :STACKORIGIN,x
-	mva >JOY :STACKORIGIN+STACKWIDTH,x
+	mva <JOYHANDLER :STACKORIGIN,x
+	mva >JOYHANDLER :STACKORIGIN+STACKWIDTH,x
 	jsr SYS.SETDLI
 
 ; optimize FAIL ('SYSTEM.PAUSE_006A', main.pas), line = 78

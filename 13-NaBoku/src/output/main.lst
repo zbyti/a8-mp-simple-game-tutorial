@@ -892,7 +892,7 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    927 22E0 40				rti						; ret
    928 				.endl
    929
-   930 22E1			.local	JOY						; PROCEDURE | INTERRUPT
+   930 22E1			.local	JOYHANDLER					; PROCEDURE | INTERRUPT
    931
    932 				; ---------------------  ASM Block 057  ---------------------
    933
@@ -1063,9 +1063,9 @@ Macro: UNITINITIALIZATION [Source: main.a65]
   1098
   1099 				; optimize OK (main.pas), line = 73
   1100
-  1101 23A3 A9 E1			lda <JOY
+  1101 23A3 A9 E1			lda <JOYHANDLER
   1102 23A5 8D 08 24			sta PJOY
-  1103 23A8 A9 22			lda >JOY
+  1103 23A8 A9 22			lda >JOYHANDLER
   1104 23AA 8D 09 24			sta PJOY+1
   1105 23AD A9 15			lda <STARS
   1106 23AF 8D 0A 24			sta PSTARS
@@ -1082,8 +1082,8 @@ Macro: UNITINITIALIZATION [Source: main.a65]
   1117 				; optimize FAIL ('SYS.SETDLI', main.pas), line = 76
   1118
   1119 23C3 E8				inx
-  1120 23C4 A9 E1 95 98			mva <JOY :STACKORIGIN,x
-  1121 23C8 A9 22 95 A8			mva >JOY :STACKORIGIN+STACKWIDTH,x
+  1120 23C4 A9 E1 95 98			mva <JOYHANDLER :STACKORIGIN,x
+  1121 23C8 A9 22 95 A8			mva >JOYHANDLER :STACKORIGIN+STACKWIDTH,x
   1122 23CC 20 6F 21			jsr SYS.SETDLI
   1123
   1124 				; optimize FAIL ('SYSTEM.PAUSE_006A', main.pas), line = 78
@@ -1232,7 +1232,7 @@ Macro: UNITINITIALIZATION [Source: main.a65]
   1261
   1262 					ift .SIZEOF(MAIN.JOY) > 0
   1263 					.print 'JOY: ',MAIN.JOY,'..',MAIN.JOY+.SIZEOF(MAIN.JOY)-1
-  1263 				JOY: $22E1..$2314
+  1263 				JOY: $2254..$22D5
   1264 					eif
   1265
   1266 					.print 'CODE: ',CODEORIGIN,'..',MAIN.@RESOURCE-1

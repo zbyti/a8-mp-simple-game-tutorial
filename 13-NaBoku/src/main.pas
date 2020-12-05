@@ -23,7 +23,7 @@ begin
   asm { plr };
 end;
 
-procedure joy; interrupt;
+procedure joyHandler; interrupt;
 begin
   asm { phr };
 
@@ -70,10 +70,10 @@ begin
   sprites.init;
   mode2; COLBK := 0; COLPF2 := 2;
   PACTL := PACTL or %100;
-  pJoy := @joy; pStars := @stars;
+  pJoy := @joyHandler; pStars := @stars;
 
   setVbi(@vbi);
-  setDli(@joy);
+  setDli(@joyHandler);
 
   Pause; DMACTL := %111110;
 end;
