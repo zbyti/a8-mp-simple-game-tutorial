@@ -84,7 +84,7 @@ JOY_UP              = %0010;
 JOY_DOWN            = %0001;
 ```
 
-Jak widzisz, pomijam nieistotne części nibbla dla danego kierunku aby łatwiej było mi zrobić moja dwu przebiegową procedurę zakładając odpowednią maskę.
+Jak widzisz, pomijam nieistotne części nibbla dla danego kierunku aby łatwiej było mi zrobić moją dwuprzebiegową procedurę zakładając odpowednią maskę.
 
 Najlepiej zobaczmy gotowy kod:
 
