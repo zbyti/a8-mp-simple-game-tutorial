@@ -2,7 +2,7 @@
 
 ## O czym warto wiedzieć?
 
-8-bit Atari na którym bawimy się w programowanie jest konstrukcją generalnie nie zmienioną od roku 1979. Wyprzedza ona o 3 lata takie konstrukcje jak Commodore C64 czy ZX Spectrum 48. Pomimo zawansowania swoich układów pod pewnym względem Atari pozostaje w tyle za konkurecją, która pojawiła się później. Na komputerze Atari 400/800 nie ma tak zwanych atrybutów kolorów przez co w trybie **ANTIC 2** (w którym będziemy pisać maszą grę) obraz pozostanie monochromatyczny. A8 pomimo posiadania sprzętowych *sprajtów* niestety nie może się pochwalić duszkami w trybie hi-res co będzie miało praktyczne skutki w naszej grze.
+8-bit Atari na którym bawimy się w programowanie jest konstrukcją generalnie nie zmienioną od roku 1979. Wyprzedza ona o 3 lata takie konstrukcje jak Commodore C64 czy ZX Spectrum 48. Pomimo zawansowania swoich układów pod pewnym względem Atari pozostaje w tyle za konkurecją, która pojawiła się później. Na komputerze Atari 400/800 nie ma tak zwanych atrybutów kolorów przez co np. w trybie **ANTIC 2** obraz pozostanie monochromatyczny. A8 pomimo posiadania sprzętowych *sprajtów* niestety nie może się pochwalić duszkami w trybie hi-res co będzie miało praktyczne skutki w naszej grze.
 
 Planujemy napisać grę w trybie **ANTIC 2** który jest trybem znakowym 40 kolumny na 24 wiersze. W tym przypadku każdy znak to matryca 8x8 pikseli. Piksel w tym trybie ma **pół cyklu koloru**, duszek niestety ma już piksel szeroki na **jeden cykl koloru** co na ekranie objawi się tym, że na dwa piksele tła w poziomie będzie przypadał jeden piksel duszka który w naszym przypadku będzie po prostu prostokątem 2x1 a nie 1x1 jak grafika tła.
 
@@ -18,7 +18,7 @@ Atari 400/800 oferuje nam 4 obiekty gracza i 4 pociski (które możemy połączy
 
 Ponadto duszki można łączyć w pary w celu uzyskania dodakowego koloru przez nałożenie ich na siebie, można je rozciągać, używać do podkolorowywania naszej grafiki etc.
 
-To chyba tyle tytułem wstępu, reszta *wydzie w praniu* :]
+To chyba tyle tytułem wstępu, reszta *wyjdzie w praniu* :]
 
 ## Niezbędnik
 
