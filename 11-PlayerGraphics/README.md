@@ -1,6 +1,6 @@
 # 11. Player Graphics
 
-Mam nadzieję, że przeczytałeś z uwagą materiały z części 10 ninejszczego tutoriala ;) pełen tej nadzieji będę zapełniał rejetry danymi bez wdawania się w szczegóły, które powinny być Ci już w miarę znajome ;)
+Mam nadzieję, że przeczytałeś z uwagą materiały z części 10 niniejszego tutoriala ;) pełen tej nadziei będę zapełniał rejestry danymi bez wdawania się w szczegóły, które powinny być Ci już w miarę znajome ;)
 
 ## Projekt graficzny
 
@@ -8,7 +8,7 @@ Aby wykonać grafikę naszego pojazdu możesz posłużyć się dowolnym narzędz
 
 Godnym polecenia jest [Sprite Editor XL](http://bocianu.atari.pl/blog/spriteXL) z którego można skorzystać w przeglądarce internetowej.
 
-Ja poszedłem na skróty i narysowałem pojazd w hi-res w narzędziu w którym będziemy rysowali nasz zestaw znaków, oczywiście musiałem pamiętać, że stateczek jaki wyrysowałem na 2 znakach po przeniesieniu tych samych danych na pamięć duszka będzie szerokości `4` znaków ekranowych bo każdy piksel z pół cyklu koloru będzie rysowany w jednym cyklu, mówiąc po ludzku: grafika będzie 2x rozciągnięta horyzontalnie w stosunku do tego co narysujemy w programie FontMaker. Założenie mamy też takie, że duszki będę *jednowierszowe* co to znaczy powinieneś już wiedzieć z lektury wzmiankowanych materiałów.
+Ja poszedłem na skróty i narysowałem pojazd w hi-res w narzędziu w którym będziemy rysowali nasz zestaw znaków, oczywiście musiałem pamiętać, że stateczek jaki wyrysowałem na 2 znakach po przeniesieniu tych samych danych na pamięć duszka będzie szerokości `4` znaków ekranowych bo każdy piksel z pół cyklu koloru będzie rysowany w jednym cyklu, mówiąc po ludzku: grafika będzie 2x rozciągnięta horyzontalnie w stosunku do tego co narysujemy w programie FontMaker. Założenie mamy też takie, że duszki będą *jednowierszowe*, co to znaczy powinieneś już wiedzieć z lektury wzmiankowanych materiałów.
 
 Po narysowaniu wyeksportowałem dane o tak:
 
@@ -16,20 +16,20 @@ Po narysowaniu wyeksportowałem dane o tak:
 
 ## Jak użyć tych liczb?
 
-Jest wiele sposóbów by w Mad Pascalu skorzystać z danych, które przed chwilą wyeksportowaliśmy. Możemy np. wrzucić je do jakiejś statycznej tablicy, użyć jako `dat` w bloku **ASM** itd. Ja wybrałem sposób chyba najbardziej elegancki, dołączam te dane jako zasób binarny.
+Jest wiele sposobów by w Mad Pascalu skorzystać z danych, które przed chwilą wyeksportowaliśmy. Możemy np. wrzucić je do jakiejś statycznej tablicy, użyć jako `dat` w bloku **ASM** itd. Ja wybrałem sposób chyba najbardziej elegancki, dołączam te dane jako zasób binarny.
 
-Aby to zrobić to w dowolnym edytorze obsługującym pliki binarne (ja skorzystałem z Sublime Text ustawiając kodowanie na **Hexadecimal**) wklejami nasze dane i zapisujemy je jako np. `gfx_ship_bin`.
+Aby to zrobić to w dowolnym edytorze obsługującym pliki binarne (ja skorzystałem z Sublime Text ustawiając kodowanie na **Hexadecimal**) wklejamy nasze dane i zapisujemy je jako np. `gfx_ship_bin`.
 
-Aby uniknąć podczas poruszania się góra / dół (za pomocą kopiowania danych) pozostawiania starych danych dodałem łącznie cztery `0` do wyeksportowanych danych po jednym na początku każdego znaku i po jednym na jego końcu, w ten sposób z `8` bajtów na jednego duszka (pół rakiety) zrobiło mi się ich `10` :] Gdy poruszać się będiemy więcej niż o jedną linię rastra to będzie trzeba dodać tych `0` odpowiednio więcej, na ten moment zapewniliśmy sobie czyszczenie przy ruchu góra/dół o jedną linię.
+Aby uniknąć podczas poruszania się góra / dół (za pomocą kopiowania danych) pozostawiania starych danych dodałem łącznie cztery `0` do wyeksportowanych danych po jednym na początku każdego znaku i po jednym na jego końcu, w ten sposób z `8` bajtów na jednego duszka (pół rakiety) zrobiło mi się ich `10` :] Gdy poruszać się będziemy więcej niż o jedną linię rastra to będzie trzeba dodać tych `0` odpowiednio więcej, na ten moment zapewniliśmy sobie czyszczenie przy ruchu góra/dół o jedną linię.
 
-Nasz dane powinny wyglądać tak:
+Nasze dane powinny wyglądać tak:
 
 ```
 0070 7b1e 3f32 1f7b 7000 0000 c060 30d8
 f0e0 0000
 ```
 
-Teraz stwórzmy plik z zasobami `gfx.rc` w katalogi `res` a w nim napiszmy co następuje:
+Teraz stwórzmy plik z zasobami `gfx.rc` w katalogu `res` a w nim napiszmy co następuje:
 
 ```
 GFX_SHIP_ADR rcdata 'res/gfx_ship.bin'
@@ -52,7 +52,7 @@ W pliku `main.pas` (później powynosimy kod do odpowiednich bibliotek) dołącz
 {$r res/gfx.rc}
 ```
 
-Teraz napiszmy procedurę inicjującam naszą aplikację / grę:
+Teraz napiszmy procedurę inicjującą naszą aplikację / grę:
 
 ```pascal
 procedure init;
@@ -65,9 +65,9 @@ begin
 end;
 ```
 
-Procedura przygotowuje nasz komputer do pracy: wyłącza system, wyłącza **ANTIC** a na końcu czeka na **VBLK** i podczas gdy działo elektronowe wraca do lewego górnego rogu ekranu mu odpalami **ANTIC** w włączonymi *jednowierszowymi sprajtami* i polem gry o *normalnej* szerokości.
+Procedura przygotowuje nasz komputer do pracy: wyłącza system, wyłącza **ANTIC** a na końcu czeka na **VBLK** i podczas gdy działo elektronowe wraca do lewego górnego rogu ekranu my odpalamy **ANTIC** z włączonymi *jednowierszowymi sprajtami* i polem gry o *normalnej* szerokości.
 
-Znaczenie bitów dla **DMACTL** możesz przypomnie sobie np. [tutaj](http://atariki.krap.pl/index.php/Rejestry_ANTIC-a).
+Znaczenie bitów dla **DMACTL** możesz przypomnieć sobie np. [tutaj](http://atariki.krap.pl/index.php/Rejestry_ANTIC-a).
 
 #### Będziemy potrzebowali jeszcze paru stałych
 
@@ -83,12 +83,12 @@ GFX_SHIP_SEG        = 10;             // ship gfx 10 byte segment, 10B for P0 & 
 
 ```
 
-Wyjaśnienia wymgają może dwie rzeczy:
+Wyjaśnienia wymagają może dwie rzeczy:
 
-* Adres `PM_ADR` wykorzystywany przez `PMBASE` jest identyczny z `GFX_SHIP_ADR` z takiego to powodu, że pierwsze $300 bajtów pamięci którą rezerwuję na duszki jest niewykorzystywane, więc szkoda zmarnować taką ilość pamięci. Pamięc efektywnie wykorzystywana przez duszki zaczyna się od początku pamięci pierwszego **missile** czyli `M0_ADR`.
-*  `P0_ADR` i `P1_ADR` dodają odpowednio do `PM_ADR` `$400` i `$500` ponieważ - jak może pamiętasz - pamięć dla **players** zaczyna się od `PMBASE  + $400` i ma offset `$100`.
+* Adres `PM_ADR` wykorzystywany przez `PMBASE` jest identyczny z `GFX_SHIP_ADR` z takiego to powodu, że pierwsze $300 bajtów pamięci którą rezerwuję na duszki jest niewykorzystywane, więc szkoda zmarnować taką ilość pamięci. Pamięć efektywnie wykorzystywana przez duszki zaczyna się od początku pamięci pierwszego **missile** czyli `M0_ADR`.
+*  `P0_ADR` i `P1_ADR` dodają odpowiednio do `PM_ADR` `$400` i `$500` ponieważ - jak może pamiętasz - pamięć dla **players** zaczyna się od `PMBASE  + $400` i ma offset `$100`.
 
-Także w tej chwili mamy ustalone adresy dla nszych graczy i sprajtów w ogóle.
+Także w tej chwili mamy ustalone adresy dla naszych graczy i sprajtów w ogóle.
 
 #### Teraz potrzebujemy paru rejestrów
 
@@ -117,7 +117,7 @@ var
   COLPM01 : word absolute $D012;
   ```
 
-  Jak łatwo zauważyć stworzyłem sobie zmienne pomocnicze `HPOSP01`, `SIZEP01` i `COLPM01`. Skoro nasz pojazd składa się z dwóch duszków P0 i P1 to będę do tych rejestrów wpisywał dane *po sobie*, ułatwi nam to troch zapis.
+  Jak łatwo zauważyć stworzyłem sobie zmienne pomocnicze `HPOSP01`, `SIZEP01` i `COLPM01`. Skoro nasz pojazd składa się z dwóch duszków P0 i P1 to będę do tych rejestrów wpisywał dane *po sobie*, ułatwi nam to trochę zapis.
 
 #### Odrobina zmiennych własnych
 
@@ -132,7 +132,7 @@ var
 
 Jak widać przygotowaliśmy zmienne na stronie zerowej do przechowywania pozycji `X` naszego pojazdu których wartość będziemy przepisywać do odpowiednich rejestrów.
 
-`wShipHpos` to stara sztuczka, która pozwali nam za jednym zamachaem wrzucić `bHposp0` i `bHposp1` do naszego *podwójnego* rejestru `HPOSP01` :]
+`wShipHpos` to stara sztuczka, która pozwali nam za jednym zamachem wrzucić `bHposp0` i `bHposp1` do naszego *podwójnego* rejestru `HPOSP01` :]
 
 #### Napełniamy procedurę `init` treścią
 
@@ -159,10 +159,10 @@ No to idziemy przez kod step-by-step:
 * `PMBASE := hi(PM_ADR;` wpisujemy do rejestru starszy bajt adresu pamięci jaką przeznaczyliśmy na duszki
 * `bHposp0 := 44; bHposp1 := 52; HPOSP01 := wShipHpos;` ustalamy pozycję na osi `X` dla naszych *graczy*. By P0 i P1 były obok siebie ich pozycja musi się różnić o ich szerokość czyli `8`.
 * `COLPM01 := $0f0f;` nasz kolejny *podwójny* rejestr, ustawiamy biały kolor `$0f` dla obu sprajtów.
-* `SIZEP01 := 0;` zapewnia nam normalną szerokoć dla obu **playerów**
-* `PRIOR := 0;` wybieramy kolejność/priorytet wyświetalnia grafiki ma ekranie
-* `GRACTL := %00000011;` bit 0 ustawiony na `1` włącza pociski, bit 1 ustaiony na `1` włącza graczy
-* `FillByte(pointer(M0_ADR), $500, 0);` nie wiemy w jakim stanie jest pamięć naszego komputera dlatego czyścimy ją sobie od `M0_ADR` przez kolejnych `5` stron pamięci wypełniając zerami. Pamięć na duszki (w naszym przypadku) to `2KB` czyli `8` stron z czego `3` pierwsze są nie wykorzystane i wrzucilśmu już tam grafikę naszego pojazdu dlatego czyścimy tylko `5` pozostałych.
+* `SIZEP01 := 0;` zapewnia nam normalną szerokość dla obu **playerów**
+* `PRIOR := 0;` wybieramy kolejność/priorytet wyświetlania grafiki ma ekranie
+* `GRACTL := %00000011;` bit 0 ustawiony na `1` włącza pociski, bit 1 ustawiony na `1` włącza graczy
+* `FillByte(pointer(M0_ADR), $500, 0);` nie wiemy w jakim stanie jest pamięć naszego komputera dlatego czyścimy ją sobie od `M0_ADR` przez kolejnych `5` stron pamięci wypełniając zerami. Pamięć na duszki (w naszym przypadku) to `2KB` czyli `8` stron z czego `3` pierwsze są nie wykorzystane i wrzuciliśmy już tam grafikę naszego pojazdu dlatego czyścimy tylko `5` pozostałych.
 * `Move(pointer(GFX_SHIP_ADR), pointer(P0_ADR + 8), GFX_SHIP_SEG);` kopiujemy z naszej matrycy statku jego pierwszy segment i wrzucamy od początku pamięci przeznaczonej dla **P0** + `8` ponieważ pierwsze 8 lini skaningowych nie jest *rysowanych*
 * `Move(pointer(GFX_SHIP_ADR + GFX_SHIP_SEG), pointer(P1_ADR + 8), GFX_SHIP_SEG);` kopiujemy *dziób* naszej rakiety do gracza 1 czyli **P1** i również dodajemy `8`
 
@@ -194,13 +194,13 @@ begin
 end;
 ```
 
-Zaresjetrujmy naszą procedurę za pomocą `setVbi(@vbi);`, skompilujmy nasz program i podziwiajmy naszego pierwszego animowanego duszka :]
+Zarejestrujmy naszą procedurę za pomocą `setVbi(@vbi);`, skompilujmy nasz program i podziwiajmy naszego pierwszego animowanego duszka :]
 
 ![ship.gif](gfx/ship.gif)
 
 ## Nasz kod
 
-Na koniec dnia nasz plik `main.pas` powinine wyglądać w ten sposób:
+Na koniec dnia nasz plik `main.pas` powinien wyglądać w ten sposób:
 
 ```pascal
 {$librarypath 'lib'}
