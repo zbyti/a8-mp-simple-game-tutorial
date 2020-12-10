@@ -2,13 +2,13 @@
 
 ## O czym warto wiedzieć?
 
-8-bit Atari na którym bawimy się w programowanie jest konstrukcją generalnie nie zmienioną od roku 1979. Wyprzedza ona o 3 lata takie konstrukcje jak Commodore C64 czy ZX Spectrum 48. Pomimo zawansowania swoich układów pod pewnym względem Atari pozostaje w tyle za konkurecją, która pojawiła się później. Na komputerze Atari 400/800 nie ma tak zwanych atrybutów kolorów przez co np. w trybie **ANTIC 2** obraz pozostanie monochromatyczny. A8 pomimo posiadania sprzętowych *sprajtów* niestety nie może się pochwalić duszkami w trybie hi-res co będzie miało praktyczne skutki w naszej grze.
+8-bit Atari na którym bawimy się w programowanie jest konstrukcją generalnie nie zmienioną od roku 1979. Wyprzedza ona o 3 lata takie konstrukcje jak Commodore C64 czy ZX Spectrum 48. Pomimo zaawansowania swoich układów pod pewnym względem Atari pozostaje w tyle za konkurencją, która pojawiła się później. Na komputerze Atari 400/800 nie ma tak zwanych atrybutów kolorów przez co np. w trybie **ANTIC 2** obraz pozostanie monochromatyczny. A8 pomimo posiadania sprzętowych *sprajtów* niestety nie może się pochwalić duszkami w trybie hi-res co będzie miało praktyczne skutki w naszej grze.
 
 Planujemy napisać grę w trybie **ANTIC 2** który jest trybem znakowym 40 kolumny na 24 wiersze. W tym przypadku każdy znak to matryca 8x8 pikseli. Piksel w tym trybie ma **pół cyklu koloru**, duszek niestety ma już piksel szeroki na **jeden cykl koloru** co na ekranie objawi się tym, że na dwa piksele tła w poziomie będzie przypadał jeden piksel duszka który w naszym przypadku będzie po prostu prostokątem 2x1 a nie 1x1 jak grafika tła.
 
 Mówiąc inaczej - grafika tła będzie szczegółowa a grafika naszego pojazdu trochę zgrubna. Mam nadzieję, że uda mi się narysować coś co nie będzie aż tak się odcinało od tła ;)
 
-Rozwiązaniem powyższego problemu mogą być tak zwane *softwarowe sprajty* czyli ruchome obiekty wykonane na znakach (lub grafice, zależy od wybranego trybu graficznego), my checmy jednak zapoznać się z **P/MG** dlatego pobawimy się w Ghostbusters :D
+Rozwiązaniem powyższego problemu mogą być tak zwane *softwarowe sprajty* czyli ruchome obiekty wykonane na znakach (lub grafice, zależy od wybranego trybu graficznego), my chcemy jednak zapoznać się z **P/MG** dlatego pobawimy się w Ghostbusters :D
 
 Warto też przypomnieć, że możliwość przesunięcia w poziomie również odbywa się o **cykl koloru** czyli o dwa piksele naszego tła w **trybie drugim ANTIC**.
 
@@ -16,7 +16,7 @@ Ostatnią niedogodnością jest brak sprzętowej możliwości przesuwania naszeg
 
 Atari 400/800 oferuje nam 4 obiekty gracza i 4 pociski (które możemy połączyć w piątego gracza). Nie jest to wiele ale za pomocą pewnych technik programistycznych można te obiekty rozmnożyć, być może dokonamy tego cudu, wszystko w swoim czasie ;)
 
-Ponadto duszki można łączyć w pary w celu uzyskania dodakowego koloru przez nałożenie ich na siebie, można je rozciągać, używać do podkolorowywania naszej grafiki etc.
+Ponadto duszki można łączyć w pary w celu uzyskania dodatkowego koloru przez nałożenie ich na siebie, można je rozciągać, używać do podkolorowywania naszej grafiki etc.
 
 To chyba tyle tytułem wstępu, reszta *wyjdzie w praniu* :]
 
@@ -42,7 +42,7 @@ DMACTL : byte absolute $D400;  // (W) Direct Memory Access (DMA) control
 PMBASE : byte absolute $D407;  // (W) MSB of the player/missile base address used to locate the graphics for your players and missiles
 ```
 
-Dodatkowo możesz rzucić okeim na **atariki** [tutaj](http://atariki.krap.pl/index.php/PMG), [tutaj](http://atariki.krap.pl/index.php/Rejestry_GTIA) oraz [tu](http://atariki.krap.pl/index.php/Rejestry_ANTIC-a#PMBASE). Warto też zapoznać się ze [słownikiem terminów](http://www.atari.org.pl/artykul/dgf/41) z którego cześć pojęć wrzuciełm do słowniczka u dołu strony gdyby artykuł zniknął z sieci.
+Dodatkowo możesz rzucić okiem na **atariki** [tutaj](http://atariki.krap.pl/index.php/PMG), [tutaj](http://atariki.krap.pl/index.php/Rejestry_GTIA) oraz [tu](http://atariki.krap.pl/index.php/Rejestry_ANTIC-a#PMBASE). Warto też zapoznać się ze [słownikiem terminów](http://www.atari.org.pl/artykul/dgf/41) z którego cześć pojęć wrzuciłem do słowniczka u dołu strony gdyby artykuł zniknął z sieci.
 
 Jeszcze raz przypomnę: *bez zapoznanie się z opisem powyższych rejestrów dalsza część tutoriala może być niezrozumiała!*
 
@@ -58,7 +58,7 @@ Jeszcze raz przypomnę: *bez zapoznanie się z opisem powyższych rejestrów dal
 >Pole gry - grafika obejmująca kolory 0-3 (COLPF0-COLPF3) ale nie kolor tła COLBAK.
 
 * **Cykl CPU**
-> Cykl zegara taktującego CPU, w nszym przypadku [MOS 6502](https://pl.wikipedia.org/wiki/MOS_Technology_6502) 1.77MHz dla PAL, 1.79MHz w NTSC.
+> Cykl zegara taktującego CPU, w naszym przypadku [MOS 6502](https://pl.wikipedia.org/wiki/MOS_Technology_6502) 1.77MHz dla PAL, 1.79MHz w NTSC.
 
 * [**Cykl koloru**](http://www.atariki.krap.pl/index.php/Cykl_koloru)
 >Jednostka czasu odpowiadająca jednemu okresowi podstawowego sygnału taktującego GTIA (w systemie PAL - 3,546894 MHz, w systemie NTSC - 3,579545 MHz, w systemie SECAM - 3,563 MHz), co odpowiada 1/228 linii, czyli 1/71136 ramki, a także 1/2 cyklu maszynowego. Jednostka ta ma bezpośrednie przełożenie na określenie poziomej pozycji i szerokości wyświetlanych obiektów graficznych i do tego celu również jest używana.
