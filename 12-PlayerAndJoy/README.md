@@ -2,9 +2,9 @@
 
 ## Na wstępie trochę organizacyjnie
 
-Od ostatniej części tutka kod przeszadł mały refaktoring dlatego warto byś pobieżnie rzucił okiem do katalogu `src` tej części kursu.
+Od ostatniej części tutka kod przeszedł mały refaktoring dlatego warto byś pobieżnie rzucił okiem do katalogu `src` tej części kursu.
 
-Podstawowa zmiania to wyniesienie derekty dołączającej zasoby:
+Podstawowa zmiana to wyniesienie dyrektywy dołączającej zasoby:
 
 ```
 {$r res/gr.rc}
@@ -15,7 +15,7 @@ do głównego pliku `main.pas`, także w bibliotekach katalogu `lib` jest już p
 
 Plik `const.inc` trafiły do folderu `inc` gdzie będziemy trzymać podobne skrawki kodu doklejane dyrektywą `include` - oczywiście jeżeli będzie taka potrzeba.
 
-Kod odpowiedzialny za sprajty trafił do dedykowaego modułu.
+Kod odpowiedzialny za sprajty trafił do dedykowanego modułu.
 
 Mam nadzieję, że do tej pory nauczyłeś się już korzystać z mapy pamięci Atari bo mogę od teraz nie omawiać wszystkich rejestrów, które wystąpią w kodzie. Gdy napotkasz nazwę rejestru, która nic Ci nie mówi, albo nie wiesz dlaczego wstawiam takie a nie inne wartości to zatrzymaj się na moment i poszperaj w internecie albo w książce.
 
@@ -52,7 +52,7 @@ PACTL := PACTL or %100;
 
 zapewni nam to, że młodszy [nibble](https://pl.wikipedia.org/wiki/P%C3%B3%C5%82bajt) rejestru `PORTA` będzie zwracał nam stan *manipulatorów wychyłkowych* :D
 
-Pozycja spoczynkowa to wartość `%1111`, wygaszenie któregoś z tych bitów poinformuje nas o kierunku wychylenia *przyjemnej pałęczki*.
+Pozycja spoczynkowa to wartość `%1111`, wygaszenie któregoś z tych bitów poinformuje nas o kierunku wychylenia *przyjemnej pałeczki*.
 
 ```
      Decimal                   Binary
@@ -67,11 +67,11 @@ Pozycja spoczynkowa to wartość `%1111`, wygaszenie któregoś z tych bitów po
                13                       1101
 ```
 
-Przy okazji (jak widać na powyższym) kolejny raz można zobaczyć dlaczego pisząc kod czasem posługuję się liczbami w systemie binarnym a czasem szesnastkowym, najrzadzej systemem dziesiętnym.
+Przy okazji (jak widać na powyższym) kolejny raz można zobaczyć dlaczego pisząc kod czasem posługuję się liczbami w systemie binarnym a czasem szesnastkowym, najrzadziej systemem dziesiętnym.
 
-O ile wartości dziesiętne stanu joya nie wiele mogą mówić to już wartości binarne pozwolają dokonać ciekawej obserwacji. Gdy podzielimy te cztery bity na pół to okaże się, że kierunki ukośne są złożeniem `góra/dół/prawo/lewo`. Jakoż, że od strony programistycznej implementacja skosów wymagała by od nas wykonania po sobie kodu odpowiadającego za przesunięcie pionowe i poziome to nie będziemy kodu powielać tylko zastosujemy sztuczkę.
+O ile wartości dziesiętne stanu joya nie wiele mogą mówić to już wartości binarne pozwalają dokonać ciekawej obserwacji. Gdy podzielimy te cztery bity na pół to okaże się, że kierunki ukośne są złożeniem `góra/dół/prawo/lewo`. Jakoż, że od strony programistycznej implementacja skosów wymagała by od nas wykonania po sobie kodu odpowiadającego za przesunięcie pionowe i poziome to nie będziemy kodu powielać tylko zastosujemy sztuczkę.
 
-Tutaj warto wspomnieć o decyjach jakie podejmue się na 8-bit komuterze. Można napisać szybszy kod obsługując każdy z `8` kierunków osobno ale odbędzie się to kosztem zużycia cennej pamięci. Napisać kod bardzo kompaktowo ale pójdzie na to masa cylki procesora. Ja proponuję kompromis między długością kodu a szybkością jego wykonania.
+Tutaj warto wspomnieć o decyzjach jakie podejmuje się na 8-bit komputerze. Można napisać szybszy kod obsługując każdy z `8` kierunków osobno ale odbędzie się to kosztem zużycia cennej pamięci. Napisać kod bardzo kompaktowo ale pójdzie na to masa cykli procesora. Ja proponuję kompromis między długością kodu a szybkością jego wykonania.
 
 Tutaj warto też wspomnieć, że czas wykonania naszej procedury nie będzie stały, dlatego przy obliczaniu cyklożarłoczności procedury bierzemy zawsze najdłuższą ścieżkę naszego algorytmu. W naszym przypadku skosy będą wykonywały się dłużej niż np. ruch tylko w prawo.
 
@@ -84,7 +84,7 @@ JOY_UP              = %0010;
 JOY_DOWN            = %0001;
 ```
 
-Jak widzisz, pomijam nieistotne części nibbla dla danego kierunku aby łatwiej było mi zrobić moją dwuprzebiegową procedurę zakładając odpowednią maskę.
+Jak widzisz, pomijam nieistotne części nibbla dla danego kierunku aby łatwiej było mi zrobić moją dwuprzebiegową procedurę zakładając odpowiednią maskę.
 
 Najlepiej zobaczmy gotowy kod:
 
@@ -120,13 +120,13 @@ begin
 end;
 ```
 
-Pętla **FOR** zapewnia nam dwa przebiegi na wypadek gdyby kierunek był skosem i trzeba było wykonać dwa warunki zawarte w instrukcji `case`. `bMask` korzysta z poczynionej wcześniej obserwacji, że góra/dół ma swója połówkę nibbla a lewo/prawo swoją, dzięki operacji `and` i odpowiedniej masce jesteśmy za pomocą tego kodu obsłużyć także skosy :]
+Pętla **FOR** zapewnia nam dwa przebiegi na wypadek gdyby kierunek był skosem i trzeba było wykonać dwa warunki zawarte w instrukcji `case`. `bMask` korzysta z poczynionej wcześniej obserwacji, że góra/dół ma swoją połówkę nibbla, a lewo/prawo swoją, dzięki operacji `and` i odpowiedniej masce jesteśmy w stanie za pomocą tego kodu obsłużyć także skosy :]
 
-Pozorny minus jest taki, że jeżli kierunek nie był skosem to dokonamy nieptrzebnych operacji, ustaliliśmy jednak już wcześniej, że interesje nas tylko maksymalny czas wykonania procedur. Jeżeli wszystko chcemy mieć zsynchronizowane na ekranie to zaoszczędzone cykle na niewiele nam się przydadzą. No chyba, że będziemy śrubować kod i wrzucić coś w wolne cykle, ale to już zabaw przeznaczona raczej dla języka maszynowego ;)
+Pozorny minus jest taki, że jeżeli kierunek nie był skosem to dokonamy niepotrzebnych operacji, ustaliliśmy jednak już wcześniej, że interesuje nas tylko maksymalny czas wykonania procedur. Jeżeli wszystko chcemy mieć zsynchronizowane na ekranie to zaoszczędzone cykle na niewiele nam się przydadzą. No chyba, że będziemy śrubować kod i wrzucić coś w wolne cykle, ale to już zabawa przeznaczona raczej dla języka maszynowego ;)
 
-Warto wspomnieć o `Inc(wShipX,$0101);`. Ta sztuczka dzięki połączeniu `HPOSP0` i `HPOSP1` w jeden 16-bit rejestr pozwala nam w zwięzły sposób zwiększyć oba 8-bit rejestry o jeden. W systemie szesnastkowym od razu widać co robimy, że w zmiennej typu `word` młodszy i starszy bajt inkremetujemy o jeden. Gdybym napisał dziesiętnie liczbę **257** zamiast `$0101` to nie było by to takie oczywiste co się dzieje już na pierwszy rzut oka jak to jest widoczne gdy posługujemy się systemem szesnastkowym.
+Warto wspomnieć o `Inc(wShipX,$0101);`. Ta sztuczka dzięki połączeniu `HPOSP0` i `HPOSP1` w jeden 16-bit rejestr pozwala nam w zwięzły sposób zwiększyć oba 8-bit rejestry o jeden. W systemie szesnastkowym od razu widać co robimy, że w zmiennej typu `word` młodszy i starszy bajt inkrementujemy o jeden. Gdybym napisał dziesiętnie liczbę **257** zamiast `$0101` to nie było by to takie oczywiste co się dzieje już na pierwszy rzut oka jak to jest widoczne gdy posługujemy się systemem szesnastkowym.
 
-Porcedura `copyShip` powinna być Ci znan z poprzedniej części, a przynajmniej jej implementacja:
+Procedura `copyShip` powinna być Ci znana z poprzedniej części, a przynajmniej jej implementacja:
 
 ```pascal
 procedure copyShip;
@@ -152,4 +152,4 @@ end;
 
 Procedurę `moveShip` wywołujemy tylko wtedy gdy stan joysticka w porcie pierwszym jest inny niż spoczynkowy.
 
-Kompilujemy swieży kod i możemy spróbować rozbić sprajt o krawędź ekranu :D
+Kompilujemy świeży kod i możemy spróbować rozbić sprajt o krawędź ekranu :D
