@@ -19,7 +19,7 @@ DL_2      = $1000;
 GAME_LMS  = $e000;
 ```
 
-Z powodu naszej organizacji kodu w moduły musimy umieścić te zmienne w naszym **UNIT** odpowiedzialnym za grafikę. Na ten moment zrobimy to w części interfejsu by kompilator widział nasze stałe i zasoby ale w przyszłości zasoby będziemy ładować na początki `main.pas` wtedy stałe przeniesiemy już do cześci implementacji gdzie ich miejsce.
+Z powodu naszej organizacji kodu w moduły musimy umieścić te zmienne w naszym **UNIT** odpowiedzialnym za grafikę. Na ten moment zrobimy to w części interfejsu by kompilator widział nasze stałe i zasoby ale w przyszłości zasoby będziemy ładować na początki `main.pas` wtedy stałe przeniesiemy już do części implementacji gdzie ich miejsce.
 
 ```pascal
 unit gr;
