@@ -1,6 +1,6 @@
 # 9. Konwencja
 
-Przed następnym rozdziałem naszej podróży sądzę, że nastał czas na podsumowanie konwencji nazewniczej jaka wykrystalizowa się podczas pisania dotychczasowego kodu. Od tej pory będziemy się ję trzymać, myślę, że ułatwi nam to czytanie kodu nawet gdy za narzędzie będzie służył tylko prosty notatnik.
+Przed następnym rozdziałem naszej podróży sądzę, że nastał czas na podsumowanie konwencji nazewniczej jaka wykrystalizowała się podczas pisania dotychczasowego kodu. Od tej pory będziemy się jej trzymać, myślę, że ułatwi nam to czytanie kodu nawet gdy za narzędzie będzie służył tylko prosty notatnik.
 
 **UWAGA** Mad Pascal nie rozróżnia wielkości liter nazw zmiennych, procedur czy funkcji, zmienna o nazwie `foo` będzie tożsama tej o nazwie `Foo` czy `fOo` itd.
 
@@ -16,13 +16,13 @@ Nazwy zmiennych zadeklarowanych przez nas będziemy pisać za pomocą [camelCase
   * **s** `string`
 * interatory pomocnicze będziemy kończyć literką **i** po jego numerze porządkowym np: `b01i` lub `w03i`.
 
-Nie widzę powodu by trzymać się tej konwecji dla parametrów procedur i funkcji ale jeżeli chcesz to proszę bardzo :] Ja na komputerze 8-bit będę posługiwał się raczej zmiennymi globalnymi niż parametrami **proc/func** i zwracanymi przez **func** wartościami, trzeba być jednak elastycznym i bez potrzeby nie zaciemniać kodu posługując się tylko zmiennymi globalnymi.
+Nie widzę powodu by trzymać się tej konwencji dla parametrów procedur i funkcji ale jeżeli chcesz to proszę bardzo :] Ja na komputerze 8-bit będę posługiwał się raczej zmiennymi globalnymi niż parametrami **proc/func** i zwracanymi przez **func** wartościami, trzeba być jednak elastycznym i bez potrzeby nie zaciemniać kodu posługując się tylko zmiennymi globalnymi.
 
-Niektóre rjestry są tylko do zapisu inne tylko do odczytu i nie da się w nich trzymać jakiegoś stanu, np. położenia horyzontalnego gracza czy pocisku.
+Niektóre rejestry są tylko do zapisu inne tylko do odczytu i nie da się w nich trzymać jakiegoś stanu, np. położenia horyzontalnego gracza czy pocisku.
 
 ## Rejestry
 
-Etykiety rejestrów piszemy zawsze kapitalikami zgodnie z nazywnictwem przyjętym w [Mapping The Atari](https://www.atariarchives.org/mapping/memorymap.php) np.:
+Etykiety rejestrów piszemy zawsze kapitalikami zgodnie z nazewnictwem przyjętym w [Mapping The Atari](https://www.atariarchives.org/mapping/memorymap.php) np.:
 
 ```pascal
 COLPF1  : byte absolute $D017;  // Color and luminance of playfield one
@@ -52,7 +52,7 @@ FillByte(pointer(PM_ADR + M_OFFSET), $800 - M_OFFSET, 0);
 Move(pointer(P_SHIP_ADR), pointer(PM_ADR + P0_OFFSET), P_SHIP_SEG);
 ```
 
-* **proc/func** pisane przez nas będzemy pisać za pomocą **camelCase** np.:
+* **proc/func** pisane przez nas będziemy pisać za pomocą **camelCase** np.:
 
 ```pascal
 procedure systemOff;
@@ -76,7 +76,7 @@ COLPM01 := $0f0f; SIZEP01 := 0; PRIOR := 0; GRACTL := %00000011;
 pause; DMACTL := %00111110; setVbi(@vbi);
 ```
 
-Pusty wiersz separuje linie kodu z różnych przyczyn, akurat w tym przypadku chcę tym podkreślić, że po `systemOff; DMACTL := 0;` zaczynam pracę przy wyłączonym systemie i wyłączonym **ANTIC** czyli wprowadziłem komputer w stan w którym mogę przygotować dane swojego programu, przygotować tryb graficzny etc. bez ryzyka, że będą tego jakieś widoczne ślady na ekranie, do tego dysponując o około 30% większą mocą **CPU** nie wstrzymywanego przez pracjący procesor graficzny.
+Pusty wiersz separuje linie kodu z różnych przyczyn, akurat w tym przypadku chcę tym podkreślić, że po `systemOff; DMACTL := 0;` zaczynam pracę przy wyłączonym systemie i wyłączonym **ANTIC** czyli wprowadziłem komputer w stan w którym mogę przygotować dane swojego programu, przygotować tryb graficzny etc. bez ryzyka, że będą tego jakieś widoczne ślady na ekranie, do tego dysponując o około 30% większą mocą **CPU** nie wstrzymywanego przez pracujący procesor graficzny.
 
 Na pewno istotnych części kodu lub implementacji algorytmów, które trzeba zrozumieć nie będę pisał w tak zwarty sposób.
 
