@@ -15,6 +15,11 @@ var
 procedure vbi; interrupt;
 begin
   asm { phr };
+
+  Dec(dl2Lms);
+  for b1i := 21 downto 0 do Poke(dl2Lms + b1i * 40,0);
+  Poke(dl2Lms + (RND and %1111) * 40,$80);
+
   asm { plr };
 end;
 

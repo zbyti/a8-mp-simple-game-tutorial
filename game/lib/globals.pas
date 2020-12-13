@@ -44,6 +44,9 @@ var
   SIZEP01 : word absolute $D008;
   COLPM01 : word absolute $D012;
 
+var
+  dl2Lms  : word absolute DL_2 + 4;
+
 // auxiliary variables
 var
   bMask1  : byte absolute $ff;

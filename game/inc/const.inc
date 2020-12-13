@@ -18,4 +18,4 @@ JOY_UP              = %0010;
 JOY_DOWN            = %0001;
 
 DL_2                = $1100;                      // display list memory start address for ANTIC mode 2
-GAME_LMS            = $e000;                      // Load Memory Scan address
+GAME_LMS            = $efff;                      // Load Memory Scan address
