@@ -67,17 +67,17 @@ begin
   asm {
     ldx #GAME_SCREEN_ROWS
     ldy #0
-  clear_loop:
+  clear_col_loop:
     tya
     sta (GLOBALS.WTMP1),y
     lda GLOBALS.WTMP1
     add #40
     sta GLOBALS.WTMP1
-    bcc inc_row
+    bcc inc_row_hi
     inc GLOBALS.WTMP1+1
-  inc_row:
+  inc_row_hi:
     dex
-    bpl clear_loop
+    bpl clear_col_loop
   };
 
   COLBK := $0;

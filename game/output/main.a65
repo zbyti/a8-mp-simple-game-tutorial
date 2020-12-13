@@ -1,5 +1,5 @@
 ; ------------------------------------------------------------
-; Mad Pascal Compiler version 1.6.5 [2020/12/13] for 6502
+; Mad Pascal Compiler version 1.6.5 [2020/12/14] for 6502
 ; ------------------------------------------------------------
 
 STACKWIDTH	= 16
@@ -1176,17 +1176,17 @@ l_0293
 
     ldx #GAME_SCREEN_ROWS
     ldy #0
-  clear_loop:
+  clear_col_loop:
     tya
     sta (GLOBALS.WTMP1),y
     lda GLOBALS.WTMP1
     add #40
     sta GLOBALS.WTMP1
-    bcc inc_row
+    bcc inc_row_hi
     inc GLOBALS.WTMP1+1
-  inc_row:
+  inc_row_hi:
     dex
-    bpl clear_loop
+    bpl clear_col_loop
   
 
 ; optimize OK (main.pas), line = 83

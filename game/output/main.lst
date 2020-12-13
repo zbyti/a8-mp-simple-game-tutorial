@@ -1144,17 +1144,17 @@ Macro: UNITINITIALIZATION [Source: main.a65]
   1176
   1177 242E A2 15		    ldx #GAME_SCREEN_ROWS
   1178 2430 A0 00		    ldy #0
-  1179 2432			  clear_loop:
+  1179 2432			  clear_col_loop:
   1180 2432 98			    tya
   1181 2433 91 FA		    sta (GLOBALS.WTMP1),y
   1182 2435 A5 FA		    lda GLOBALS.WTMP1
   1183 2437 18 69 28		    add #40
   1184 243A 85 FA		    sta GLOBALS.WTMP1
-  1185 243C 90 02		    bcc inc_row
+  1185 243C 90 02		    bcc inc_row_hi
   1186 243E E6 FB		    inc GLOBALS.WTMP1+1
-  1187 2440			  inc_row:
+  1187 2440			  inc_row_hi:
   1188 2440 CA			    dex
-  1189 2441 10 EF		    bpl clear_loop
+  1189 2441 10 EF		    bpl clear_col_loop
   1190 				  
   1191
   1192 				; optimize OK (main.pas), line = 83
