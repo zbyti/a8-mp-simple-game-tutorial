@@ -23,7 +23,7 @@ procedure vbi; interrupt;
 begin
   asm { phr };
 
-  if dl2Lms = GAME_LMS_EMD then FillByte(pointer(GAME_LMS_EMD), $fff, 0);
+  if dl2Lms = GAME_LMS_EMD then FillByte(pointer(GAME_LMS), $3c0, 0);
 
   asm { plr };
 end;

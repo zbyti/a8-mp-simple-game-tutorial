@@ -1023,13 +1023,13 @@ JOYDIRECTION	= $04
 	lda GLOBALS.DL2LMS
 @
 	jne l_01EB
-	lda #$00
+	lda #$3F
 	sta :edx
-	lda #$E0
+	lda #$EC
 	sta :edx+1
-	lda #$FF
+	lda #$C0
 	sta :ecx
-	lda #$0F
+	lda #$03
 	sta :ecx+1
 	lda #$00
 	sta :eax

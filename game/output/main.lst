@@ -33,7 +33,7 @@ Source: const.inc
     17 = 0002			JOY_UP              = %0010;
     18 = 0001			JOY_DOWN            = %0001;
     20 = 1100			DL_2                = $1100;                      // display list memory start address for ANTIC mode 2
-    21 = EC3F			GAME_LMS            = $efff - $3c0;                // Load Memory Scan address
+    21 = EC3F			GAME_LMS            = $efff - $3c0;               // Load Memory Scan address
     22 = E000			GAME_LMS_EMD        = $e000;
      3 1100			dl2
      4 1100 F0 70 F0		    .byte $f0,$70,$f0
@@ -992,13 +992,13 @@ Macro: UNITINITIALIZATION [Source: main.a65]
   1023 239A AD 04 11			lda GLOBALS.DL2LMS
   1024 239D			@
   1025 239D D0 17			jne l_01EB
-  1026 239F A9 00			lda #$00
+  1026 239F A9 3F			lda #$3F
   1027 23A1 85 88			sta :edx
-  1028 23A3 A9 E0			lda #$E0
+  1028 23A3 A9 EC			lda #$EC
   1029 23A5 85 89			sta :edx+1
-  1030 23A7 A9 FF			lda #$FF
+  1030 23A7 A9 C0			lda #$C0
   1031 23A9 85 8C			sta :ecx
-  1032 23AB A9 0F			lda #$0F
+  1032 23AB A9 03			lda #$03
   1033 23AD 85 8D			sta :ecx+1
   1034 23AF A9 00			lda #$00
   1035 23B1 85 84			sta :eax
