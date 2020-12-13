@@ -1154,7 +1154,7 @@ Macro: UNITINITIALIZATION [Source: main.a65]
   1185 246A E6 FB		    inc GLOBALS.WTMP1+1
   1186 246C			  inc_row:
   1187 246C CA			    dex
-  1188 246D 10 EF		    jpl clear_loop
+  1188 246D 10 EF		    bpl clear_loop
   1189 				  
   1190
   1191 				; optimize OK (main.pas), line = 87

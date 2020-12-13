@@ -7,13 +7,6 @@ program Game;
 
 uses globals, sys, gr, sprites, joy;
 
-const
-  clearScrCol : array[0..21] of word = (
-    0, 40, 80, 120, 160, 200, 240, 280, 320, 360,
-    400, 440, 480, 520, 560, 600, 640, 680, 720,
-    760, 800, 840
-  );
-
 var
   aStars : array[0..124] of byte absolute $1200;
   aSpeed : array[0..124] of byte absolute $127d;

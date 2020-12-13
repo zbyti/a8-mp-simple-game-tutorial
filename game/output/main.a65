@@ -1185,7 +1185,7 @@ l_0293
     inc GLOBALS.WTMP1+1
   inc_row:
     dex
-    jpl clear_loop
+    bpl clear_loop
   
 
 ; optimize OK (main.pas), line = 87
