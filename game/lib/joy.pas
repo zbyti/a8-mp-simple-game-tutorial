@@ -5,7 +5,7 @@ unit joy;
 interface
 
 var
-  joyDirection: byte absolute 3;
+  joyDirection: byte absolute 4;
 
 procedure moveShip;
 
@@ -32,12 +32,14 @@ begin
       end;
       JOY_UP: begin
         if bShipY > SHIP_TOP_LIMIT then begin
-          Dec(bShipY,SHIP_Y_STEP); copyShip;
+          bShipYClear := bShipY + 6;
+          Dec(bShipY,2); copyShip;
         end;
       end;
       JOY_DOWN: begin
         if bShipY < SHIP_BOTTOM_LIMIT then begin
-          Inc(bShipY,SHIP_Y_STEP); copyShip;
+          bShipYClear := bShipY;
+          Inc(bShipY,2); copyShip;
         end;
       end;
     end;
