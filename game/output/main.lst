@@ -68,7 +68,7 @@ Source: main.a65
    113 2000			RTLIB
    114 2000				icl 'rtl6502_a8.asm'
 Source: rtl6502_a8.asm
-   166 					opt l+
+   148 					opt l+
    115
    116 				.print 'ZPAGE: ',fxptr,'..',zpend-1
    116 				ZPAGE: $0080..$00D7
