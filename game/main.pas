@@ -66,24 +66,22 @@ begin
 
   if dl2Lms > GAME_LMS_EMD then Dec(dl2Lms) else dl2Lms := GAME_LMS;
 
+  wTmp1 := dl2Lms;
+
   asm {
-    lda #$15
-    sta GLOBALS.B1I
+    ldx #21
+    ldy #0
   clear_loop:
-    lda GLOBALS.B1I
-    asl
-    tay
-    lda GLOBALS.DL2LMS
-    add adr.CLEARSCRCOL,y
-    sta GLOBALS.WTMP1
-    lda GLOBALS.DL2LMS+1
-    adc adr.CLEARSCRCOL+1,y
-    sta GLOBALS.WTMP1+1
-    lda #$00
-    tay
+    tya
     sta (GLOBALS.WTMP1),y
-    dec GLOBALS.B1I
-    jpl clear_loop
+    lda GLOBALS.WTMP1
+    add #40
+    sta GLOBALS.WTMP1
+    bcc inc_row
+    inc GLOBALS.WTMP1+1
+  inc_row:
+    dex
+    bpl clear_loop
   };
 
   COLBK := $0;
