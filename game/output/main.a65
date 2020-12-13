@@ -372,7 +372,7 @@ GFX_SHIP_ADR	= $1000
 GFX_SHIP_SEG	= $08
 SHIP_COL	= $0E0E
 SHIP_LEFT_LIMIT	= $30
-SHIP_RIGHT_LIMIT	= $C0
+SHIP_RIGHT_LIMIT	= $B0
 SHIP_TOP_LIMIT	= $20
 SHIP_BOTTOM_LIMIT	= $A8
 SHIP_X_STEP	= $0202
@@ -782,7 +782,7 @@ l_010D
 ; optimize OK (JOY), line = 24
 
 	lda SPRITES.BHPOSP1
-	cmp #$C0
+	cmp #$B0
 	jcs l_013E
 
 ; optimize OK (JOY), line = 25

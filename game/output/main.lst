@@ -24,7 +24,7 @@ Source: const.inc
      6 = 0008			GFX_SHIP_SEG        = 8;                          // ship gfx 10 byte segment, 10B for P0 & 10B for P1
      8 = 0E0E			SHIP_COL            = $0e0e;
      9 = 0030			SHIP_LEFT_LIMIT     = 48;
-    10 = 00C0			SHIP_RIGHT_LIMIT    = SHIP_LEFT_LIMIT + (16 * 9);
+    10 = 00B0			SHIP_RIGHT_LIMIT    = SHIP_LEFT_LIMIT + (16 * 8);
     11 = 0020			SHIP_TOP_LIMIT      = 32;
     12 = 00A8			SHIP_BOTTOM_LIMIT   = 8 * 21;
     13 = 0202			SHIP_X_STEP         = $0202;
@@ -337,7 +337,7 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    372 = 0008			GFX_SHIP_SEG	= $08
    373 = 0E0E			SHIP_COL	= $0E0E
    374 = 0030			SHIP_LEFT_LIMIT	= $30
-   375 = 00C0			SHIP_RIGHT_LIMIT	= $C0
+   375 = 00B0			SHIP_RIGHT_LIMIT	= $B0
    376 = 0020			SHIP_TOP_LIMIT	= $20
    377 = 00A8			SHIP_BOTTOM_LIMIT	= $A8
    378 = 0202			SHIP_X_STEP	= $0202
@@ -749,7 +749,7 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    782 				; optimize OK (JOY), line = 24
    783
    784 2293 A5 01			lda SPRITES.BHPOSP1
-   785 2295 C9 C0			cmp #$C0
+   785 2295 C9 B0			cmp #$B0
    786 2297 B0 17			jcs l_013E
    787
    788 				; optimize OK (JOY), line = 25
