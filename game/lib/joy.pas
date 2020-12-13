@@ -17,9 +17,9 @@ uses globals, sprites;
 
 procedure moveShip;
 begin
-  bMask1 := %1100;
+  bTmp1 := %1100;
   for b1i := 1 downto 0 do begin
-    case (joyDirection and bMask1) of
+    case (joyDirection and bTmp1) of
       JOY_RIGHT: begin
         if bHposp1 < SHIP_RIGHT_LIMIT then begin
           Inc(wShipX,SHIP_X_STEP); HPOSP01 := wShipX;
@@ -43,7 +43,7 @@ begin
         end;
       end;
     end;
-    bMask1 := %0011;
+    bTmp1 := %0011;
   end;
 end;
 

@@ -23,8 +23,6 @@ procedure vbi; interrupt;
 begin
   asm { phr };
 
-  if dl2Lms = GAME_LMS_EMD then FillByte(pointer(GAME_LMS), $3c0, 0);
-
   asm { plr };
 end;
 
@@ -68,10 +66,25 @@ begin
 
   if dl2Lms > GAME_LMS_EMD then Dec(dl2Lms) else dl2Lms := GAME_LMS;
 
-
-  for b1i := 21 downto 0 do Poke(dl2Lms + b1i * 40,0);
-  //for b1i := 21 downto 0 do Poke(dl2Lms + clearScrCol[b1i],0);
-
+  asm {
+    lda #$15
+    sta GLOBALS.B1I
+  clear_loop:
+    lda GLOBALS.B1I
+    asl
+    tay
+    lda GLOBALS.DL2LMS
+    add adr.CLEARSCRCOL,y
+    sta GLOBALS.WTMP1
+    lda GLOBALS.DL2LMS+1
+    adc adr.CLEARSCRCOL+1,y
+    sta GLOBALS.WTMP1+1
+    lda #$00
+    tay
+    sta (GLOBALS.WTMP1),y
+    dec GLOBALS.B1I
+    jpl clear_loop
+  };
 
   COLBK := $0;
 

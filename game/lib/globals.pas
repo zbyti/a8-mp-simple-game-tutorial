@@ -49,10 +49,12 @@ var
 
 // auxiliary variables
 var
-  bMask1  : byte absolute $ff;
-  bMask2  : byte absolute $fe;
+  bTmp1   : byte absolute $ff;
+  bTmp2   : byte absolute $fe;
   b1i     : byte absolute $fd;
   b2i     : byte absolute $fc;
+  wTmp1   : word absolute $fa;
+  wTmp2   : word absolute $f8;
 
 implementation
 end.
