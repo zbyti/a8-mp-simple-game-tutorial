@@ -16,7 +16,10 @@ procedure vbi; interrupt;
 begin
   asm { phr };
 
-  Poke(dl2Lms + (RND and %1111) * 40,$80); Dec(dl2Lms);
+  if (RTCLOK and 1) = 0 then begin
+    Poke(dl2Lms + 2 + (RND and %1111) * 40,$80);
+  end;
+  Dec(dl2Lms);
   for b1i := 21 downto 0 do Poke(dl2Lms + b1i * 40,0);
 
   asm { plr };
