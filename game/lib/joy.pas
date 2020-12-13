@@ -32,14 +32,14 @@ begin
       end;
       JOY_UP: begin
         if bShipY > SHIP_TOP_LIMIT then begin
-          bShipYClear := bShipY + 6;
-          Dec(bShipY,2); copyShip;
+          bShipYClear := bShipY + 6; Dec(bShipY,2);
+          copyShip;
         end;
       end;
       JOY_DOWN: begin
         if bShipY < SHIP_BOTTOM_LIMIT then begin
-          bShipYClear := bShipY;
-          Inc(bShipY,2); copyShip;
+          bShipYClear := bShipY; Inc(bShipY,2);
+          copyShip;
         end;
       end;
     end;
