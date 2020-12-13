@@ -713,7 +713,7 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    748
    749 225C A5 03			lda JOYDIRECTION
    750 225E 25 FF			and GLOBALS.BMASK1
-   751 2260 8D 0F 24			sta @CASETMP_0002
+   751 2260 8D 0F 24			sta @CASETMP_0003
    752 2263 C9 04			cmp #$04
    753 2265 D0 20			jne l_0110
    754 2267			@
@@ -738,7 +738,7 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    773 2281 8D 01 D0			sta GLOBALS.HPOSP01+1
    774 2284			l_0122
    775
-   776 2284 4C D2 22			jmp a_0002
+   776 2284 4C D2 22			jmp a_0003
    777 2287			l_0110
    778 2287 C9 08			cmp #$08
    779 2289 D0 20			jne l_0134
@@ -764,7 +764,7 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    799 22A5 8D 01 D0			sta GLOBALS.HPOSP01+1
    800 22A8			l_0146
    801
-   802 22A8 4C D2 22			jmp a_0002
+   802 22A8 4C D2 22			jmp a_0003
    803 22AB			l_0134
    804 22AB C9 02			cmp #$02
    805 22AD D0 11			jne l_0158
@@ -783,7 +783,7 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    818 22BA 20 AF 21			jsr SPRITES.COPYSHIP
    819 22BD			l_016A
    820
-   821 22BD 4C D2 22			jmp a_0002
+   821 22BD 4C D2 22			jmp a_0003
    822 22C0			l_0158
    823 22C0 C9 01			cmp #$01
    824 22C2 D0 0E			jne l_0178
@@ -803,7 +803,7 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    838 22D2			l_018A
    839
    840 22D2			l_0178
-   841 22D2			a_0002
+   841 22D2			a_0003
    842
    843 				; optimize OK (JOY), line = 44
    844
@@ -818,9 +818,9 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    853 				; ------------------------------------------------------------
    854
    855 = 0000			@FORTMP_00EE	= $00
-   856 = 240F			@CASETMP_0002	= DATAORIGIN+$000F
+   856 = 240F			@CASETMP_0003	= DATAORIGIN+$000F
    857
-   858 = 240F			@VarData	= @CASETMP_0002
+   858 = 240F			@VarData	= @CASETMP_0003
    859 = 0001			@VarDataSize	= 1
    860
    861 22DA			@exit
