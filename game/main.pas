@@ -7,6 +7,9 @@ program Game;
 
 uses globals, sys, gr, sprites, joy;
 
+const
+{$i inc/const.inc}
+
 var
   aStars : array[0..124] of byte absolute $1200;
   aSpeed : array[0..124] of byte absolute $127d;
@@ -62,7 +65,7 @@ begin
   wTmp1 := dl2Lms;
 
   asm {
-    ldx #21
+    ldx #GAME_SCREEN_ROWS
     ldy #0
   clear_loop:
     tya

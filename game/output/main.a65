@@ -458,6 +458,10 @@ P0_ADR	= $1400
 P1_ADR	= $1500
 GFX_SHIP_ADR	= $1000
 GFX_SHIP_SEG	= $08
+DL_2	= $1100
+GAME_LMS	= $EC3F
+GAME_LMS_EMD	= $E000
+GAME_SCREEN_ROWS	= $15
 SHIP_COL	= $0E0E
 SHIP_LEFT_LIMIT	= $30
 SHIP_RIGHT_LIMIT	= $B0
@@ -468,9 +472,6 @@ JOY_LEFT	= $08
 JOY_RIGHT	= $04
 JOY_UP	= $02
 JOY_DOWN	= $01
-DL_2	= $1100
-GAME_LMS	= $EC3F
-GAME_LMS_EMD	= $E000
 RTCLOK	= $14
 HPOSP0	= $D000
 HPOSP1	= $D001
@@ -1033,17 +1034,17 @@ JOYDIRECTION	= $04
 
  sta WSYNC 
 
-; optimize OK (main.pas), line = 34
+; optimize OK (main.pas), line = 30
 
 	lda #$0F
 	sta GLOBALS.COLBK
 
-; optimize OK (main.pas), line = 36
+; optimize OK (main.pas), line = 32
 
 	lda GLOBALS.PORTA
 	sta JOY.JOYDIRECTION
 
-; optimize OK (main.pas), line = 37
+; optimize OK (main.pas), line = 33
 
 	and #$0F
 	cmp #$0F
@@ -1051,12 +1052,12 @@ JOYDIRECTION	= $04
 	jsr JOY.MOVESHIP
 l_01FE
 
-; optimize OK (main.pas), line = 39
+; optimize OK (main.pas), line = 35
 
 	lda #$00
 	sta GLOBALS.COLBK
 
-; optimize FAIL ('SYS.SETDLI', main.pas), line = 41
+; optimize FAIL ('SYS.SETDLI', main.pas), line = 37
 
 	inx
 	mva PSTARS :STACKORIGIN,x
@@ -1075,7 +1076,7 @@ l_01FE
 
  phr 
 
-; optimize OK (main.pas), line = 50
+; optimize OK (main.pas), line = 46
 
 	lda #$7C
 	sta GLOBALS.B1I
@@ -1087,19 +1088,19 @@ l_0216
 
  sta WSYNC 
 
-; optimize OK (main.pas), line = 52
+; optimize OK (main.pas), line = 48
 
 	ldy GLOBALS.B1I
 	lda adr.ASTARS,y
 	sta GLOBALS.HPOSM3
 
-; optimize OK (main.pas), line = 53
+; optimize OK (main.pas), line = 49
 
 	lda adr.ASTARS,y
 	sub adr.ASPEED,y
 	sta adr.ASTARS,y
 
-; optimize OK (main.pas), line = 54
+; optimize OK (main.pas), line = 50
 
 	lda SYSTEM.RND
 	sta GLOBALS.COLPM3
@@ -1113,18 +1114,18 @@ l_0224
 
  sta WSYNC 
 
-; optimize OK (main.pas), line = 60
+; optimize OK (main.pas), line = 56
 
 	lda #$0F
 	sta GLOBALS.COLBK
 
-; optimize OK (main.pas), line = 63
+; optimize OK (main.pas), line = 59
 
 	lda GLOBALS.RTCLOK
 	and #$01
 	jne l_025B
 
-; optimize OK (main.pas), line = 64
+; optimize OK (main.pas), line = 60
 
 	lda GLOBALS.DL2LMS
 	add #$03
@@ -1144,7 +1145,7 @@ l_0224
 	sta (:bp),y
 l_025B
 
-; optimize OK (main.pas), line = 67
+; optimize OK (main.pas), line = 63
 
 	lda GLOBALS.DL2LMS+1
 	cmp #$E0
@@ -1163,7 +1164,7 @@ l_0285
 	sta GLOBALS.DL2LMS+1
 l_0293
 
-; optimize OK (main.pas), line = 69
+; optimize OK (main.pas), line = 65
 
 	lda GLOBALS.DL2LMS
 	sta GLOBALS.WTMP1
@@ -1173,7 +1174,7 @@ l_0293
 ; ---------------------  ASM Block 063  ---------------------
 
 
-    ldx #21
+    ldx #GAME_SCREEN_ROWS
     ldy #0
   clear_loop:
     tya
@@ -1188,12 +1189,12 @@ l_0293
     bpl clear_loop
   
 
-; optimize OK (main.pas), line = 87
+; optimize OK (main.pas), line = 83
 
 	lda #$00
 	sta GLOBALS.COLBK
 
-; optimize FAIL ('SYS.SETDLI', main.pas), line = 91
+; optimize FAIL ('SYS.SETDLI', main.pas), line = 87
 
 	inx
 	mva PJOY :STACKORIGIN,x
@@ -1212,14 +1213,14 @@ l_0293
 
 .local	INIT						; PROCEDURE
 
-; optimize FAIL ('SYSTEM.PAUSE_0078', main.pas), line = 98
+; optimize FAIL ('SYSTEM.PAUSE_0078', main.pas), line = 94
 
 	jsr SYSTEM.PAUSE_0078
 	lda #$00
 	sta GLOBALS.DMACTL
 	jsr SYS.SYSTEMOFF
 
-; optimize OK (main.pas), line = 100
+; optimize OK (main.pas), line = 96
 
 	lda #$3F
 	sta :edx
@@ -1233,7 +1234,7 @@ l_0293
 	sta :eax
 	jsr @fill
 
-; optimize OK (main.pas), line = 102
+; optimize OK (main.pas), line = 98
 
 	lda #$7C
 	sta GLOBALS.B1I
@@ -1241,13 +1242,13 @@ l_0293
 l_02BA
 ; --- ForToDoCondition
 
-; optimize OK (main.pas), line = 103
+; optimize OK (main.pas), line = 99
 
 	ldy GLOBALS.B1I
 	lda SYSTEM.RND
 	sta adr.ASTARS,y
 
-; optimize OK (main.pas), line = 104
+; optimize OK (main.pas), line = 100
 
 	and #$03
 	add #$01
@@ -1258,11 +1259,11 @@ l_02BA
 	jpl l_02BA
 l_02C8
 
-; optimize FAIL ('SPRITES.INIT', main.pas), line = 107
+; optimize FAIL ('SPRITES.INIT', main.pas), line = 103
 
 	jsr SPRITES.INIT
 
-; optimize FAIL ('GR.MODE2', main.pas), line = 108
+; optimize FAIL ('GR.MODE2', main.pas), line = 104
 
 	jsr GR.MODE2
 	lda #$00
@@ -1270,13 +1271,13 @@ l_02C8
 	lda #$02
 	sta GLOBALS.COLPF2
 
-; optimize OK (main.pas), line = 109
+; optimize OK (main.pas), line = 105
 
 	lda GLOBALS.PACTL
 	ora #$04
 	sta GLOBALS.PACTL
 
-; optimize OK (main.pas), line = 110
+; optimize OK (main.pas), line = 106
 
 	lda <JOYHANDLER
 	sta PJOY
@@ -1287,21 +1288,21 @@ l_02C8
 	lda >STARS
 	sta PSTARS+1
 
-; optimize FAIL ('SYS.SETVBI', main.pas), line = 112
+; optimize FAIL ('SYS.SETVBI', main.pas), line = 108
 
 	inx
 	mva <VBI :STACKORIGIN,x
 	mva >VBI :STACKORIGIN+STACKWIDTH,x
 	jsr SYS.SETVBI
 
-; optimize FAIL ('SYS.SETDLI', main.pas), line = 113
+; optimize FAIL ('SYS.SETDLI', main.pas), line = 109
 
 	inx
 	mva <JOYHANDLER :STACKORIGIN,x
 	mva >JOYHANDLER :STACKORIGIN+STACKWIDTH,x
 	jsr SYS.SETDLI
 
-; optimize FAIL ('SYSTEM.PAUSE_0078', main.pas), line = 115
+; optimize FAIL ('SYSTEM.PAUSE_0078', main.pas), line = 111
 
 	jsr SYSTEM.PAUSE_0078
 	lda #$3E
@@ -1323,21 +1324,39 @@ l_02C8
 .endl
 l_0007
 
-; optimize FAIL ('INIT', main.pas), line = 119
+; optimize FAIL ('INIT', main.pas), line = 115
 
 	jsr INIT
 
 ; --- RepeatUntilProlog
 l_030B
 
-; optimize OK (main.pas), line = 120
+; optimize OK (main.pas), line = 116
 
 	jmp l_030B
 
 ; ------------------------------------------------------------
 
-adr.CLEARSCRCOL	= CODEORIGIN+$0000
-.var CLEARSCRCOL	= adr.CLEARSCRCOL .word
+PM_ADR	= $1000
+M0_ADR	= $1300
+P0_ADR	= $1400
+P1_ADR	= $1500
+GFX_SHIP_ADR	= $1000
+GFX_SHIP_SEG	= $08
+DL_2	= $1100
+GAME_LMS	= $EC3F
+GAME_LMS_EMD	= $E000
+GAME_SCREEN_ROWS	= $15
+SHIP_COL	= $0E0E
+SHIP_LEFT_LIMIT	= $30
+SHIP_RIGHT_LIMIT	= $B0
+SHIP_TOP_LIMIT	= $20
+SHIP_BOTTOM_LIMIT	= $A8
+SHIP_X_STEP	= $0202
+JOY_LEFT	= $08
+JOY_RIGHT	= $04
+JOY_UP	= $02
+JOY_DOWN	= $01
 adr.ASTARS	= $1200
 .var ASTARS	= adr.ASTARS .word
 adr.ASPEED	= $127D
@@ -1448,8 +1467,6 @@ PROGRAMSTACK	= DATAORIGIN+VARDATASIZE
 ; ------------------------------------------------------------
 
 .macro	STATICDATA
-.by  $00 $00 $28 $00 $50 $00 $78 $00  $A0 $00 $C8 $00 $F0 $00 $18 $01  $40 $01 $68 $01 $90 $01 $B8 $01
-.by  $E0 $01 $08 $02 $30 $02 $58 $02  $80 $02 $A8 $02 $D0 $02 $F8 $02  $20 $03 $48 $03
 .endm
 
 	end
