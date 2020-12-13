@@ -7,6 +7,13 @@ program Game;
 
 uses globals, sys, gr, sprites, joy;
 
+const
+  clearScrCol : array[0..21] of word = (
+    0, 40, 80, 120, 160, 200, 240, 280, 320, 360,
+    400, 440, 480, 520, 560, 600, 640, 680, 720,
+    760, 800, 840
+  );
+
 var
   aStars : array[0..124] of byte absolute $1200;
   aSpeed : array[0..124] of byte absolute $127d;
@@ -16,11 +23,7 @@ procedure vbi; interrupt;
 begin
   asm { phr };
 
-  if (RTCLOK and 1) = 0 then begin
-    Poke(dl2Lms + 2 + (RND and %1111) * 40,$80);
-  end;
-  Dec(dl2Lms);
-  for b1i := 21 downto 0 do Poke(dl2Lms + b1i * 40,0);
+  if dl2Lms = GAME_LMS_EMD then FillByte(pointer(GAME_LMS_EMD), $fff, 0);
 
   asm { plr };
 end;
@@ -52,6 +55,27 @@ begin
     Dec(aStars[b1i],aSpeed[b1i]);
     COLPM3 := RND;
   end;
+
+  //------------------> test <-------------------
+
+  asm { sta WSYNC };
+  COLBK := $f;
+
+
+  if (RTCLOK and 1) = 0 then begin
+    Poke(dl2Lms + 3 + (RND and %1111) * 40,$80);
+  end;
+
+  if dl2Lms > GAME_LMS_EMD then Dec(dl2Lms) else dl2Lms := GAME_LMS;
+
+
+  for b1i := 21 downto 0 do Poke(dl2Lms + b1i * 40,0);
+  //for b1i := 21 downto 0 do Poke(dl2Lms + clearScrCol[b1i],0);
+
+
+  COLBK := $0;
+
+  //------------------> end <--------------------
 
   setDli(pJoy);
 
