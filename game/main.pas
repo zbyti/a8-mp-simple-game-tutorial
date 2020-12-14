@@ -53,7 +53,7 @@ begin
   //------------------> test <-------------------
 
   if (RTCLOK and 1) = 0 then begin
-    Poke(dl2Lms + 3 + (RND and %1111) * 40,$80);
+    Poke(dl2Lms + 3 + (RND and %1111) * 40,2);
   end;
 
   if dl2Lms > GAME_LMS_EMD then Dec(dl2Lms) else dl2Lms := GAME_LMS;
@@ -84,6 +84,8 @@ end;
 procedure init;
 begin
   Pause; DMACTL := 0; systemOff;
+
+  CHBAS := Hi(GFX_FONTS_ADR);
 
   FillByte(pointer(GAME_LMS), $3c0, 0);
 

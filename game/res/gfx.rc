@@ -1,1 +1,2 @@
 GFX_SHIP_ADR rcdata 'res/gfx_ship.bin'
+GFX_FONTS_ADR rcdata 'res/charset.fnt'

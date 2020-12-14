@@ -35,6 +35,7 @@ var
   DMACTL  : byte absolute $D400;  // (W) Direct Memory Access (DMA) control
   DLIST   : word absolute $D402;  // Display list pointer
   PMBASE  : byte absolute $D407;  // (W) MSB of the player/missile base address used to locate the graphics for your players and missiles
+  CHBAS   : byte absolute $D409;
   WSYNC   : byte absolute $D40A;  // (W) Wait for horizontal synchronization
   VCOUNT  : byte absolute $D40B;  // (R) Vertical line counter. Used to keep track of which line is currently being generated on the screen
   NMIEN   : byte absolute $D40E;  // (W) Non-maskable interrupt (NMI) enable
