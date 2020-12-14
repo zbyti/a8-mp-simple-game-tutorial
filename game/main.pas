@@ -90,7 +90,7 @@ begin
   end;
 
   PACTL := PACTL or %100; sprites.init; mode2;
-  COLBK := 0; COLPF0 := 0; COLPF1 := $0d; COLPF2 := $02; COLPF3 := 0;
+  COLBK := $00; COLPF0 := $00; COLPF1 := $0f; COLPF2 := $02; COLPF3 := $00;
   pJoy := @joyHandler; pStars := @stars;
 
   setVbi(@vbi);

@@ -1252,7 +1252,7 @@ l_02BC
 	lda #$00
 	sta GLOBALS.COLBK
 	sta GLOBALS.COLPF0
-	lda #$0D
+	lda #$0F
 	sta GLOBALS.COLPF1
 	lda #$02
 	sta GLOBALS.COLPF2
