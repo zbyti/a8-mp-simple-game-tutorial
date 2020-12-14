@@ -74,6 +74,8 @@ begin
         bpl clr
   };
 
+  //------------------> end <--------------------
+
   setDli(pJoy);
 
   asm { plr };
