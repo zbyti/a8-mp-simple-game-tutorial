@@ -18,6 +18,8 @@ var
   SIZEP2  : byte absolute $D00A;  // (W) Size of player 2
   SIZEP3  : byte absolute $D00B;  // (W) Size of player 3
   SIZEM   : byte absolute $D00C;  // (W) Size for all missiles
+  GRAFP3  : byte absolute $D010;  // (W) Graphics for player 3
+  TRIG0   : byte absolute $D010;  // (R) Joystick trigger 0
   GRAFM   : byte absolute $D011;  // (W) Graphics for all missiles, not used with DMA
   COLPM0  : byte absolute $D012;  // (W) Color and luminance of player and missile 0
   COLPM1  : byte absolute $D013;  // (W) Color and luminance of player and missile 1

@@ -18,37 +18,10 @@ var
 procedure vbi; interrupt;
 begin
   asm { phr };
-
-  asm { plr };
-end;
-
-procedure joyHandler; interrupt;
-begin
-  asm { phr };
-
-  joyDirection := PORTA;
-  if (joyDirection and %1111) <> %1111 then moveShip;
-
-  setDli(pStars);
-
-  asm { plr };
-end;
-
-procedure stars; interrupt;
-begin
-  asm { phr };
-
-  for b1i := 124 downto 0 do begin
-    asm { sta WSYNC };
-    HPOSM3 := aStars[b1i];
-    Dec(aStars[b1i],aSpeed[b1i]);
-    COLPM3 := RND;
-  end;
-
   //------------------> test <-------------------
 
-  if (RTCLOK and 1) = 0 then begin
-    Poke(dl2Lms + 3 + (RND and %1111) * 40,2);
+  if (RTCLOK and %11) = 0 then begin
+    if (TRIG0 = 0) then Poke(dl2Lms + bCannonX + wCannonY,2);
   end;
 
   if dl2Lms > GAME_LMS_EMD then Dec(dl2Lms) else dl2Lms := GAME_LMS;
@@ -70,6 +43,35 @@ begin
   };
 
   //------------------> end <--------------------
+  asm { plr };
+end;
+
+procedure joyHandler; interrupt;
+begin
+  asm { phr };
+
+  if (RTCLOK and %1) = 0 then
+    begin
+      joyDirection := PORTA;
+      if (joyDirection and %1111) <> %1111 then moveShip;
+    end
+  else moveShip;
+
+  setDli(pStars);
+
+  asm { plr };
+end;
+
+procedure stars; interrupt;
+begin
+  asm { phr };
+
+  for b1i := 124 downto 0 do begin
+    asm { sta WSYNC };
+    HPOSM3 := aStars[b1i];
+    Dec(aStars[b1i],aSpeed[b1i]);
+    COLPM3 := RND;
+  end;
 
   setDli(pJoy);
 
@@ -92,6 +94,8 @@ begin
   PACTL := PACTL or %100; sprites.init; mode2;
   COLBK := $00; COLPF0 := $00; COLPF1 := $0f; COLPF2 := $02; COLPF3 := $00;
   pJoy := @joyHandler; pStars := @stars;
+
+  bCannonX := 3; wCannonY := bShipY * 3;
 
   setVbi(@vbi);
   setDli(@joyHandler);

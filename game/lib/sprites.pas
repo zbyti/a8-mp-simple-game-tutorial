@@ -22,7 +22,8 @@ uses globals;
 
 procedure copyShip;
 begin
-  DPoke(P0_ADR + bShipYClear,0); DPoke(P1_ADR + bShipYClear,0);
+  FillByte(pointer(P0_ADR + bShipYClear),GFX_SHIP_SEG,0);
+  FillByte(pointer(P1_ADR + bShipYClear),GFX_SHIP_SEG,0);
   Move(pointer(GFX_SHIP_ADR), pointer(P0_ADR + bShipY), GFX_SHIP_SEG);
   Move(pointer(GFX_SHIP_ADR + GFX_SHIP_SEG), pointer(P1_ADR + bShipY), GFX_SHIP_SEG);
 end;
