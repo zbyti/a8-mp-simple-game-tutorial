@@ -23,8 +23,10 @@ var
   COLPM1  : byte absolute $D013;  // (W) Color and luminance of player and missile 1
   COLPM2  : byte absolute $D014;  // (W) Color and luminance of player and missile 2
   COLPM3  : byte absolute $D015;  // (W) Color and luminance of player and missile 3
+  COLPF0  : byte absolute $D016;
   COLPF1  : byte absolute $D017;  // Color and luminance of playfield one
   COLPF2  : byte absolute $D018;  // Color and luminance of playfield two
+  COLPF3  : byte absolute $D019;
   COLBK   : byte absolute $D01A;  // Color and luminance of the background (BAK)
   PRIOR   : byte absolute $D01B;  // (W) Priority selection register
   GRACTL  : byte absolute $D01D;  // (W) Used with DMACTL to latch all stick and paddle triggers

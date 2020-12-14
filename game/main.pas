@@ -26,13 +26,8 @@ procedure joyHandler; interrupt;
 begin
   asm { phr };
 
-  asm { sta WSYNC };
-  COLBK := $f;
-
   joyDirection := PORTA;
   if (joyDirection and %1111) <> %1111 then moveShip;
-
-  COLBK := 0;
 
   setDli(pStars);
 
@@ -94,9 +89,8 @@ begin
      aSpeed[b1i] := (RND and 3) + 1;
   end;
 
-  sprites.init;
-  mode2; COLBK := 0; COLPF2 := 2;
-  PACTL := PACTL or %100;
+  PACTL := PACTL or %100; sprites.init; mode2;
+  COLBK := 0; COLPF0 := 0; COLPF1 := $0d; COLPF2 := $02; COLPF3 := 0;
   pJoy := @joyHandler; pStars := @stars;
 
   setVbi(@vbi);
