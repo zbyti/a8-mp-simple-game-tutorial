@@ -52,10 +52,6 @@ begin
 
   //------------------> test <-------------------
 
-  asm { sta WSYNC };
-  COLBK := $f;
-
-
   if (RTCLOK and 1) = 0 then begin
     Poke(dl2Lms + 3 + (RND and %1111) * 40,$80);
   end;
@@ -65,22 +61,18 @@ begin
   wTmp1 := dl2Lms;
 
   asm {
-    ldx #GAME_SCREEN_ROWS
-    ldy #0
-  clear_col_loop:
-    tya
-    sta (GLOBALS.WTMP1),y
-    lda GLOBALS.WTMP1
-    add #40
-    sta GLOBALS.WTMP1
-    bcc inc_row_hi
-    inc GLOBALS.WTMP1+1
-  inc_row_hi:
-    dex
-    bpl clear_col_loop
+        ldx #GAME_SCREEN_ROWS
+        ldy #0
+  clr:  tya
+        sta (GLOBALS.WTMP1),y
+        lda GLOBALS.WTMP1
+        add #40
+        sta GLOBALS.WTMP1
+        bcc @+
+        inc GLOBALS.WTMP1+1
+  @:    dex
+        bpl clr
   };
-
-  COLBK := $0;
 
   //------------------> end <--------------------
 
