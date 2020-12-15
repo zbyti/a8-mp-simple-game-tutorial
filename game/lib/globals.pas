@@ -50,7 +50,7 @@ var
   COLPM01 : word absolute $D012;
 
 var
-  dl2Lms  : word absolute DL_2 + 4;
+  wDl2Lms : word absolute DL_2 + 4;
 
 // auxiliary variables
 var

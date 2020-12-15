@@ -21,12 +21,12 @@ begin
   //------------------> test <-------------------
 
   if (RTCLOK and %11) = 0 then begin
-    if (TRIG0 = 0) then Poke(dl2Lms + bCannonX + wCannonY,2);
+    if (TRIG0 = 0) then Poke(wDl2Lms + bCannonX + wCannonY,2);
   end;
 
-  if dl2Lms > GAME_LMS_EMD then Dec(dl2Lms) else dl2Lms := GAME_LMS;
+  if wDl2Lms > GAME_LMS_END then Dec(wDl2Lms) else wDl2Lms := GAME_LMS;
 
-  wTmp1 := dl2Lms;
+  wTmp1 := wDl2Lms;
 
   asm {
         ldx #GAME_SCREEN_ROWS

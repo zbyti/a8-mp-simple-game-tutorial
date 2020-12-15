@@ -9,7 +9,7 @@ GFX_FONTS_ADR       = $1800;
 
 DL_2                = $1100;                      // display list memory start address for ANTIC mode 2
 GAME_LMS            = $efff - $3c0;               // Load Memory Scan address
-GAME_LMS_EMD        = $e000;
+GAME_LMS_END        = $e000;
 GAME_SCREEN_ROWS    = 21;
 
 SHIP_COL            = $0e0e;
