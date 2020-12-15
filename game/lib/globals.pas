@@ -60,6 +60,8 @@ var
   b2i     : byte absolute $fc;
   wTmp1   : word absolute $fa;
   wTmp2   : word absolute $f8;
+  wTmp3   : word absolute $f6;
+  wTmp4   : word absolute $f4;
 
 implementation
 end.
