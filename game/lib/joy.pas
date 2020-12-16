@@ -23,14 +23,14 @@ begin
     case (joyDirection and bTmp1) of
       JOY_RIGHT: begin
         if bHposp1 < SHIP_RIGHT_LIMIT then begin
-          Inc(wShipX,SHIP_X_STEP); HPOSP01 := wShipX;
-          if oddCounter then Inc(bCannonX);
+          Inc(wShipX,SHIP_X_STEP); Inc(bCannonX);
+          HPOSP01 := wShipX;
         end;
       end;
       JOY_LEFT: begin
         if bHposp0 > SHIP_LEFT_LIMIT then begin
-          Dec(wShipX,SHIP_X_STEP); HPOSP01 := wShipX;
-          if oddCounter then Dec(bCannonX);
+          Dec(wShipX,SHIP_X_STEP); Dec(bCannonX);
+          HPOSP01 := wShipX;
         end;
       end;
       JOY_UP: begin

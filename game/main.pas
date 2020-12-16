@@ -24,7 +24,7 @@ begin
   //------------------> test <-------------------
 
   if (RTCLOK and %11) = 0 then begin
-    if (TRIG0 = 0) then Poke(wDl2Lms + bCannonX + wCannonY,2);
+    if (TRIG0 = 0) then Poke(wDl2Lms + (bCannonX shr 1) + wCannonY,2);
   end;
 
   if wDl2Lms > GAME_LMS_END then Dec(wDl2Lms) else wDl2Lms := GAME_LMS;
@@ -93,7 +93,7 @@ begin
   COLBK := $00; COLPF0 := $00; COLPF1 := $0f; COLPF2 := $02; COLPF3 := $00;
   pJoy := @joyHandler; pStars := @stars;
 
-  bCannonX := 3; wCannonY := bShipY * 3;
+  bCannonX := 6; wCannonY := bShipY * 3;
 
   setVbi(@vbi);
   setDli(@joyHandler);
