@@ -23,7 +23,7 @@ uses globals;
 
 procedure copyShip; assembler;
 asm {
-        phr
+        txa \ pha
 
         ldx #>P0_ADR
         stx GLOBALS.WTMP1+1
@@ -61,7 +61,7 @@ asm {
         dey
         bpl @-
 
-        plr
+        pla \ tax
 };
 end;
 

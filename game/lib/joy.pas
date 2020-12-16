@@ -17,7 +17,6 @@ uses globals, sprites;
 
 procedure moveShip;
 begin
-  asm { sta WSYNC }; COLBK := 15;
   bTmp1 := %1100;
   for b1i := 1 downto 0 do begin
     case (joyDirection and bTmp1) of
@@ -48,7 +47,6 @@ begin
     end;
     bTmp1 := %0011;
   end;
-  COLBK := 0;
 end;
 
 //---------------------- INITIALIZATION ----------------------------------------
