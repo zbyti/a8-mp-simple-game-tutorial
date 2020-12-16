@@ -63,6 +63,7 @@ var
   wTmp3      : word absolute $f6;
   wTmp4      : word absolute $f4;
   oddCounter : boolean absolute $f3;
+  isFireTime : boolean absolute $f2;
 
 implementation
 end.

@@ -20,11 +20,12 @@ begin
   asm { phr };
 
   oddCounter := boolean(RTCLOK and 1);
+  isFireTime := not boolean(RTCLOK and %11);
 
   //------------------> test <-------------------
 
-  if (RTCLOK and %11) = 0 then begin
-    if (TRIG0 = 0) then Poke(wDl2Lms + (bCannonX shr 1) + wCannonY,2);
+  if isFireTime then begin
+    if TRIG0 = 0 then Poke(wDl2Lms + (bCannonX shr 1) + wCannonY,2);
   end;
 
   if wDl2Lms > GAME_LMS_END then Dec(wDl2Lms) else wDl2Lms := GAME_LMS;
