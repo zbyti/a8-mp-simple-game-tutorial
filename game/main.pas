@@ -35,7 +35,7 @@ begin
   asm {
         ldx #GAME_SCREEN_ROWS
         ldy #0
-  clr:  tya
+  @:    tya
         sta (GLOBALS.WTMP1),y
         lda GLOBALS.WTMP1
         add #40
@@ -43,7 +43,7 @@ begin
         bcc @+
         inc GLOBALS.WTMP1+1
   @:    dex
-        bpl clr
+        bpl @-1
   };
 
   //------------------> end <--------------------

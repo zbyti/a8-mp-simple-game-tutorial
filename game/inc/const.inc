@@ -10,13 +10,13 @@ GFX_FONTS_ADR       = $1800;
 DL_2                = $1100;                      // display list memory start address for ANTIC mode 2
 GAME_LMS            = $efff - $3c0;               // Load Memory Scan address
 GAME_LMS_END        = $e000;
-GAME_SCREEN_ROWS    = 21;
+GAME_SCREEN_ROWS    = 17;
 
 SHIP_COL            = $0e0e;
 SHIP_LEFT_LIMIT     = 48;
 SHIP_RIGHT_LIMIT    = SHIP_LEFT_LIMIT + (16 * 8);
 SHIP_TOP_LIMIT      = 32;
-SHIP_BOTTOM_LIMIT   = 8 * GAME_SCREEN_ROWS;
+SHIP_BOTTOM_LIMIT   = SHIP_TOP_LIMIT + GFX_SHIP_SEG * GAME_SCREEN_ROWS;
 SHIP_X_STEP         = $0202;
 SHIP_Y_STEP         = 4;
 

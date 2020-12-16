@@ -26,12 +26,12 @@ Source: const.inc
     10 = 1100			DL_2                = $1100;                      // display list memory start address for ANTIC mode 2
     11 = EC3F			GAME_LMS            = $efff - $3c0;               // Load Memory Scan address
     12 = E000			GAME_LMS_END        = $e000;
-    13 = 0015			GAME_SCREEN_ROWS    = 21;
+    13 = 0011			GAME_SCREEN_ROWS    = 17;
     15 = 0E0E			SHIP_COL            = $0e0e;
     16 = 0030			SHIP_LEFT_LIMIT     = 48;
     17 = 00B0			SHIP_RIGHT_LIMIT    = SHIP_LEFT_LIMIT + (16 * 8);
     18 = 0020			SHIP_TOP_LIMIT      = 32;
-    19 = 00A8			SHIP_BOTTOM_LIMIT   = 8 * GAME_SCREEN_ROWS;
+    19 = 00A8			SHIP_BOTTOM_LIMIT   = SHIP_TOP_LIMIT + GFX_SHIP_SEG * GAME_SCREEN_ROWS;
     20 = 0202			SHIP_X_STEP         = $0202;
     21 = 0004			SHIP_Y_STEP         = 4;
     23 = 0008			JOY_LEFT            = %1000;
@@ -338,7 +338,7 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    363 = 1100			DL_2	= $1100
    364 = EC3F			GAME_LMS	= $EC3F
    365 = E000			GAME_LMS_END	= $E000
-   366 = 0015			GAME_SCREEN_ROWS	= $15
+   366 = 0011			GAME_SCREEN_ROWS	= $11
    367 = 0E0E			SHIP_COL	= $0E0E
    368 = 0030			SHIP_LEFT_LIMIT	= $30
    369 = 00B0			SHIP_RIGHT_LIMIT	= $B0
@@ -995,9 +995,9 @@ Macro: UNITINITIALIZATION [Source: main.a65]
   1018 				; ---------------------  ASM Block 058  ---------------------
   1019
   1020
-  1021 2311 A2 15		        ldx #GAME_SCREEN_ROWS
+  1021 2311 A2 11		        ldx #GAME_SCREEN_ROWS
   1022 2313 A0 00		        ldy #0
-  1023 2315 98			  clr:  tya
+  1023 2315 98			  @:    tya
   1024 2316 91 FA		        sta (GLOBALS.WTMP1),y
   1025 2318 A5 FA		        lda GLOBALS.WTMP1
   1026 231A 18 69 28		        add #40
@@ -1005,7 +1005,7 @@ Macro: UNITINITIALIZATION [Source: main.a65]
   1028 231F 90 02		        bcc @+
   1029 2321 E6 FB		        inc GLOBALS.WTMP1+1
   1030 2323 CA			  @:    dex
-  1031 2324 10 EF		        bpl clr
+  1031 2324 10 EF		        bpl @-1
   1032 				  
   1033
   1034 				; ---------------------  ASM Block 059  ---------------------
@@ -1260,7 +1260,7 @@ Macro: UNITINITIALIZATION [Source: main.a65]
   1283 = 1100			DL_2	= $1100
   1284 = EC3F			GAME_LMS	= $EC3F
   1285 = E000			GAME_LMS_END	= $E000
-  1286 = 0015			GAME_SCREEN_ROWS	= $15
+  1286 = 0011			GAME_SCREEN_ROWS	= $11
   1287 = 0E0E			SHIP_COL	= $0E0E
   1288 = 0030			SHIP_LEFT_LIMIT	= $30
   1289 = 00B0			SHIP_RIGHT_LIMIT	= $B0

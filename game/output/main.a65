@@ -363,7 +363,7 @@ GFX_FONTS_ADR	= $1800
 DL_2	= $1100
 GAME_LMS	= $EC3F
 GAME_LMS_END	= $E000
-GAME_SCREEN_ROWS	= $15
+GAME_SCREEN_ROWS	= $11
 SHIP_COL	= $0E0E
 SHIP_LEFT_LIMIT	= $30
 SHIP_RIGHT_LIMIT	= $B0
@@ -1020,7 +1020,7 @@ l_0209
 
         ldx #GAME_SCREEN_ROWS
         ldy #0
-  clr:  tya
+  @:    tya
         sta (GLOBALS.WTMP1),y
         lda GLOBALS.WTMP1
         add #40
@@ -1028,7 +1028,7 @@ l_0209
         bcc @+
         inc GLOBALS.WTMP1+1
   @:    dex
-        bpl clr
+        bpl @-1
   
 
 ; ---------------------  ASM Block 059  ---------------------
@@ -1283,7 +1283,7 @@ GFX_FONTS_ADR	= $1800
 DL_2	= $1100
 GAME_LMS	= $EC3F
 GAME_LMS_END	= $E000
-GAME_SCREEN_ROWS	= $15
+GAME_SCREEN_ROWS	= $11
 SHIP_COL	= $0E0E
 SHIP_LEFT_LIMIT	= $30
 SHIP_RIGHT_LIMIT	= $B0
