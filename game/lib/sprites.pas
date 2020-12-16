@@ -12,7 +12,7 @@ var
   wShipX      : word absolute 0;
 
 procedure init;
-procedure copyShip;
+procedure copyShip; assembler;
 
 //---------------------- IMPLEMENTATION ----------------------------------------
 
@@ -20,46 +20,45 @@ implementation
 
 uses globals;
 
-procedure copyShip;
-begin
-  asm { sta WSYNC }; COLBK := 15;
+procedure copyShip; assembler;
+//FillByte(pointer(P0_ADR + bShipYClear),GFX_SHIP_SEG,0);
+//FillByte(pointer(P1_ADR + bShipYClear),GFX_SHIP_SEG,0);
+//Move(pointer(GFX_SHIP_ADR), pointer(P0_ADR + bShipY), GFX_SHIP_SEG);
+//Move(pointer(GFX_SHIP_ADR + GFX_SHIP_SEG), pointer(P1_ADR + bShipY), GFX_SHIP_SEG);
+asm
+{
+    lda BSHIPYCLEAR
+    sta GLOBALS.WTMP1
+    sta GLOBALS.WTMP2
+    lda BSHIPY
+    sta GLOBALS.WTMP3
+    sta GLOBALS.WTMP4
 
-  asm {
-        lda BSHIPYCLEAR
-        sta GLOBALS.WTMP1
-        sta GLOBALS.WTMP2
-        lda BSHIPY
-        sta GLOBALS.WTMP3
-        sta GLOBALS.WTMP4
+    ldx #>P0_ADR
+    stx GLOBALS.WTMP1+1
+    stx GLOBALS.WTMP3+1
+    inx
+    stx GLOBALS.WTMP2+1
+    stx GLOBALS.WTMP4+1
 
-        ldx #>P0_ADR
-        stx GLOBALS.WTMP1+1
-        stx GLOBALS.WTMP3+1
-        inx
-        stx GLOBALS.WTMP2+1
-        stx GLOBALS.WTMP4+1
+    ;fill
+    lda #0
+    ldy #GFX_SHIP_SEG-SHIP_Y_STEP-1
+@:  sta (GLOBALS.WTMP1),y
+    sta (GLOBALS.WTMP2),y
+    dey
+    bpl @-
 
-        lda #0
-        ldy #GFX_SHIP_SEG-1
-  @:    sta (GLOBALS.WTMP1),y
-        sta (GLOBALS.WTMP2),y
-        dey
-        bpl @-
-
-        ldy #GFX_SHIP_SEG-1
-  @:    mva GFX_SHIP_ADR,y (GLOBALS.WTMP3),y
-        mva GFX_SHIP_ADR+GFX_SHIP_SEG,y (GLOBALS.WTMP4),y
-        dey
-        bpl @-
-  };
-
-  //FillByte(pointer(P0_ADR + bShipYClear),GFX_SHIP_SEG,0);
-  //FillByte(pointer(P1_ADR + bShipYClear),GFX_SHIP_SEG,0);
-  //Move(pointer(GFX_SHIP_ADR), pointer(P0_ADR + bShipY), GFX_SHIP_SEG);
-  //Move(pointer(GFX_SHIP_ADR + GFX_SHIP_SEG), pointer(P1_ADR + bShipY), GFX_SHIP_SEG);
-
-  COLBK := 0;
+    ;move
+    ldy #GFX_SHIP_SEG-1
+@:  mva GFX_SHIP_ADR,y (GLOBALS.WTMP3),y
+    mva GFX_SHIP_ADR+GFX_SHIP_SEG,y (GLOBALS.WTMP4),y
+    dey
+    bpl @-
+};
 end;
+
+
 
 procedure init;
 begin

@@ -18,6 +18,7 @@ SHIP_RIGHT_LIMIT    = SHIP_LEFT_LIMIT + (16 * 8);
 SHIP_TOP_LIMIT      = 32;
 SHIP_BOTTOM_LIMIT   = 8 * GAME_SCREEN_ROWS;
 SHIP_X_STEP         = $0202;
+SHIP_Y_STEP         = 4;
 
 JOY_LEFT            = %1000;
 JOY_RIGHT           = %0100;

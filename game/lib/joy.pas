@@ -19,7 +19,7 @@ uses globals, sprites;
 
 procedure moveShip;
 begin
-  bTmp1 := %1100; bShipYClear := bShipY;
+  bTmp1 := %1100;
   for b1i := 1 downto 0 do begin
     case (joyDirection and bTmp1) of
       JOY_RIGHT: begin
@@ -36,13 +36,15 @@ begin
       end;
       JOY_UP: begin
         if bShipY > SHIP_TOP_LIMIT then begin
-          Dec(bShipY,4); Dec(wCannonY,20);
+          bShipYClear := bShipY + SHIP_Y_STEP;
+          Dec(bShipY,SHIP_Y_STEP); Dec(wCannonY,20);
           copyShip;
         end;
       end;
       JOY_DOWN: begin
         if bShipY < SHIP_BOTTOM_LIMIT then begin
-          Inc(bShipY,4); Inc(wCannonY,20);
+          bShipYClear := bShipY;
+          Inc(bShipY,SHIP_Y_STEP); Inc(wCannonY,20);
           copyShip;
         end;
       end;

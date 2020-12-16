@@ -50,6 +50,8 @@ procedure joyHandler; interrupt;
 begin
   asm { phr };
 
+  asm { sta WSYNC }; COLBK := 15;
+
   if (RTCLOK and %1) = 0 then
     begin
       joyDirection := PORTA;
@@ -58,6 +60,8 @@ begin
   else moveShip;
 
   setDli(pStars);
+
+  COLBK := 0;
 
   asm { plr };
 end;
