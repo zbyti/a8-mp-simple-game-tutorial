@@ -23,16 +23,14 @@ uses globals;
 
 procedure copyShip; assembler;
 asm {
-        txa \ pha
+        ldy #>P0_ADR
+        sty GLOBALS.WTMP1+1
+        iny
+        sty GLOBALS.WTMP2+1
 
-        ldx #>P0_ADR
-        stx GLOBALS.WTMP1+1
-        inx
-        stx GLOBALS.WTMP2+1
-
-        ldx BSHIPY
-        stx GLOBALS.WTMP1
-        stx GLOBALS.WTMP2
+        ldy BSHIPY
+        sty GLOBALS.WTMP1
+        sty GLOBALS.WTMP2
 
         ;move
         ldy #GFX_SHIP_SEG-1
@@ -42,14 +40,15 @@ asm {
         bpl @-
 
         ;clear
+        ldy BSHIPY
         lda JOY.JOYDIRECTION
         and #%0011
         cmp #JOY_DOWN
         beq @+
-        txa
+        tya
         add #SHIP_Y_STEP*2
         bne @+1
-@:      txa
+@:      tya
         sub #SHIP_Y_STEP
 @:      sta GLOBALS.WTMP1
         sta GLOBALS.WTMP2
@@ -60,8 +59,6 @@ asm {
         sta (GLOBALS.WTMP2),y
         dey
         bpl @-
-
-        pla \ tax
 };
 end;
 

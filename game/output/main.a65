@@ -607,16 +607,14 @@ A	= DATAORIGIN+$000D
 ; ---------------------  ASM Block 055  ---------------------
 
 
-        txa \ pha
+        ldy #>P0_ADR
+        sty GLOBALS.WTMP1+1
+        iny
+        sty GLOBALS.WTMP2+1
 
-        ldx #>P0_ADR
-        stx GLOBALS.WTMP1+1
-        inx
-        stx GLOBALS.WTMP2+1
-
-        ldx BSHIPY
-        stx GLOBALS.WTMP1
-        stx GLOBALS.WTMP2
+        ldy BSHIPY
+        sty GLOBALS.WTMP1
+        sty GLOBALS.WTMP2
 
         ;move
         ldy #GFX_SHIP_SEG-1
@@ -626,14 +624,15 @@ A	= DATAORIGIN+$000D
         bpl @-
 
         ;clear
+        ldy BSHIPY
         lda JOY.JOYDIRECTION
         and #%0011
         cmp #JOY_DOWN
         beq @+
-        txa
+        tya
         add #SHIP_Y_STEP*2
         bne @+1
-@:      txa
+@:      tya
         sub #SHIP_Y_STEP
 @:      sta GLOBALS.WTMP1
         sta GLOBALS.WTMP2
@@ -644,8 +643,6 @@ A	= DATAORIGIN+$000D
         sta (GLOBALS.WTMP2),y
         dey
         bpl @-
-
-        pla \ tax
 
 @exit
 	.ifdef @new
@@ -661,7 +658,7 @@ A	= DATAORIGIN+$000D
 
 .local	INIT						; PROCEDURE
 
-; optimize OK (SPRITES), line = 72
+; optimize OK (SPRITES), line = 69
 
 	.LOCAL
 	ldy #$00
@@ -671,18 +668,18 @@ fill	:10 sta $1300+#*$80,y
 	bpl fill
 	.ENDL
 
-; optimize OK (SPRITES), line = 73
+; optimize OK (SPRITES), line = 70
 
 	ldy #256-$90
 	lda #$FF
 	sta:rne $1320+$90-256,y+
 
-; optimize OK (SPRITES), line = 75
+; optimize OK (SPRITES), line = 72
 
 	lda #$10
 	sta GLOBALS.PMBASE
 
-; optimize OK (SPRITES), line = 76
+; optimize OK (SPRITES), line = 73
 
 	lda #$0A
 	sta GLOBALS.COLPM3
@@ -690,7 +687,7 @@ fill	:10 sta $1300+#*$80,y
 	sta GLOBALS.COLPM01
 	sta GLOBALS.COLPM01+1
 
-; optimize OK (SPRITES), line = 77
+; optimize OK (SPRITES), line = 74
 
 	lda #$30
 	sta BHPOSP0
@@ -701,7 +698,7 @@ fill	:10 sta $1300+#*$80,y
 	lda WSHIPX+1
 	sta GLOBALS.HPOSP01+1
 
-; optimize OK (SPRITES), line = 78
+; optimize OK (SPRITES), line = 75
 
 	lda #$50
 	sta BSHIPY
@@ -713,7 +710,7 @@ fill	:10 sta $1300+#*$80,y
 	lda #$03
 	sta GLOBALS.GRACTL
 
-; optimize FAIL ('COPYSHIP', SPRITES), line = 80
+; optimize FAIL ('COPYSHIP', SPRITES), line = 77
 
 	jsr COPYSHIP
 @exit

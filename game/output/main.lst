@@ -90,33 +90,33 @@ Source: rtl6502_a8.asm
    122
    123 205C			START
    124 205C BA				tsx
-   125 205D 8E 31 24			stx MAIN.@halt+1
+   125 205D 8E 2F 24			stx MAIN.@halt+1
    126
    127 					.ifdef fmulinit
    128 					fmulinit
    129 					eif
    130
    131 = 000E			VLEN	= VARDATASIZE-VARINITSIZE
-   132 = 2452			VADR	= DATAORIGIN+VARINITSIZE
+   132 = 244E			VADR	= DATAORIGIN+VARINITSIZE
    133
    134 					ift VADR > $BFFF
    135 					ert 'Invalid memory address range ',VADR
    136 					eli (VLEN>0) && (VLEN<=256)
    137 2060 A2 F2			ldx #256-VLEN
    138 2062 A9 00			lda #$00
-   139 2064 9D 60 23 E8 D0 FA		sta:rne VADR+VLEN-256,x+
+   139 2064 9D 5C 23 E8 D0 FA		sta:rne VADR+VLEN-256,x+
    140 					eli VLEN>0
    141 					@fill #VADR #VLEN #$00
    142 					eif
    143
-   144 206A A9 60 85 82 A9 24 + 	mwa #PROGRAMSTACK psptr
+   144 206A A9 5C 85 82 A9 24 + 	mwa #PROGRAMSTACK psptr
    145
    146 					.ifdef MAIN.@DEFINES.ROMOFF
    147 					icl 'atari\romoff.asm'
    148 					.endif
    149
    150 2072 A2 0F			ldx #$0F					; DOS II+/D ParamStr
-   151 2074 BD 40 03 9D 36 24 + 	mva:rpl $340,x MAIN.IOCB@COPY,x-
+   151 2074 BD 40 03 9D 34 24 + 	mva:rpl $340,x MAIN.IOCB@COPY,x-
    152
    153 207D E8				inx						; X = 0
    154 207E 86 90			stx bp						; BP = 0
@@ -131,12 +131,12 @@ Source: rtl6502_a8.asm
 Macro: UNITINITIALIZATION [Source: main.a65]
     11 2089 20 2C 21			jsr MAIN.SYS.@UnitInit
     15 208C 20 38 21			jsr MAIN.GR.@UnitInit
-    19 208F 20 E8 21			jsr MAIN.SPRITES.@UnitInit
-    23 2092 20 8D 22			jsr MAIN.JOY.@UnitInit
+    19 208F 20 E6 21			jsr MAIN.SPRITES.@UnitInit
+    23 2092 20 8B 22			jsr MAIN.JOY.@UnitInit
    163
    164 2095			.local	MAIN						; PROCEDURE
    165
-   166 2095 4C 2A 24			jmp l_0007
+   166 2095 4C 28 24			jmp l_0007
    167
    168 				; ------------------------------------------------------------
    169
@@ -303,20 +303,20 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    330 = 0008			FMOPENWRITE	= $08
    331 = 0009			FMOPENAPPEND	= $09
    332 = 000C			FMOPENREADWRITE	= $0C
-   333 = 244C			SCREENWIDTH	= DATAORIGIN+$0000
-   334 = 244E			SCREENHEIGHT	= DATAORIGIN+$0002
-   335 = 2450			DATESEPARATOR	= DATAORIGIN+$0004
+   333 = 2448			SCREENWIDTH	= DATAORIGIN+$0000
+   334 = 244A			SCREENHEIGHT	= DATAORIGIN+$0002
+   335 = 244C			DATESEPARATOR	= DATAORIGIN+$0004
    336 = D014			TVSYSTEM	= $D014
    337 = D20A			RND	= $D20A
    338 = 02C0			adr.PALETTE	= $02C0
    339 20CF			.var PALETTE	= adr.PALETTE .word
    340 = D012			adr.HPALETTE	= $D012
    341 20CF			.var HPALETTE	= adr.HPALETTE .word
-   342 = 2451			FILEMODE	= DATAORIGIN+$0005
-   343 = 2452			GRAPHMODE	= DATAORIGIN+$0006
-   344 = 2453			IORESULT	= DATAORIGIN+$0007
-   345 = 2454			EOLN	= DATAORIGIN+$0008
-   346 = 2455			RNDSEED	= DATAORIGIN+$0009
+   342 = 244D			FILEMODE	= DATAORIGIN+$0005
+   343 = 244E			GRAPHMODE	= DATAORIGIN+$0006
+   344 = 244F			IORESULT	= DATAORIGIN+$0007
+   345 = 2450			EOLN	= DATAORIGIN+$0008
+   346 = 2451			RNDSEED	= DATAORIGIN+$0009
    347
    348 = 20CF C0 02		PALETTE
    348 = 20D1 12 D0		HPALETTE
@@ -434,22 +434,22 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    457 				; Generate Assignment for WORD / SMALLINT / SHORTREAL / POINTER
    458 				; as Pointer
    459 20E1 B5 98			lda :STACKORIGIN,x
-   460 20E3 8D 57 24			sta A
+   460 20E3 8D 53 24			sta A
    461 20E6 B5 A8			lda :STACKORIGIN+STACKWIDTH,x
-   462 20E8 8D 58 24			sta A+1
+   462 20E8 8D 54 24			sta A+1
    463 20EB CA				dex
    464
    465 				; ---------------------  ASM Block 050  ---------------------
    466
    467
-   468 20EC AD 57 24 8D DE 20 +   mwa a __vbijmp+1
+   468 20EC AD 53 24 8D DE 20 +   mwa a __vbijmp+1
    469
    470
    471 				; ------------------------------------------------------------
    472
-   473 = 2457			A	= DATAORIGIN+$000B
+   473 = 2453			A	= DATAORIGIN+$000B
    474
-   475 = 2457			@VarData	= A
+   475 = 2453			@VarData	= A
    476 = 0002			@VarDataSize	= 2
    477
    478 20F8			@exit
@@ -471,22 +471,22 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    494 				; Generate Assignment for WORD / SMALLINT / SHORTREAL / POINTER
    495 				; as Pointer
    496 20F9 B5 98			lda :STACKORIGIN,x
-   497 20FB 8D 59 24			sta A
+   497 20FB 8D 55 24			sta A
    498 20FE B5 A8			lda :STACKORIGIN+STACKWIDTH,x
-   499 2100 8D 5A 24			sta A+1
+   499 2100 8D 56 24			sta A+1
    500 2103 CA				dex
    501
    502 				; ---------------------  ASM Block 051  ---------------------
    503
    504
-   505 2104 AD 59 24 8D D9 20 +   mwa a __dlijmp+1
+   505 2104 AD 55 24 8D D9 20 +   mwa a __dlijmp+1
    506
    507
    508 				; ------------------------------------------------------------
    509
-   510 = 2459			A	= DATAORIGIN+$000D
+   510 = 2455			A	= DATAORIGIN+$000D
    511
-   512 = 2459			@VarData	= A
+   512 = 2455			@VarData	= A
    513 = 0002			@VarDataSize	= 2
    514
    515 2110			@exit
@@ -584,803 +584,796 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    607 				; ---------------------  ASM Block 055  ---------------------
    608
    609
-   610 				        txa \ pha
-   610 2139 8A			        TXA 
-   610 213A 48			 PHA
-   611
-   612 213B A2 14		        ldx #>P0_ADR
-   613 213D 86 FB		        stx GLOBALS.WTMP1+1
-   614 213F E8			        inx
-   615 2140 86 F9		        stx GLOBALS.WTMP2+1
-   616
-   617 2142 A6 02		        ldx BSHIPY
-   618 2144 86 FA		        stx GLOBALS.WTMP1
-   619 2146 86 F8		        stx GLOBALS.WTMP2
-   620
-   621 				        ;move
-   622 2148 A0 07		        ldy #GFX_SHIP_SEG-1
-   623 214A B9 00 10 91 FA	@:      mva GFX_SHIP_ADR,y (GLOBALS.WTMP1),y
-   624 214F B9 08 10 91 F8	        mva GFX_SHIP_ADR+GFX_SHIP_SEG,y (GLOBALS.WTMP2),y
-   625 2154 88			        dey
-   626 2155 10 F3		        bpl @-
-   627
-   628 				        ;clear
-   629 2157 A5 06		        lda JOY.JOYDIRECTION
-   630 2159 29 03		        and #%0011
-   631 215B C9 01		        cmp #JOY_DOWN
-   632 215D F0 06		        beq @+
-   633 215F 8A			        txa
-   634 2160 18 69 08		        add #SHIP_Y_STEP*2
-   635 2163 D0 04		        bne @+1
-   636 2165 8A			@:      txa
-   637 2166 38 E9 04		        sub #SHIP_Y_STEP
-   638 2169 85 FA		@:      sta GLOBALS.WTMP1
-   639 216B 85 F8		        sta GLOBALS.WTMP2
-   640
-   641 216D A9 00		        lda #0
-   642 216F A0 03		        ldy #GFX_SHIP_SEG-SHIP_Y_STEP-1
-   643 2171 91 FA		@:      sta (GLOBALS.WTMP1),y
-   644 2173 91 F8		        sta (GLOBALS.WTMP2),y
-   645 2175 88			        dey
-   646 2176 10 F9		        bpl @-
-   647
-   648 				        pla \ tax
-   648 2178 68			        PLA 
-   648 2179 AA			 TAX
-   649
-   650 217A			@exit
-   651 					.ifdef @new
-   652 					lda <@VarData
-   653 					sta :ztmp
-   654 					lda >@VarData
-   655 					ldy #@VarDataSize-1
-   656 					jmp @FreeMem
-   657 					els
-   658 217A 60				rts						; ret
-   659 					eif
-   660 				.endl
-   661
-   662 217B			.local	INIT						; PROCEDURE
-   663
-   664 				; optimize OK (SPRITES), line = 72
-   665
-   666 217B				.LOCAL
-   667 217B A0 00			ldy #$00
-   668 217D 98				tya
-   669 217E 99 00 13 99 80 13 + fill	:10 sta $1300+#*$80,y
-   670 219C C8				iny
-   671 219D 10 DF			bpl fill
-   672 					.ENDL
-   673
-   674 				; optimize OK (SPRITES), line = 73
-   675
-   676 219F A0 70			ldy #256-$90
-   677 21A1 A9 FF			lda #$FF
-   678 21A3 99 B0 12 C8 D0 FA		sta:rne $1320+$90-256,y+
-   679
-   680 				; optimize OK (SPRITES), line = 75
+   610 2139 A0 14		        ldy #>P0_ADR
+   611 213B 84 FB		        sty GLOBALS.WTMP1+1
+   612 213D C8			        iny
+   613 213E 84 F9		        sty GLOBALS.WTMP2+1
+   614
+   615 2140 A4 02		        ldy BSHIPY
+   616 2142 84 FA		        sty GLOBALS.WTMP1
+   617 2144 84 F8		        sty GLOBALS.WTMP2
+   618
+   619 				        ;move
+   620 2146 A0 07		        ldy #GFX_SHIP_SEG-1
+   621 2148 B9 00 10 91 FA	@:      mva GFX_SHIP_ADR,y (GLOBALS.WTMP1),y
+   622 214D B9 08 10 91 F8	        mva GFX_SHIP_ADR+GFX_SHIP_SEG,y (GLOBALS.WTMP2),y
+   623 2152 88			        dey
+   624 2153 10 F3		        bpl @-
+   625
+   626 				        ;clear
+   627 2155 A4 02		        ldy BSHIPY
+   628 2157 A5 06		        lda JOY.JOYDIRECTION
+   629 2159 29 03		        and #%0011
+   630 215B C9 01		        cmp #JOY_DOWN
+   631 215D F0 06		        beq @+
+   632 215F 98			        tya
+   633 2160 18 69 08		        add #SHIP_Y_STEP*2
+   634 2163 D0 04		        bne @+1
+   635 2165 98			@:      tya
+   636 2166 38 E9 04		        sub #SHIP_Y_STEP
+   637 2169 85 FA		@:      sta GLOBALS.WTMP1
+   638 216B 85 F8		        sta GLOBALS.WTMP2
+   639
+   640 216D A9 00		        lda #0
+   641 216F A0 03		        ldy #GFX_SHIP_SEG-SHIP_Y_STEP-1
+   642 2171 91 FA		@:      sta (GLOBALS.WTMP1),y
+   643 2173 91 F8		        sta (GLOBALS.WTMP2),y
+   644 2175 88			        dey
+   645 2176 10 F9		        bpl @-
+   646
+   647 2178			@exit
+   648 					.ifdef @new
+   649 					lda <@VarData
+   650 					sta :ztmp
+   651 					lda >@VarData
+   652 					ldy #@VarDataSize-1
+   653 					jmp @FreeMem
+   654 					els
+   655 2178 60				rts						; ret
+   656 					eif
+   657 				.endl
+   658
+   659 2179			.local	INIT						; PROCEDURE
+   660
+   661 				; optimize OK (SPRITES), line = 69
+   662
+   663 2179				.LOCAL
+   664 2179 A0 00			ldy #$00
+   665 217B 98				tya
+   666 217C 99 00 13 99 80 13 + fill	:10 sta $1300+#*$80,y
+   667 219A C8				iny
+   668 219B 10 DF			bpl fill
+   669 					.ENDL
+   670
+   671 				; optimize OK (SPRITES), line = 70
+   672
+   673 219D A0 70			ldy #256-$90
+   674 219F A9 FF			lda #$FF
+   675 21A1 99 B0 12 C8 D0 FA		sta:rne $1320+$90-256,y+
+   676
+   677 				; optimize OK (SPRITES), line = 72
+   678
+   679 21A7 A9 10			lda #$10
+   680 21A9 8D 07 D4			sta GLOBALS.PMBASE
    681
-   682 21A9 A9 10			lda #$10
-   683 21AB 8D 07 D4			sta GLOBALS.PMBASE
-   684
-   685 				; optimize OK (SPRITES), line = 76
-   686
-   687 21AE A9 0A			lda #$0A
-   688 21B0 8D 15 D0			sta GLOBALS.COLPM3
-   689 21B3 A9 0E			lda #$0E
-   690 21B5 8D 12 D0			sta GLOBALS.COLPM01
-   691 21B8 8D 13 D0			sta GLOBALS.COLPM01+1
-   692
-   693 				; optimize OK (SPRITES), line = 77
-   694
-   695 21BB A9 30			lda #$30
-   696 21BD 85 00			sta BHPOSP0
-   697 21BF A9 38			lda #$38
-   698 21C1 85 01			sta BHPOSP1
-   699 21C3 A5 00			lda WSHIPX
-   700 21C5 8D 00 D0			sta GLOBALS.HPOSP01
-   701 21C8 A5 01			lda WSHIPX+1
-   702 21CA 8D 01 D0			sta GLOBALS.HPOSP01+1
-   703
-   704 				; optimize OK (SPRITES), line = 78
-   705
-   706 21CD A9 50			lda #$50
-   707 21CF 85 02			sta BSHIPY
-   708 21D1 A9 00			lda #$00
-   709 21D3 8D 08 D0			sta GLOBALS.SIZEP01
-   710 21D6 8D 09 D0			sta GLOBALS.SIZEP01+1
-   711 21D9 8D 0C D0			sta GLOBALS.SIZEM
-   712 21DC 8D 1B D0			sta GLOBALS.PRIOR
-   713 21DF A9 03			lda #$03
-   714 21E1 8D 1D D0			sta GLOBALS.GRACTL
-   715
-   716 				; optimize FAIL ('COPYSHIP', SPRITES), line = 80
-   717
-   718 21E4 20 39 21			jsr COPYSHIP
-   719 21E7			@exit
-   720 					.ifdef @new
-   721 					lda <@VarData
-   722 					sta :ztmp
-   723 					lda >@VarData
-   724 					ldy #@VarDataSize-1
-   725 					jmp @FreeMem
-   726 					els
-   727 21E7 60				rts						; ret
-   728 					eif
-   729 				.endl
-   730
-   731 				; ------------------------------------------------------------
-   732 				; ------------------------------------------------------------
-   733 21E8			@UnitInit
-   734
-   735 21E8 60				rts
-   736
-   737 				; ------------------------------------------------------------
-   738
-   739 = 0000			BHPOSP0	= $00
-   740 = 0001			BHPOSP1	= $01
-   741 = 0002			BSHIPY	= $02
-   742 = 0003			BCANNONX	= $03
-   743 = 0000			WSHIPX	= $00
-   744 = 0004			WCANNONY	= $04
-   745
-   746 				.endl							; UNIT SPRITES
-   747
-   748 				; ------------------------------------------------------------
-   749
-   750 21E9			.local	JOY						; UNIT
-   751
-   752 21E9			.local	MOVESHIP					; PROCEDURE
-   753
-   754 				; optimize OK (JOY), line = 20
+   682 				; optimize OK (SPRITES), line = 73
+   683
+   684 21AC A9 0A			lda #$0A
+   685 21AE 8D 15 D0			sta GLOBALS.COLPM3
+   686 21B1 A9 0E			lda #$0E
+   687 21B3 8D 12 D0			sta GLOBALS.COLPM01
+   688 21B6 8D 13 D0			sta GLOBALS.COLPM01+1
+   689
+   690 				; optimize OK (SPRITES), line = 74
+   691
+   692 21B9 A9 30			lda #$30
+   693 21BB 85 00			sta BHPOSP0
+   694 21BD A9 38			lda #$38
+   695 21BF 85 01			sta BHPOSP1
+   696 21C1 A5 00			lda WSHIPX
+   697 21C3 8D 00 D0			sta GLOBALS.HPOSP01
+   698 21C6 A5 01			lda WSHIPX+1
+   699 21C8 8D 01 D0			sta GLOBALS.HPOSP01+1
+   700
+   701 				; optimize OK (SPRITES), line = 75
+   702
+   703 21CB A9 50			lda #$50
+   704 21CD 85 02			sta BSHIPY
+   705 21CF A9 00			lda #$00
+   706 21D1 8D 08 D0			sta GLOBALS.SIZEP01
+   707 21D4 8D 09 D0			sta GLOBALS.SIZEP01+1
+   708 21D7 8D 0C D0			sta GLOBALS.SIZEM
+   709 21DA 8D 1B D0			sta GLOBALS.PRIOR
+   710 21DD A9 03			lda #$03
+   711 21DF 8D 1D D0			sta GLOBALS.GRACTL
+   712
+   713 				; optimize FAIL ('COPYSHIP', SPRITES), line = 77
+   714
+   715 21E2 20 39 21			jsr COPYSHIP
+   716 21E5			@exit
+   717 					.ifdef @new
+   718 					lda <@VarData
+   719 					sta :ztmp
+   720 					lda >@VarData
+   721 					ldy #@VarDataSize-1
+   722 					jmp @FreeMem
+   723 					els
+   724 21E5 60				rts						; ret
+   725 					eif
+   726 				.endl
+   727
+   728 				; ------------------------------------------------------------
+   729 				; ------------------------------------------------------------
+   730 21E6			@UnitInit
+   731
+   732 21E6 60				rts
+   733
+   734 				; ------------------------------------------------------------
+   735
+   736 = 0000			BHPOSP0	= $00
+   737 = 0001			BHPOSP1	= $01
+   738 = 0002			BSHIPY	= $02
+   739 = 0003			BCANNONX	= $03
+   740 = 0000			WSHIPX	= $00
+   741 = 0004			WCANNONY	= $04
+   742
+   743 				.endl							; UNIT SPRITES
+   744
+   745 				; ------------------------------------------------------------
+   746
+   747 21E7			.local	JOY						; UNIT
+   748
+   749 21E7			.local	MOVESHIP					; PROCEDURE
+   750
+   751 				; optimize OK (JOY), line = 20
+   752
+   753 21E7 A9 0C			lda #$0C
+   754 21E9 85 FF			sta GLOBALS.BTMP1
    755
-   756 21E9 A9 0C			lda #$0C
-   757 21EB 85 FF			sta GLOBALS.BTMP1
-   758
-   759 				; optimize OK (JOY), line = 21
+   756 				; optimize OK (JOY), line = 21
+   757
+   758 21EB A9 01			lda #$01
+   759 21ED 85 FD			sta GLOBALS.B1I
    760
-   761 21ED A9 01			lda #$01
-   762 21EF 85 FD			sta GLOBALS.B1I
+   761 21EF			l_00D7
+   762 				; --- ForToDoCondition
    763
-   764 21F1			l_00D7
-   765 				; --- ForToDoCondition
-   766
-   767 				; optimize OK (JOY), line = 22
-   768
-   769 21F1 A5 06			lda JOYDIRECTION
-   770 21F3 25 FF			and GLOBALS.BTMP1
-   771 21F5 8D 5B 24			sta @CASETMP_0003
-   772 21F8 C9 04			cmp #$04
-   773 21FA D0 22			jne l_00F6
-   774 21FC			@
-   775
-   776 				; optimize OK (JOY), line = 24
-   777
-   778 21FC A5 01			lda SPRITES.BHPOSP1
-   779 21FE C9 B0			cmp #$B0
-   780 2200 B0 19			jcs l_0108
-   781
-   782 				; optimize OK (JOY), line = 25
-   783
-   784 2202 A5 00			lda SPRITES.WSHIPX
-   785 2204 18 69 02			add #$02
-   786 2207 85 00			sta SPRITES.WSHIPX
-   787 2209 A5 01			lda SPRITES.WSHIPX+1
-   788 220B 69 02			adc #$02
-   789 220D 85 01			sta SPRITES.WSHIPX+1
-   790 220F E6 03			inc SPRITES.BCANNONX
-   791
-   792 				; optimize OK (JOY), line = 26
-   793
-   794 2211 A5 00			lda SPRITES.WSHIPX
-   795 2213 8D 00 D0			sta GLOBALS.HPOSP01
-   796 2216 A5 01			lda SPRITES.WSHIPX+1
-   797 2218 8D 01 D0			sta GLOBALS.HPOSP01+1
-   798 221B			l_0108
-   799
-   800 221B 4C 81 22			jmp a_0003
-   801 221E			l_00F6
-   802 221E C9 08			cmp #$08
-   803 2220 D0 22			jne l_011E
-   804 2222			@
-   805
-   806 				; optimize OK (JOY), line = 30
-   807
-   808 2222 A5 00			lda SPRITES.BHPOSP0
-   809 2224 C9 31			cmp #$31
-   810 2226 90 19			jcc l_0130
-   811
-   812 				; optimize OK (JOY), line = 31
-   813
-   814 2228 A5 00			lda SPRITES.WSHIPX
-   815 222A 38 E9 02			sub #$02
-   816 222D 85 00			sta SPRITES.WSHIPX
-   817 222F A5 01			lda SPRITES.WSHIPX+1
-   818 2231 E9 02			sbc #$02
-   819 2233 85 01			sta SPRITES.WSHIPX+1
-   820 2235 C6 03			dec SPRITES.BCANNONX
-   821
-   822 				; optimize OK (JOY), line = 32
-   823
-   824 2237 A5 00			lda SPRITES.WSHIPX
-   825 2239 8D 00 D0			sta GLOBALS.HPOSP01
-   826 223C A5 01			lda SPRITES.WSHIPX+1
-   827 223E 8D 01 D0			sta GLOBALS.HPOSP01+1
-   828 2241			l_0130
-   829
-   830 2241 4C 81 22			jmp a_0003
-   831 2244			l_011E
-   832 2244 C9 02			cmp #$02
-   833 2246 D0 1C			jne l_0146
-   834 2248			@
-   835
-   836 				; optimize OK (JOY), line = 36
-   837
-   838 2248 A5 02			lda SPRITES.BSHIPY
-   839 224A C9 21			cmp #$21
-   840 224C 90 13			jcc l_0158
-   841
-   842 				; optimize OK (JOY), line = 37
-   843
-   844 224E 38 E9 04			sub #$04
-   845 2251 85 02			sta SPRITES.BSHIPY
-   846 2253 A5 04			lda SPRITES.WCANNONY
-   847 2255 38 E9 14			sub #$14
-   848 2258 85 04			sta SPRITES.WCANNONY
-   849 225A B0 02			scs
-   850 225C C6 05			dec SPRITES.WCANNONY+1
-   851
-   852 				; optimize FAIL ('SPRITES.COPYSHIP', JOY), line = 38
+   764 				; optimize OK (JOY), line = 22
+   765
+   766 21EF A5 06			lda JOYDIRECTION
+   767 21F1 25 FF			and GLOBALS.BTMP1
+   768 21F3 8D 57 24			sta @CASETMP_0003
+   769 21F6 C9 04			cmp #$04
+   770 21F8 D0 22			jne l_00F6
+   771 21FA			@
+   772
+   773 				; optimize OK (JOY), line = 24
+   774
+   775 21FA A5 01			lda SPRITES.BHPOSP1
+   776 21FC C9 B0			cmp #$B0
+   777 21FE B0 19			jcs l_0108
+   778
+   779 				; optimize OK (JOY), line = 25
+   780
+   781 2200 A5 00			lda SPRITES.WSHIPX
+   782 2202 18 69 02			add #$02
+   783 2205 85 00			sta SPRITES.WSHIPX
+   784 2207 A5 01			lda SPRITES.WSHIPX+1
+   785 2209 69 02			adc #$02
+   786 220B 85 01			sta SPRITES.WSHIPX+1
+   787 220D E6 03			inc SPRITES.BCANNONX
+   788
+   789 				; optimize OK (JOY), line = 26
+   790
+   791 220F A5 00			lda SPRITES.WSHIPX
+   792 2211 8D 00 D0			sta GLOBALS.HPOSP01
+   793 2214 A5 01			lda SPRITES.WSHIPX+1
+   794 2216 8D 01 D0			sta GLOBALS.HPOSP01+1
+   795 2219			l_0108
+   796
+   797 2219 4C 7F 22			jmp a_0003
+   798 221C			l_00F6
+   799 221C C9 08			cmp #$08
+   800 221E D0 22			jne l_011E
+   801 2220			@
+   802
+   803 				; optimize OK (JOY), line = 30
+   804
+   805 2220 A5 00			lda SPRITES.BHPOSP0
+   806 2222 C9 31			cmp #$31
+   807 2224 90 19			jcc l_0130
+   808
+   809 				; optimize OK (JOY), line = 31
+   810
+   811 2226 A5 00			lda SPRITES.WSHIPX
+   812 2228 38 E9 02			sub #$02
+   813 222B 85 00			sta SPRITES.WSHIPX
+   814 222D A5 01			lda SPRITES.WSHIPX+1
+   815 222F E9 02			sbc #$02
+   816 2231 85 01			sta SPRITES.WSHIPX+1
+   817 2233 C6 03			dec SPRITES.BCANNONX
+   818
+   819 				; optimize OK (JOY), line = 32
+   820
+   821 2235 A5 00			lda SPRITES.WSHIPX
+   822 2237 8D 00 D0			sta GLOBALS.HPOSP01
+   823 223A A5 01			lda SPRITES.WSHIPX+1
+   824 223C 8D 01 D0			sta GLOBALS.HPOSP01+1
+   825 223F			l_0130
+   826
+   827 223F 4C 7F 22			jmp a_0003
+   828 2242			l_011E
+   829 2242 C9 02			cmp #$02
+   830 2244 D0 1C			jne l_0146
+   831 2246			@
+   832
+   833 				; optimize OK (JOY), line = 36
+   834
+   835 2246 A5 02			lda SPRITES.BSHIPY
+   836 2248 C9 21			cmp #$21
+   837 224A 90 13			jcc l_0158
+   838
+   839 				; optimize OK (JOY), line = 37
+   840
+   841 224C 38 E9 04			sub #$04
+   842 224F 85 02			sta SPRITES.BSHIPY
+   843 2251 A5 04			lda SPRITES.WCANNONY
+   844 2253 38 E9 14			sub #$14
+   845 2256 85 04			sta SPRITES.WCANNONY
+   846 2258 B0 02			scs
+   847 225A C6 05			dec SPRITES.WCANNONY+1
+   848
+   849 				; optimize FAIL ('SPRITES.COPYSHIP', JOY), line = 38
+   850
+   851 225C 20 39 21			jsr SPRITES.COPYSHIP
+   852 225F			l_0158
    853
-   854 225E 20 39 21			jsr SPRITES.COPYSHIP
-   855 2261			l_0158
-   856
-   857 2261 4C 81 22			jmp a_0003
-   858 2264			l_0146
-   859 2264 C9 01			cmp #$01
-   860 2266 D0 19			jne l_0167
-   861 2268			@
-   862
-   863 				; optimize OK (JOY), line = 42
-   864
-   865 2268 A5 02			lda SPRITES.BSHIPY
-   866 226A C9 A8			cmp #$A8
-   867 226C B0 13			jcs l_0179
-   868
-   869 				; optimize OK (JOY), line = 43
-   870
-   871 226E 18 69 04			add #$04
-   872 2271 85 02			sta SPRITES.BSHIPY
-   873 2273 A5 04			lda SPRITES.WCANNONY
-   874 2275 18 69 14			add #$14
-   875 2278 85 04			sta SPRITES.WCANNONY
-   876 227A 90 02			scc
-   877 227C E6 05			inc SPRITES.WCANNONY+1
-   878
-   879 				; optimize FAIL ('SPRITES.COPYSHIP', JOY), line = 44
+   854 225F 4C 7F 22			jmp a_0003
+   855 2262			l_0146
+   856 2262 C9 01			cmp #$01
+   857 2264 D0 19			jne l_0167
+   858 2266			@
+   859
+   860 				; optimize OK (JOY), line = 42
+   861
+   862 2266 A5 02			lda SPRITES.BSHIPY
+   863 2268 C9 A8			cmp #$A8
+   864 226A B0 13			jcs l_0179
+   865
+   866 				; optimize OK (JOY), line = 43
+   867
+   868 226C 18 69 04			add #$04
+   869 226F 85 02			sta SPRITES.BSHIPY
+   870 2271 A5 04			lda SPRITES.WCANNONY
+   871 2273 18 69 14			add #$14
+   872 2276 85 04			sta SPRITES.WCANNONY
+   873 2278 90 02			scc
+   874 227A E6 05			inc SPRITES.WCANNONY+1
+   875
+   876 				; optimize FAIL ('SPRITES.COPYSHIP', JOY), line = 44
+   877
+   878 227C 20 39 21			jsr SPRITES.COPYSHIP
+   879 227F			l_0179
    880
-   881 227E 20 39 21			jsr SPRITES.COPYSHIP
-   882 2281			l_0179
+   881 227F			l_0167
+   882 227F			a_0003
    883
-   884 2281			l_0167
-   885 2281			a_0003
-   886
-   887 				; optimize OK (JOY), line = 48
+   884 				; optimize OK (JOY), line = 48
+   885
+   886 227F A9 03			lda #$03
+   887 2281 85 FF			sta GLOBALS.BTMP1
    888
-   889 2281 A9 03			lda #$03
-   890 2283 85 FF			sta GLOBALS.BTMP1
-   891
-   892 				; --- ForToDoEpilog
-   893 2285 C6 FD			dec GLOBALS.B1I
-   894 2287 30 03 4C F1 21		jpl l_00D7
-   895 228C			l_00E5
-   896
-   897 				; ------------------------------------------------------------
+   889 				; --- ForToDoEpilog
+   890 2283 C6 FD			dec GLOBALS.B1I
+   891 2285 30 03 4C EF 21		jpl l_00D7
+   892 228A			l_00E5
+   893
+   894 				; ------------------------------------------------------------
+   895
+   896 = 0000			@FORTMP_00D4	= $00
+   897 = 2457			@CASETMP_0003	= DATAORIGIN+$000F
    898
-   899 = 0000			@FORTMP_00D4	= $00
-   900 = 245B			@CASETMP_0003	= DATAORIGIN+$000F
+   899 = 2457			@VarData	= @CASETMP_0003
+   900 = 0001			@VarDataSize	= 1
    901
-   902 = 245B			@VarData	= @CASETMP_0003
-   903 = 0001			@VarDataSize	= 1
-   904
-   905 228C			@exit
-   906 					.ifdef @new
-   907 					lda <@VarData
-   908 					sta :ztmp
-   909 					lda >@VarData
-   910 					ldy #@VarDataSize-1
-   911 					jmp @FreeMem
-   912 					els
-   913 228C 60				rts						; ret
-   914 					eif
-   915 				.endl
-   916
-   917 				; ------------------------------------------------------------
-   918 				; ------------------------------------------------------------
-   919 228D			@UnitInit
-   920
-   921 228D 60				rts
-   922
-   923 				; ------------------------------------------------------------
-   924
-   925 = 0006			JOYDIRECTION	= $06
-   926
-   927 				.endl							; UNIT JOY
-   928
-   929 228E			.local	VBI						; PROCEDURE | INTERRUPT
-   930
-   931 				; ---------------------  ASM Block 056  ---------------------
-   932
-   933 228E 48 8A 48 98 48	 phr 
-   934
-   935 				; optimize OK (main.pas), line = 22
-   936
-   937 2293 A5 14			lda GLOBALS.RTCLOK
-   938 2295 29 01			and #$01
-   939 2297 85 F3			sta GLOBALS.ODDCOUNTER
-   940
-   941 				; optimize OK (main.pas), line = 23
-   942
-   943 2299 A5 14			lda GLOBALS.RTCLOK
-   944 229B A0 01			ldy #1
-   945 229D 29 03			and #$03
-   946 229F F0 01			beq @+
-   947 22A1 88				dey
-   948 22A2			@
-   949 22A2 98				tya
-   950 22A3 85 F2			sta GLOBALS.ISFIRETIME
-   951
-   952 				; optimize OK (main.pas), line = 27
-   953
-   954 22A5 F0 25			jeq l_01B7
-   955
-   956 				; optimize OK (main.pas), line = 28
-   957
-   958 22A7 AD 10 D0			lda GLOBALS.TRIG0
-   959 22AA D0 20			jne l_01CA
-   960 22AC A5 03			lda SPRITES.BCANNONX
-   961 22AE 4A				lsr @
-   962 22AF 18 6D 04 11			add GLOBALS.WDL2LMS
-   963 22B3 85 A1			sta :STACKORIGIN+9
-   964 22B5 AD 05 11			lda GLOBALS.WDL2LMS+1
-   965 22B8 69 00			adc #$00
-   966 22BA 85 B1			sta :STACKORIGIN+STACKWIDTH+9
-   967 22BC A5 A1			lda :STACKORIGIN+9
-   968 22BE 18 65 04			add SPRITES.WCANNONY
-   969 22C1 A8				tay
-   970 22C2 A5 B1			lda :STACKORIGIN+STACKWIDTH+9
-   971 22C4 65 05			adc SPRITES.WCANNONY+1
-   972 22C6 85 91			sta :bp+1
-   973 22C8 A9 02			lda #$02
-   974 22CA 91 90			sta (:bp),y
-   975 22CC			l_01CA
-   976 22CC			l_01B7
-   977
-   978 				; optimize OK (main.pas), line = 31
-   979
-   980 22CC AD 05 11			lda GLOBALS.WDL2LMS+1
-   981 22CF C9 E0			cmp #$E0
-   982 22D1 90 17			jcc l_01F3
-   983 22D3 D0 07			bne @+
-   984 22D5 AD 04 11			lda GLOBALS.WDL2LMS
-   985 22D8 C9 01			cmp #$01
-   986 22DA 90 0E			jcc l_01F3
-   987 22DC			@
-   988 22DC AD 04 11 D0 03 CE + 	dew GLOBALS.WDL2LMS
-   989 22E7 4C F4 22			jmp l_0201
-   990 22EA			l_01F3
-   991 22EA A9 3F			lda #$3F
-   992 22EC 8D 04 11			sta GLOBALS.WDL2LMS
-   993 22EF A9 EC			lda #$EC
-   994 22F1 8D 05 11			sta GLOBALS.WDL2LMS+1
-   995 22F4			l_0201
-   996
-   997 				; optimize OK (main.pas), line = 33
-   998
-   999 22F4 AD 04 11			lda GLOBALS.WDL2LMS
-  1000 22F7 85 FA			sta GLOBALS.WTMP1
-  1001 22F9 AD 05 11			lda GLOBALS.WDL2LMS+1
-  1002 22FC 85 FB			sta GLOBALS.WTMP1+1
+   902 228A			@exit
+   903 					.ifdef @new
+   904 					lda <@VarData
+   905 					sta :ztmp
+   906 					lda >@VarData
+   907 					ldy #@VarDataSize-1
+   908 					jmp @FreeMem
+   909 					els
+   910 228A 60				rts						; ret
+   911 					eif
+   912 				.endl
+   913
+   914 				; ------------------------------------------------------------
+   915 				; ------------------------------------------------------------
+   916 228B			@UnitInit
+   917
+   918 228B 60				rts
+   919
+   920 				; ------------------------------------------------------------
+   921
+   922 = 0006			JOYDIRECTION	= $06
+   923
+   924 				.endl							; UNIT JOY
+   925
+   926 228C			.local	VBI						; PROCEDURE | INTERRUPT
+   927
+   928 				; ---------------------  ASM Block 056  ---------------------
+   929
+   930 228C 48 8A 48 98 48	 phr 
+   931
+   932 				; optimize OK (main.pas), line = 22
+   933
+   934 2291 A5 14			lda GLOBALS.RTCLOK
+   935 2293 29 01			and #$01
+   936 2295 85 F3			sta GLOBALS.ODDCOUNTER
+   937
+   938 				; optimize OK (main.pas), line = 23
+   939
+   940 2297 A5 14			lda GLOBALS.RTCLOK
+   941 2299 A0 01			ldy #1
+   942 229B 29 03			and #$03
+   943 229D F0 01			beq @+
+   944 229F 88				dey
+   945 22A0			@
+   946 22A0 98				tya
+   947 22A1 85 F2			sta GLOBALS.ISFIRETIME
+   948
+   949 				; optimize OK (main.pas), line = 27
+   950
+   951 22A3 F0 25			jeq l_01B7
+   952
+   953 				; optimize OK (main.pas), line = 28
+   954
+   955 22A5 AD 10 D0			lda GLOBALS.TRIG0
+   956 22A8 D0 20			jne l_01CA
+   957 22AA A5 03			lda SPRITES.BCANNONX
+   958 22AC 4A				lsr @
+   959 22AD 18 6D 04 11			add GLOBALS.WDL2LMS
+   960 22B1 85 A1			sta :STACKORIGIN+9
+   961 22B3 AD 05 11			lda GLOBALS.WDL2LMS+1
+   962 22B6 69 00			adc #$00
+   963 22B8 85 B1			sta :STACKORIGIN+STACKWIDTH+9
+   964 22BA A5 A1			lda :STACKORIGIN+9
+   965 22BC 18 65 04			add SPRITES.WCANNONY
+   966 22BF A8				tay
+   967 22C0 A5 B1			lda :STACKORIGIN+STACKWIDTH+9
+   968 22C2 65 05			adc SPRITES.WCANNONY+1
+   969 22C4 85 91			sta :bp+1
+   970 22C6 A9 02			lda #$02
+   971 22C8 91 90			sta (:bp),y
+   972 22CA			l_01CA
+   973 22CA			l_01B7
+   974
+   975 				; optimize OK (main.pas), line = 31
+   976
+   977 22CA AD 05 11			lda GLOBALS.WDL2LMS+1
+   978 22CD C9 E0			cmp #$E0
+   979 22CF 90 17			jcc l_01F3
+   980 22D1 D0 07			bne @+
+   981 22D3 AD 04 11			lda GLOBALS.WDL2LMS
+   982 22D6 C9 01			cmp #$01
+   983 22D8 90 0E			jcc l_01F3
+   984 22DA			@
+   985 22DA AD 04 11 D0 03 CE + 	dew GLOBALS.WDL2LMS
+   986 22E5 4C F2 22			jmp l_0201
+   987 22E8			l_01F3
+   988 22E8 A9 3F			lda #$3F
+   989 22EA 8D 04 11			sta GLOBALS.WDL2LMS
+   990 22ED A9 EC			lda #$EC
+   991 22EF 8D 05 11			sta GLOBALS.WDL2LMS+1
+   992 22F2			l_0201
+   993
+   994 				; optimize OK (main.pas), line = 33
+   995
+   996 22F2 AD 04 11			lda GLOBALS.WDL2LMS
+   997 22F5 85 FA			sta GLOBALS.WTMP1
+   998 22F7 AD 05 11			lda GLOBALS.WDL2LMS+1
+   999 22FA 85 FB			sta GLOBALS.WTMP1+1
+  1000
+  1001 				; ---------------------  ASM Block 057  ---------------------
+  1002
   1003
-  1004 				; ---------------------  ASM Block 057  ---------------------
-  1005
-  1006
-  1007 22FE A2 11		        ldx #GAME_SCREEN_ROWS
-  1008 2300 A0 00		        ldy #0
-  1009 2302 98			  @:    tya
-  1010 2303 91 FA		        sta (GLOBALS.WTMP1),y
-  1011 2305 A5 FA		        lda GLOBALS.WTMP1
-  1012 2307 18 69 28		        add #40
-  1013 230A 85 FA		        sta GLOBALS.WTMP1
-  1014 230C 90 02		        bcc @+
-  1015 230E E6 FB		        inc GLOBALS.WTMP1+1
-  1016 2310 CA			  @:    dex
-  1017 2311 10 EF		        bpl @-1
-  1018 				  
-  1019
-  1020 				; ---------------------  ASM Block 058  ---------------------
-  1021
-  1022 2313 68 A8 68 AA 68	 plr 
-  1023 2318 40				rti						; ret
-  1024 				.endl
-  1025
-  1026 2319			.local	JOYHANDLER					; PROCEDURE | INTERRUPT
-  1027
-  1028 				; ---------------------  ASM Block 059  ---------------------
-  1029
-  1030 2319 48 8A 48 98 48	 phr 
-  1031
-  1032 				; optimize OK (main.pas), line = 57
-  1033
-  1034 231E A5 F3			lda GLOBALS.ODDCOUNTER
-  1035 2320 D0 05			jne l_021D
-  1036 2322 AD 00 D3			lda GLOBALS.PORTA
-  1037 2325 85 06			sta JOY.JOYDIRECTION
-  1038 2327			l_021D
-  1039 2327 20 E9 21			jsr JOY.MOVESHIP
-  1040
-  1041 				; optimize FAIL ('SYS.SETDLI', main.pas), line = 59
-  1042
-  1043 232A E8				inx
-  1044 232B AD 5E 24 95 98		mva PSTARS :STACKORIGIN,x
-  1045 2330 AD 5F 24 95 A8		mva PSTARS+1 :STACKORIGIN+STACKWIDTH,x
-  1046 2335 20 F9 20			jsr SYS.SETDLI
-  1047
-  1048 				; ---------------------  ASM Block 060  ---------------------
-  1049
-  1050 2338 68 A8 68 AA 68	 plr 
-  1051 233D 40				rti						; ret
-  1052 				.endl
-  1053
-  1054 233E			.local	STARS						; PROCEDURE | INTERRUPT
-  1055
-  1056 				; ---------------------  ASM Block 061  ---------------------
-  1057
-  1058 233E 48 8A 48 98 48	 phr 
-  1059
-  1060 				; optimize OK (main.pas), line = 68
+  1004 22FC A2 11		        ldx #GAME_SCREEN_ROWS
+  1005 22FE A0 00		        ldy #0
+  1006 2300 98			  @:    tya
+  1007 2301 91 FA		        sta (GLOBALS.WTMP1),y
+  1008 2303 A5 FA		        lda GLOBALS.WTMP1
+  1009 2305 18 69 28		        add #40
+  1010 2308 85 FA		        sta GLOBALS.WTMP1
+  1011 230A 90 02		        bcc @+
+  1012 230C E6 FB		        inc GLOBALS.WTMP1+1
+  1013 230E CA			  @:    dex
+  1014 230F 10 EF		        bpl @-1
+  1015 				  
+  1016
+  1017 				; ---------------------  ASM Block 058  ---------------------
+  1018
+  1019 2311 68 A8 68 AA 68	 plr 
+  1020 2316 40				rti						; ret
+  1021 				.endl
+  1022
+  1023 2317			.local	JOYHANDLER					; PROCEDURE | INTERRUPT
+  1024
+  1025 				; ---------------------  ASM Block 059  ---------------------
+  1026
+  1027 2317 48 8A 48 98 48	 phr 
+  1028
+  1029 				; optimize OK (main.pas), line = 57
+  1030
+  1031 231C A5 F3			lda GLOBALS.ODDCOUNTER
+  1032 231E D0 05			jne l_021D
+  1033 2320 AD 00 D3			lda GLOBALS.PORTA
+  1034 2323 85 06			sta JOY.JOYDIRECTION
+  1035 2325			l_021D
+  1036 2325 20 E7 21			jsr JOY.MOVESHIP
+  1037
+  1038 				; optimize FAIL ('SYS.SETDLI', main.pas), line = 59
+  1039
+  1040 2328 E8				inx
+  1041 2329 AD 5A 24 95 98		mva PSTARS :STACKORIGIN,x
+  1042 232E AD 5B 24 95 A8		mva PSTARS+1 :STACKORIGIN+STACKWIDTH,x
+  1043 2333 20 F9 20			jsr SYS.SETDLI
+  1044
+  1045 				; ---------------------  ASM Block 060  ---------------------
+  1046
+  1047 2336 68 A8 68 AA 68	 plr 
+  1048 233B 40				rti						; ret
+  1049 				.endl
+  1050
+  1051 233C			.local	STARS						; PROCEDURE | INTERRUPT
+  1052
+  1053 				; ---------------------  ASM Block 061  ---------------------
+  1054
+  1055 233C 48 8A 48 98 48	 phr 
+  1056
+  1057 				; optimize OK (main.pas), line = 68
+  1058
+  1059 2341 A9 7C			lda #$7C
+  1060 2343 85 FD			sta GLOBALS.B1I
   1061
-  1062 2343 A9 7C			lda #$7C
-  1063 2345 85 FD			sta GLOBALS.B1I
+  1062 2345			l_0237
+  1063 				; --- ForToDoCondition
   1064
-  1065 2347			l_0237
-  1066 				; --- ForToDoCondition
-  1067
-  1068 				; ---------------------  ASM Block 062  ---------------------
-  1069
-  1070 2347 8D 0A D4		 sta WSYNC 
-  1071
-  1072 				; optimize OK (main.pas), line = 70
-  1073
-  1074 234A A4 FD			ldy GLOBALS.B1I
-  1075 234C B9 00 12			lda adr.ASTARS,y
-  1076 234F 8D 07 D0			sta GLOBALS.HPOSM3
-  1077
-  1078 				; optimize OK (main.pas), line = 71
-  1079
-  1080 2352 B9 00 12			lda adr.ASTARS,y
-  1081 2355 38 F9 7D 12			sub adr.ASPEED,y
-  1082 2359 99 00 12			sta adr.ASTARS,y
-  1083
-  1084 				; optimize OK (main.pas), line = 72
+  1065 				; ---------------------  ASM Block 062  ---------------------
+  1066
+  1067 2345 8D 0A D4		 sta WSYNC 
+  1068
+  1069 				; optimize OK (main.pas), line = 70
+  1070
+  1071 2348 A4 FD			ldy GLOBALS.B1I
+  1072 234A B9 00 12			lda adr.ASTARS,y
+  1073 234D 8D 07 D0			sta GLOBALS.HPOSM3
+  1074
+  1075 				; optimize OK (main.pas), line = 71
+  1076
+  1077 2350 B9 00 12			lda adr.ASTARS,y
+  1078 2353 38 F9 7D 12			sub adr.ASPEED,y
+  1079 2357 99 00 12			sta adr.ASTARS,y
+  1080
+  1081 				; optimize OK (main.pas), line = 72
+  1082
+  1083 235A AD 0A D2			lda SYSTEM.RND
+  1084 235D 8D 15 D0			sta GLOBALS.COLPM3
   1085
-  1086 235C AD 0A D2			lda SYSTEM.RND
-  1087 235F 8D 15 D0			sta GLOBALS.COLPM3
-  1088
-  1089 				; --- ForToDoEpilog
-  1090 2362 C6 FD			dec GLOBALS.B1I
-  1091 2364 10 E1			jpl l_0237
-  1092 2366			l_0245
-  1093
-  1094 				; optimize FAIL ('SYS.SETDLI', main.pas), line = 75
-  1095
-  1096 2366 E8				inx
-  1097 2367 AD 5C 24 95 98		mva PJOY :STACKORIGIN,x
-  1098 236C AD 5D 24 95 A8		mva PJOY+1 :STACKORIGIN+STACKWIDTH,x
-  1099 2371 20 F9 20			jsr SYS.SETDLI
-  1100
-  1101 				; ---------------------  ASM Block 063  ---------------------
-  1102
-  1103 2374 68 A8 68 AA 68	 plr 
-  1104
-  1105 				; ------------------------------------------------------------
-  1106
-  1107 = 0000			@FORTMP_0234	= $00
-  1108 2379 40				rti						; ret
-  1109 				.endl
-  1110
-  1111 237A			.local	INIT						; PROCEDURE
-  1112
-  1113 				; optimize FAIL ('SYSTEM.PAUSE_0067', main.pas), line = 82
-  1114
-  1115 237A 20 C8 20			jsr SYSTEM.PAUSE_0067
-  1116 237D A9 00			lda #$00
-  1117 237F 8D 00 D4			sta GLOBALS.DMACTL
-  1118 2382 20 11 21			jsr SYS.SYSTEMOFF
-  1119
-  1120 				; optimize OK (main.pas), line = 84
+  1086 				; --- ForToDoEpilog
+  1087 2360 C6 FD			dec GLOBALS.B1I
+  1088 2362 10 E1			jpl l_0237
+  1089 2364			l_0245
+  1090
+  1091 				; optimize FAIL ('SYS.SETDLI', main.pas), line = 75
+  1092
+  1093 2364 E8				inx
+  1094 2365 AD 58 24 95 98		mva PJOY :STACKORIGIN,x
+  1095 236A AD 59 24 95 A8		mva PJOY+1 :STACKORIGIN+STACKWIDTH,x
+  1096 236F 20 F9 20			jsr SYS.SETDLI
+  1097
+  1098 				; ---------------------  ASM Block 063  ---------------------
+  1099
+  1100 2372 68 A8 68 AA 68	 plr 
+  1101
+  1102 				; ------------------------------------------------------------
+  1103
+  1104 = 0000			@FORTMP_0234	= $00
+  1105 2377 40				rti						; ret
+  1106 				.endl
+  1107
+  1108 2378			.local	INIT						; PROCEDURE
+  1109
+  1110 				; optimize FAIL ('SYSTEM.PAUSE_0067', main.pas), line = 82
+  1111
+  1112 2378 20 C8 20			jsr SYSTEM.PAUSE_0067
+  1113 237B A9 00			lda #$00
+  1114 237D 8D 00 D4			sta GLOBALS.DMACTL
+  1115 2380 20 11 21			jsr SYS.SYSTEMOFF
+  1116
+  1117 				; optimize OK (main.pas), line = 84
+  1118
+  1119 2383 A9 18			lda #$18
+  1120 2385 8D 09 D4			sta GLOBALS.CHBAS
   1121
-  1122 2385 A9 18			lda #$18
-  1123 2387 8D 09 D4			sta GLOBALS.CHBAS
-  1124
-  1125 				; optimize OK (main.pas), line = 86
-  1126
-  1127 238A A9 3F			lda #$3F
-  1128 238C 85 88			sta :edx
-  1129 238E A9 EC			lda #$EC
-  1130 2390 85 89			sta :edx+1
-  1131 2392 A9 C0			lda #$C0
-  1132 2394 85 8C			sta :ecx
-  1133 2396 A9 03			lda #$03
-  1134 2398 85 8D			sta :ecx+1
-  1135 239A A9 00			lda #$00
-  1136 239C 85 84			sta :eax
-  1137 239E 20 00 20			jsr @fill
-  1138
-  1139 				; optimize OK (main.pas), line = 88
+  1122 				; optimize OK (main.pas), line = 86
+  1123
+  1124 2388 A9 3F			lda #$3F
+  1125 238A 85 88			sta :edx
+  1126 238C A9 EC			lda #$EC
+  1127 238E 85 89			sta :edx+1
+  1128 2390 A9 C0			lda #$C0
+  1129 2392 85 8C			sta :ecx
+  1130 2394 A9 03			lda #$03
+  1131 2396 85 8D			sta :ecx+1
+  1132 2398 A9 00			lda #$00
+  1133 239A 85 84			sta :eax
+  1134 239C 20 00 20			jsr @fill
+  1135
+  1136 				; optimize OK (main.pas), line = 88
+  1137
+  1138 239F A9 7C			lda #$7C
+  1139 23A1 85 FD			sta GLOBALS.B1I
   1140
-  1141 23A1 A9 7C			lda #$7C
-  1142 23A3 85 FD			sta GLOBALS.B1I
+  1141 23A3			l_0280
+  1142 				; --- ForToDoCondition
   1143
-  1144 23A5			l_0280
-  1145 				; --- ForToDoCondition
-  1146
-  1147 				; optimize OK (main.pas), line = 89
-  1148
-  1149 23A5 A4 FD			ldy GLOBALS.B1I
-  1150 23A7 AD 0A D2			lda SYSTEM.RND
-  1151 23AA 99 00 12			sta adr.ASTARS,y
-  1152
-  1153 				; optimize OK (main.pas), line = 90
-  1154
-  1155 23AD 29 03			and #$03
-  1156 23AF 18 69 01			add #$01
-  1157 23B2 99 7D 12			sta adr.ASPEED,y
-  1158
-  1159 				; --- ForToDoEpilog
-  1160 23B5 C6 FD			dec GLOBALS.B1I
-  1161 23B7 10 EC			jpl l_0280
-  1162 23B9			l_028E
-  1163
-  1164 				; optimize OK (main.pas), line = 93
-  1165
-  1166 23B9 AD 02 D3			lda GLOBALS.PACTL
-  1167 23BC 09 04			ora #$04
-  1168 23BE 8D 02 D3			sta GLOBALS.PACTL
-  1169 23C1 20 7B 21			jsr SPRITES.INIT
-  1170 23C4 20 2D 21			jsr GR.MODE2
-  1171
-  1172 				; optimize OK (main.pas), line = 94
-  1173
-  1174 23C7 A9 00			lda #$00
-  1175 23C9 8D 1A D0			sta GLOBALS.COLBK
-  1176 23CC 8D 16 D0			sta GLOBALS.COLPF0
-  1177 23CF A9 0F			lda #$0F
-  1178 23D1 8D 17 D0			sta GLOBALS.COLPF1
-  1179 23D4 A9 02			lda #$02
-  1180 23D6 8D 18 D0			sta GLOBALS.COLPF2
-  1181 23D9 A9 00			lda #$00
-  1182 23DB 8D 19 D0			sta GLOBALS.COLPF3
-  1183
-  1184 				; optimize OK (main.pas), line = 95
-  1185
-  1186 23DE A9 19			lda <JOYHANDLER
-  1187 23E0 8D 5C 24			sta PJOY
-  1188 23E3 A9 23			lda >JOYHANDLER
-  1189 23E5 8D 5D 24			sta PJOY+1
-  1190 23E8 A9 3E			lda <STARS
-  1191 23EA 8D 5E 24			sta PSTARS
-  1192 23ED A9 23			lda >STARS
-  1193 23EF 8D 5F 24			sta PSTARS+1
-  1194
-  1195 				; optimize OK (main.pas), line = 97
-  1196
-  1197 23F2 A9 06			lda #$06
-  1198 23F4 85 03			sta SPRITES.BCANNONX
-  1199 23F6 A9 03			lda #$03
-  1200 23F8 85 8C			sta :ecx
-  1201 23FA A5 02			lda SPRITES.BSHIPY
-  1202 23FC 85 84			sta :eax
-  1203 					.ifdef fmulinit
-  1204 					fmulu_8
-  1205 					els
-  1206 23FE 20 48 20			imulCL
-  1207 					eif
-  1208 2401 A5 84			lda :eax
-  1209 2403 85 04			sta SPRITES.WCANNONY
-  1210 2405 A5 85			lda :eax+1
-  1211 2407 85 05			sta SPRITES.WCANNONY+1
-  1212
-  1213 				; optimize FAIL ('SYS.SETVBI', main.pas), line = 99
-  1214
-  1215 2409 E8				inx
-  1216 240A A9 8E 95 98			mva <VBI :STACKORIGIN,x
-  1217 240E A9 22 95 A8			mva >VBI :STACKORIGIN+STACKWIDTH,x
-  1218 2412 20 E1 20			jsr SYS.SETVBI
-  1219
-  1220 				; optimize FAIL ('SYS.SETDLI', main.pas), line = 100
-  1221
-  1222 2415 E8				inx
-  1223 2416 A9 19 95 98			mva <JOYHANDLER :STACKORIGIN,x
-  1224 241A A9 23 95 A8			mva >JOYHANDLER :STACKORIGIN+STACKWIDTH,x
-  1225 241E 20 F9 20			jsr SYS.SETDLI
-  1226
-  1227 				; optimize FAIL ('SYSTEM.PAUSE_0067', main.pas), line = 102
-  1228
-  1229 2421 20 C8 20			jsr SYSTEM.PAUSE_0067
-  1230 2424 A9 3E			lda #$3E
-  1231 2426 8D 00 D4			sta GLOBALS.DMACTL
-  1232
-  1233 				; ------------------------------------------------------------
-  1234
-  1235 = 0000			@FORTMP_027D	= $00
-  1236 2429			@exit
-  1237 					.ifdef @new
-  1238 					lda <@VarData
-  1239 					sta :ztmp
-  1240 					lda >@VarData
-  1241 					ldy #@VarDataSize-1
-  1242 					jmp @FreeMem
-  1243 					els
-  1244 2429 60				rts						; ret
-  1245 					eif
-  1246 				.endl
-  1247 242A			l_0007
-  1248
-  1249 				; optimize FAIL ('INIT', main.pas), line = 106
-  1250
-  1251 242A 20 7A 23			jsr INIT
+  1144 				; optimize OK (main.pas), line = 89
+  1145
+  1146 23A3 A4 FD			ldy GLOBALS.B1I
+  1147 23A5 AD 0A D2			lda SYSTEM.RND
+  1148 23A8 99 00 12			sta adr.ASTARS,y
+  1149
+  1150 				; optimize OK (main.pas), line = 90
+  1151
+  1152 23AB 29 03			and #$03
+  1153 23AD 18 69 01			add #$01
+  1154 23B0 99 7D 12			sta adr.ASPEED,y
+  1155
+  1156 				; --- ForToDoEpilog
+  1157 23B3 C6 FD			dec GLOBALS.B1I
+  1158 23B5 10 EC			jpl l_0280
+  1159 23B7			l_028E
+  1160
+  1161 				; optimize OK (main.pas), line = 93
+  1162
+  1163 23B7 AD 02 D3			lda GLOBALS.PACTL
+  1164 23BA 09 04			ora #$04
+  1165 23BC 8D 02 D3			sta GLOBALS.PACTL
+  1166 23BF 20 79 21			jsr SPRITES.INIT
+  1167 23C2 20 2D 21			jsr GR.MODE2
+  1168
+  1169 				; optimize OK (main.pas), line = 94
+  1170
+  1171 23C5 A9 00			lda #$00
+  1172 23C7 8D 1A D0			sta GLOBALS.COLBK
+  1173 23CA 8D 16 D0			sta GLOBALS.COLPF0
+  1174 23CD A9 0F			lda #$0F
+  1175 23CF 8D 17 D0			sta GLOBALS.COLPF1
+  1176 23D2 A9 02			lda #$02
+  1177 23D4 8D 18 D0			sta GLOBALS.COLPF2
+  1178 23D7 A9 00			lda #$00
+  1179 23D9 8D 19 D0			sta GLOBALS.COLPF3
+  1180
+  1181 				; optimize OK (main.pas), line = 95
+  1182
+  1183 23DC A9 17			lda <JOYHANDLER
+  1184 23DE 8D 58 24			sta PJOY
+  1185 23E1 A9 23			lda >JOYHANDLER
+  1186 23E3 8D 59 24			sta PJOY+1
+  1187 23E6 A9 3C			lda <STARS
+  1188 23E8 8D 5A 24			sta PSTARS
+  1189 23EB A9 23			lda >STARS
+  1190 23ED 8D 5B 24			sta PSTARS+1
+  1191
+  1192 				; optimize OK (main.pas), line = 97
+  1193
+  1194 23F0 A9 06			lda #$06
+  1195 23F2 85 03			sta SPRITES.BCANNONX
+  1196 23F4 A9 03			lda #$03
+  1197 23F6 85 8C			sta :ecx
+  1198 23F8 A5 02			lda SPRITES.BSHIPY
+  1199 23FA 85 84			sta :eax
+  1200 					.ifdef fmulinit
+  1201 					fmulu_8
+  1202 					els
+  1203 23FC 20 48 20			imulCL
+  1204 					eif
+  1205 23FF A5 84			lda :eax
+  1206 2401 85 04			sta SPRITES.WCANNONY
+  1207 2403 A5 85			lda :eax+1
+  1208 2405 85 05			sta SPRITES.WCANNONY+1
+  1209
+  1210 				; optimize FAIL ('SYS.SETVBI', main.pas), line = 99
+  1211
+  1212 2407 E8				inx
+  1213 2408 A9 8C 95 98			mva <VBI :STACKORIGIN,x
+  1214 240C A9 22 95 A8			mva >VBI :STACKORIGIN+STACKWIDTH,x
+  1215 2410 20 E1 20			jsr SYS.SETVBI
+  1216
+  1217 				; optimize FAIL ('SYS.SETDLI', main.pas), line = 100
+  1218
+  1219 2413 E8				inx
+  1220 2414 A9 17 95 98			mva <JOYHANDLER :STACKORIGIN,x
+  1221 2418 A9 23 95 A8			mva >JOYHANDLER :STACKORIGIN+STACKWIDTH,x
+  1222 241C 20 F9 20			jsr SYS.SETDLI
+  1223
+  1224 				; optimize FAIL ('SYSTEM.PAUSE_0067', main.pas), line = 102
+  1225
+  1226 241F 20 C8 20			jsr SYSTEM.PAUSE_0067
+  1227 2422 A9 3E			lda #$3E
+  1228 2424 8D 00 D4			sta GLOBALS.DMACTL
+  1229
+  1230 				; ------------------------------------------------------------
+  1231
+  1232 = 0000			@FORTMP_027D	= $00
+  1233 2427			@exit
+  1234 					.ifdef @new
+  1235 					lda <@VarData
+  1236 					sta :ztmp
+  1237 					lda >@VarData
+  1238 					ldy #@VarDataSize-1
+  1239 					jmp @FreeMem
+  1240 					els
+  1241 2427 60				rts						; ret
+  1242 					eif
+  1243 				.endl
+  1244 2428			l_0007
+  1245
+  1246 				; optimize FAIL ('INIT', main.pas), line = 106
+  1247
+  1248 2428 20 78 23			jsr INIT
+  1249
+  1250 				; --- RepeatUntilProlog
+  1251 242B			l_02EB
   1252
-  1253 				; --- RepeatUntilProlog
-  1254 242D			l_02EB
-  1255
-  1256 				; optimize OK (main.pas), line = 107
-  1257
-  1258 242D 4C 2D 24			jmp l_02EB
-  1259
-  1260 				; ------------------------------------------------------------
-  1261
-  1262 = 1000			PM_ADR	= $1000
-  1263 = 1300			M0_ADR	= $1300
-  1264 = 1400			P0_ADR	= $1400
-  1265 = 1500			P1_ADR	= $1500
-  1266 = 1000			GFX_SHIP_ADR	= $1000
-  1267 = 0008			GFX_SHIP_SEG	= $08
-  1268 = 1800			GFX_FONTS_ADR	= $1800
-  1269 = 1100			DL_2	= $1100
-  1270 = EC3F			GAME_LMS	= $EC3F
-  1271 = E000			GAME_LMS_END	= $E000
-  1272 = 0011			GAME_SCREEN_ROWS	= $11
-  1273 = 0E0E			SHIP_COL	= $0E0E
-  1274 = 0030			SHIP_LEFT_LIMIT	= $30
-  1275 = 00B0			SHIP_RIGHT_LIMIT	= $B0
-  1276 = 0020			SHIP_TOP_LIMIT	= $20
-  1277 = 00A8			SHIP_BOTTOM_LIMIT	= $A8
-  1278 = 0202			SHIP_X_STEP	= $0202
-  1279 = 0004			SHIP_Y_STEP	= $04
-  1280 = 0008			JOY_LEFT	= $08
-  1281 = 0004			JOY_RIGHT	= $04
-  1282 = 0002			JOY_UP	= $02
-  1283 = 0001			JOY_DOWN	= $01
-  1284 = 1200			adr.ASTARS	= $1200
-  1285 2430			.var ASTARS	= adr.ASTARS .word
-  1286 = 127D			adr.ASPEED	= $127D
-  1287 2430			.var ASPEED	= adr.ASPEED .word
-  1288 = 245C			PJOY	= DATAORIGIN+$0010
-  1289 = 245E			PSTARS	= DATAORIGIN+$0012
-  1290 2430			@exit
-  1291
-  1292 2430 A2 00		@halt	ldx #$00
-  1293 2432 9A				txs
-  1294 					.ifdef MAIN.@DEFINES.ROMOFF
-  1295 					inc portb
-  1296 					.endif
-  1297
-  1298 2433 A0 01			ldy #$01
-  1299
-  1300 2435 60				rts
-  1301
-  1302 				; ------------------------------------------------------------
-  1303
-  1304 2436 00 00 00 00 00 00 + IOCB@COPY	:16 brk
-  1305
-  1306 				; ------------------------------------------------------------
-  1307
-  1308 2446			.local	@DEFINES
-  1309 2446			ATARI
+  1253 				; optimize OK (main.pas), line = 107
+  1254
+  1255 242B 4C 2B 24			jmp l_02EB
+  1256
+  1257 				; ------------------------------------------------------------
+  1258
+  1259 = 1000			PM_ADR	= $1000
+  1260 = 1300			M0_ADR	= $1300
+  1261 = 1400			P0_ADR	= $1400
+  1262 = 1500			P1_ADR	= $1500
+  1263 = 1000			GFX_SHIP_ADR	= $1000
+  1264 = 0008			GFX_SHIP_SEG	= $08
+  1265 = 1800			GFX_FONTS_ADR	= $1800
+  1266 = 1100			DL_2	= $1100
+  1267 = EC3F			GAME_LMS	= $EC3F
+  1268 = E000			GAME_LMS_END	= $E000
+  1269 = 0011			GAME_SCREEN_ROWS	= $11
+  1270 = 0E0E			SHIP_COL	= $0E0E
+  1271 = 0030			SHIP_LEFT_LIMIT	= $30
+  1272 = 00B0			SHIP_RIGHT_LIMIT	= $B0
+  1273 = 0020			SHIP_TOP_LIMIT	= $20
+  1274 = 00A8			SHIP_BOTTOM_LIMIT	= $A8
+  1275 = 0202			SHIP_X_STEP	= $0202
+  1276 = 0004			SHIP_Y_STEP	= $04
+  1277 = 0008			JOY_LEFT	= $08
+  1278 = 0004			JOY_RIGHT	= $04
+  1279 = 0002			JOY_UP	= $02
+  1280 = 0001			JOY_DOWN	= $01
+  1281 = 1200			adr.ASTARS	= $1200
+  1282 242E			.var ASTARS	= adr.ASTARS .word
+  1283 = 127D			adr.ASPEED	= $127D
+  1284 242E			.var ASPEED	= adr.ASPEED .word
+  1285 = 2458			PJOY	= DATAORIGIN+$0010
+  1286 = 245A			PSTARS	= DATAORIGIN+$0012
+  1287 242E			@exit
+  1288
+  1289 242E A2 00		@halt	ldx #$00
+  1290 2430 9A				txs
+  1291 					.ifdef MAIN.@DEFINES.ROMOFF
+  1292 					inc portb
+  1293 					.endif
+  1294
+  1295 2431 A0 01			ldy #$01
+  1296
+  1297 2433 60				rts
+  1298
+  1299 				; ------------------------------------------------------------
+  1300
+  1301 2434 00 00 00 00 00 00 + IOCB@COPY	:16 brk
+  1302
+  1303 				; ------------------------------------------------------------
+  1304
+  1305 2444			.local	@DEFINES
+  1306 2444			ATARI
+  1307 				.endl
+  1308
+  1309 2444			.local	@RESOURCE
   1310 				.endl
   1311
-  1312 2446			.local	@RESOURCE
-  1313 				.endl
-  1314
-  1315 = 2446 00 12		ASTARS
-  1315 = 2448 7D 12		ASPEED
-  1315 				.endl							; MAIN
+  1312 = 2444 00 12		ASTARS
+  1312 = 2446 7D 12		ASPEED
+  1312 				.endl							; MAIN
+  1313
+  1314 				; ------------------------------------------------------------
+  1315 				; ------------------------------------------------------------
   1316
-  1317 				; ------------------------------------------------------------
-  1318 				; ------------------------------------------------------------
-  1319
-  1320 				.macro	UNITINITIALIZATION
-  1321 				
-  1322 					.ifdef MAIN.SYSTEM.@UnitInit
-  1323 					jsr MAIN.SYSTEM.@UnitInit
-  1324 					eif
-  1325 				
-  1326 					.ifdef MAIN.GLOBALS.@UnitInit
-  1327 					jsr MAIN.GLOBALS.@UnitInit
-  1328 					eif
-  1329 				
-  1330 					.ifdef MAIN.SYS.@UnitInit
-  1331 					jsr MAIN.SYS.@UnitInit
-  1332 					eif
-  1333 				
-  1334 					.ifdef MAIN.GR.@UnitInit
-  1335 					jsr MAIN.GR.@UnitInit
-  1336 					eif
-  1337 				
-  1338 					.ifdef MAIN.SPRITES.@UnitInit
-  1339 					jsr MAIN.SPRITES.@UnitInit
-  1340 					eif
-  1341 				
-  1342 					.ifdef MAIN.JOY.@UnitInit
-  1343 					jsr MAIN.JOY.@UnitInit
-  1344 					eif
-  1345 				.endm
-  1346
-  1347 				; ------------------------------------------------------------
-  1348
-  1349 					ift .SIZEOF(MAIN.SYSTEM) > 0
-  1350 					.print 'SYSTEM: ',MAIN.SYSTEM,'..',MAIN.SYSTEM+.SIZEOF(MAIN.SYSTEM)-1
-  1350 				SYSTEM: $2098..$20D2
-  1351 					eif
-  1352
-  1353 					ift .SIZEOF(MAIN.GLOBALS) > 0
-  1354 					.print 'GLOBALS: ',MAIN.GLOBALS,'..',MAIN.GLOBALS+.SIZEOF(MAIN.GLOBALS)-1
-  1355 					eif
-  1356
-  1357 					ift .SIZEOF(MAIN.SYS) > 0
-  1358 					.print 'SYS: ',MAIN.SYS,'..',MAIN.SYS+.SIZEOF(MAIN.SYS)-1
-  1358 				SYS: $20D3..$212C
-  1359 					eif
-  1360
-  1361 					ift .SIZEOF(MAIN.GR) > 0
-  1362 					.print 'GR: ',MAIN.GR,'..',MAIN.GR+.SIZEOF(MAIN.GR)-1
-  1362 				GR: $212D..$2138
-  1363 					eif
-  1364
-  1365 					ift .SIZEOF(MAIN.SPRITES) > 0
-  1366 					.print 'SPRITES: ',MAIN.SPRITES,'..',MAIN.SPRITES+.SIZEOF(MAIN.SPRITES)-1
-  1366 				SPRITES: $2139..$21E8
-  1367 					eif
-  1368
-  1369 					ift .SIZEOF(MAIN.JOY) > 0
-  1370 					.print 'JOY: ',MAIN.JOY,'..',MAIN.JOY+.SIZEOF(MAIN.JOY)-1
-  1370 				JOY: $21E9..$228D
-  1371 					eif
-  1372
-  1373 					.print 'CODE: ',CODEORIGIN,'..',MAIN.@RESOURCE-1
-  1373 				CODE: $2000..$2445
-  1374
-  1375 				; ------------------------------------------------------------
-  1376
-  1377 244A				.align $04
+  1317 				.macro	UNITINITIALIZATION
+  1318 				
+  1319 					.ifdef MAIN.SYSTEM.@UnitInit
+  1320 					jsr MAIN.SYSTEM.@UnitInit
+  1321 					eif
+  1322 				
+  1323 					.ifdef MAIN.GLOBALS.@UnitInit
+  1324 					jsr MAIN.GLOBALS.@UnitInit
+  1325 					eif
+  1326 				
+  1327 					.ifdef MAIN.SYS.@UnitInit
+  1328 					jsr MAIN.SYS.@UnitInit
+  1329 					eif
+  1330 				
+  1331 					.ifdef MAIN.GR.@UnitInit
+  1332 					jsr MAIN.GR.@UnitInit
+  1333 					eif
+  1334 				
+  1335 					.ifdef MAIN.SPRITES.@UnitInit
+  1336 					jsr MAIN.SPRITES.@UnitInit
+  1337 					eif
+  1338 				
+  1339 					.ifdef MAIN.JOY.@UnitInit
+  1340 					jsr MAIN.JOY.@UnitInit
+  1341 					eif
+  1342 				.endm
+  1343
+  1344 				; ------------------------------------------------------------
+  1345
+  1346 					ift .SIZEOF(MAIN.SYSTEM) > 0
+  1347 					.print 'SYSTEM: ',MAIN.SYSTEM,'..',MAIN.SYSTEM+.SIZEOF(MAIN.SYSTEM)-1
+  1347 				SYSTEM: $2098..$20D2
+  1348 					eif
+  1349
+  1350 					ift .SIZEOF(MAIN.GLOBALS) > 0
+  1351 					.print 'GLOBALS: ',MAIN.GLOBALS,'..',MAIN.GLOBALS+.SIZEOF(MAIN.GLOBALS)-1
+  1352 					eif
+  1353
+  1354 					ift .SIZEOF(MAIN.SYS) > 0
+  1355 					.print 'SYS: ',MAIN.SYS,'..',MAIN.SYS+.SIZEOF(MAIN.SYS)-1
+  1355 				SYS: $20D3..$212C
+  1356 					eif
+  1357
+  1358 					ift .SIZEOF(MAIN.GR) > 0
+  1359 					.print 'GR: ',MAIN.GR,'..',MAIN.GR+.SIZEOF(MAIN.GR)-1
+  1359 				GR: $212D..$2138
+  1360 					eif
+  1361
+  1362 					ift .SIZEOF(MAIN.SPRITES) > 0
+  1363 					.print 'SPRITES: ',MAIN.SPRITES,'..',MAIN.SPRITES+.SIZEOF(MAIN.SPRITES)-1
+  1363 				SPRITES: $2139..$21E6
+  1364 					eif
+  1365
+  1366 					ift .SIZEOF(MAIN.JOY) > 0
+  1367 					.print 'JOY: ',MAIN.JOY,'..',MAIN.JOY+.SIZEOF(MAIN.JOY)-1
+  1367 				JOY: $21E7..$228B
+  1368 					eif
+  1369
+  1370 					.print 'CODE: ',CODEORIGIN,'..',MAIN.@RESOURCE-1
+  1370 				CODE: $2000..$2443
+  1371
+  1372 				; ------------------------------------------------------------
+  1373
+  1374 2448				.align $04
+  1375
+  1376 2448			DATAORIGIN
+  1377 2448 28 00 18 00 2D 0C	.by  $28 $00 $18 $00 $2D $0C
   1378
-  1379 244C			DATAORIGIN
-  1380 244C-2451> 28 00 18 00 + .by  $28 $00 $18 $00 $2D $0C
+  1379 = 0006			VARINITSIZE	= *-DATAORIGIN
+  1380 = 0014			VARDATASIZE	= 20
   1381
-  1382 = 0006			VARINITSIZE	= *-DATAORIGIN
-  1383 = 0014			VARDATASIZE	= 20
-  1384
-  1385 = 2460			PROGRAMSTACK	= DATAORIGIN+VARDATASIZE
-  1386
-  1387 					.print 'DATA: ',DATAORIGIN,'..',PROGRAMSTACK
-  1387 				DATA: $244C..$2460
-  1388
-  1389 02E0-02E1> 5C 20			run START
-  1390
-  1391 				; ------------------------------------------------------------
+  1382 = 245C			PROGRAMSTACK	= DATAORIGIN+VARDATASIZE
+  1383
+  1384 					.print 'DATA: ',DATAORIGIN,'..',PROGRAMSTACK
+  1384 				DATA: $2448..$245C
+  1385
+  1386 02E0-02E1> 5C 20			run START
+  1387
+  1388 				; ------------------------------------------------------------
+  1389
+  1390 				.macro	STATICDATA
+  1391 				.endm
   1392
-  1393 				.macro	STATICDATA
-  1394 				.endm
-  1395
-  1396 					end
+  1393 					end
