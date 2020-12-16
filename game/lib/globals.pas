@@ -54,14 +54,15 @@ var
 
 // auxiliary variables
 var
-  bTmp1   : byte absolute $ff;
-  bTmp2   : byte absolute $fe;
-  b1i     : byte absolute $fd;
-  b2i     : byte absolute $fc;
-  wTmp1   : word absolute $fa;
-  wTmp2   : word absolute $f8;
-  wTmp3   : word absolute $f6;
-  wTmp4   : word absolute $f4;
+  bTmp1      : byte absolute $ff;
+  bTmp2      : byte absolute $fe;
+  b1i        : byte absolute $fd;
+  b2i        : byte absolute $fc;
+  wTmp1      : word absolute $fa;
+  wTmp2      : word absolute $f8;
+  wTmp3      : word absolute $f6;
+  wTmp4      : word absolute $f4;
+  oddCounter : boolean absolute $f3;
 
 implementation
 end.

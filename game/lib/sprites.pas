@@ -8,8 +8,9 @@ var
   bHposp0     : byte absolute 0;
   bHposp1     : byte absolute 1;
   bShipY      : byte absolute 2;
-  bShipYClear : byte absolute 3;
+  bCannonX    : byte absolute 3;
   wShipX      : word absolute 0;
+  wCannonY    : word absolute 4;
 
 procedure init;
 procedure copyShip; assembler;
@@ -21,40 +22,46 @@ implementation
 uses globals;
 
 procedure copyShip; assembler;
-//FillByte(pointer(P0_ADR + bShipYClear),GFX_SHIP_SEG,0);
-//FillByte(pointer(P1_ADR + bShipYClear),GFX_SHIP_SEG,0);
-//Move(pointer(GFX_SHIP_ADR), pointer(P0_ADR + bShipY), GFX_SHIP_SEG);
-//Move(pointer(GFX_SHIP_ADR + GFX_SHIP_SEG), pointer(P1_ADR + bShipY), GFX_SHIP_SEG);
-asm
-{
-    lda BSHIPYCLEAR
-    sta GLOBALS.WTMP1
-    sta GLOBALS.WTMP2
-    lda BSHIPY
-    sta GLOBALS.WTMP3
-    sta GLOBALS.WTMP4
+asm {
+        phr
 
-    ldx #>P0_ADR
-    stx GLOBALS.WTMP1+1
-    stx GLOBALS.WTMP3+1
-    inx
-    stx GLOBALS.WTMP2+1
-    stx GLOBALS.WTMP4+1
+        ldx #>P0_ADR
+        stx GLOBALS.WTMP1+1
+        inx
+        stx GLOBALS.WTMP2+1
 
-    ;fill
-    lda #0
-    ldy #GFX_SHIP_SEG-SHIP_Y_STEP-1
-@:  sta (GLOBALS.WTMP1),y
-    sta (GLOBALS.WTMP2),y
-    dey
-    bpl @-
+        ldx BSHIPY
+        stx GLOBALS.WTMP1
+        stx GLOBALS.WTMP2
 
-    ;move
-    ldy #GFX_SHIP_SEG-1
-@:  mva GFX_SHIP_ADR,y (GLOBALS.WTMP3),y
-    mva GFX_SHIP_ADR+GFX_SHIP_SEG,y (GLOBALS.WTMP4),y
-    dey
-    bpl @-
+        ;move
+        ldy #GFX_SHIP_SEG-1
+@:      mva GFX_SHIP_ADR,y (GLOBALS.WTMP1),y
+        mva GFX_SHIP_ADR+GFX_SHIP_SEG,y (GLOBALS.WTMP2),y
+        dey
+        bpl @-
+
+        ;clear
+        lda JOY.JOYDIRECTION
+        and #%0011
+        cmp #JOY_DOWN
+        beq @+
+        txa
+        add #SHIP_Y_STEP*2
+        bne @+1
+@:      txa
+        sub #SHIP_Y_STEP
+@:      sta GLOBALS.WTMP1
+        sta GLOBALS.WTMP2
+
+        lda #0
+        ldy #GFX_SHIP_SEG-SHIP_Y_STEP-1
+@:      sta (GLOBALS.WTMP1),y
+        sta (GLOBALS.WTMP2),y
+        dey
+        bpl @-
+
+        plr
 };
 end;
 
@@ -67,9 +74,8 @@ begin
 
   PMBASE := hi(PM_ADR);
   COLPM3 := $a; COLPM01 := SHIP_COL;
-  bShipY := 80; bShipYClear := bShipY;
   bHposp0 := SHIP_LEFT_LIMIT; bHposp1 := SHIP_LEFT_LIMIT + 8; HPOSP01 := wShipX;
-  SIZEP01 := 0; SIZEM := 0; PRIOR := %0000; GRACTL := %011;
+  bShipY := 80; SIZEP01 := 0; SIZEM := 0; PRIOR := %0000; GRACTL := %011;
 
   copyShip;
 end;

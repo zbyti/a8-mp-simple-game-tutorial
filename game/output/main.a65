@@ -425,6 +425,7 @@ WTMP1	= $FA
 WTMP2	= $F8
 WTMP3	= $F6
 WTMP4	= $F4
+ODDCOUNTER	= $F3
 
 .endl							; UNIT GLOBALS
 
@@ -605,34 +606,45 @@ A	= DATAORIGIN+$000D
 ; ---------------------  ASM Block 055  ---------------------
 
 
-    lda BSHIPYCLEAR
-    sta GLOBALS.WTMP1
-    sta GLOBALS.WTMP2
-    lda BSHIPY
-    sta GLOBALS.WTMP3
-    sta GLOBALS.WTMP4
+        phr
 
-    ldx #>P0_ADR
-    stx GLOBALS.WTMP1+1
-    stx GLOBALS.WTMP3+1
-    inx
-    stx GLOBALS.WTMP2+1
-    stx GLOBALS.WTMP4+1
+        ldx #>P0_ADR
+        stx GLOBALS.WTMP1+1
+        inx
+        stx GLOBALS.WTMP2+1
 
-    ;fill
-    lda #0
-    ldy #GFX_SHIP_SEG-SHIP_Y_STEP-1
-@:  sta (GLOBALS.WTMP1),y
-    sta (GLOBALS.WTMP2),y
-    dey
-    bpl @-
+        ldx BSHIPY
+        stx GLOBALS.WTMP1
+        stx GLOBALS.WTMP2
 
-    ;move
-    ldy #GFX_SHIP_SEG-1
-@:  mva GFX_SHIP_ADR,y (GLOBALS.WTMP3),y
-    mva GFX_SHIP_ADR+GFX_SHIP_SEG,y (GLOBALS.WTMP4),y
-    dey
-    bpl @-
+        ;move
+        ldy #GFX_SHIP_SEG-1
+@:      mva GFX_SHIP_ADR,y (GLOBALS.WTMP1),y
+        mva GFX_SHIP_ADR+GFX_SHIP_SEG,y (GLOBALS.WTMP2),y
+        dey
+        bpl @-
+
+        ;clear
+        lda JOY.JOYDIRECTION
+        and #%0011
+        cmp #JOY_DOWN
+        beq @+
+        txa
+        add #SHIP_Y_STEP*2
+        bne @+1
+@:      txa
+        sub #SHIP_Y_STEP
+@:      sta GLOBALS.WTMP1
+        sta GLOBALS.WTMP2
+
+        lda #0
+        ldy #GFX_SHIP_SEG-SHIP_Y_STEP-1
+@:      sta (GLOBALS.WTMP1),y
+        sta (GLOBALS.WTMP2),y
+        dey
+        bpl @-
+
+        plr
 
 @exit
 	.ifdef @new
@@ -648,7 +660,7 @@ A	= DATAORIGIN+$000D
 
 .local	INIT						; PROCEDURE
 
-; optimize OK (SPRITES), line = 65
+; optimize OK (SPRITES), line = 72
 
 	.LOCAL
 	ldy #$00
@@ -658,18 +670,18 @@ fill	:10 sta $1300+#*$80,y
 	bpl fill
 	.ENDL
 
-; optimize OK (SPRITES), line = 66
+; optimize OK (SPRITES), line = 73
 
 	ldy #256-$90
 	lda #$FF
 	sta:rne $1320+$90-256,y+
 
-; optimize OK (SPRITES), line = 68
+; optimize OK (SPRITES), line = 75
 
 	lda #$10
 	sta GLOBALS.PMBASE
 
-; optimize OK (SPRITES), line = 69
+; optimize OK (SPRITES), line = 76
 
 	lda #$0A
 	sta GLOBALS.COLPM3
@@ -677,13 +689,7 @@ fill	:10 sta $1300+#*$80,y
 	sta GLOBALS.COLPM01
 	sta GLOBALS.COLPM01+1
 
-; optimize OK (SPRITES), line = 70
-
-	lda #$50
-	sta BSHIPY
-	sta BSHIPYCLEAR
-
-; optimize OK (SPRITES), line = 71
+; optimize OK (SPRITES), line = 77
 
 	lda #$30
 	sta BHPOSP0
@@ -694,8 +700,10 @@ fill	:10 sta $1300+#*$80,y
 	lda WSHIPX+1
 	sta GLOBALS.HPOSP01+1
 
-; optimize OK (SPRITES), line = 72
+; optimize OK (SPRITES), line = 78
 
+	lda #$50
+	sta BSHIPY
 	lda #$00
 	sta GLOBALS.SIZEP01
 	sta GLOBALS.SIZEP01+1
@@ -704,7 +712,7 @@ fill	:10 sta $1300+#*$80,y
 	lda #$03
 	sta GLOBALS.GRACTL
 
-; optimize FAIL ('COPYSHIP', SPRITES), line = 74
+; optimize FAIL ('COPYSHIP', SPRITES), line = 80
 
 	jsr COPYSHIP
 @exit
@@ -730,8 +738,9 @@ fill	:10 sta $1300+#*$80,y
 BHPOSP0	= $00
 BHPOSP1	= $01
 BSHIPY	= $02
-BSHIPYCLEAR	= $03
+BCANNONX	= $03
 WSHIPX	= $00
+WCANNONY	= $04
 
 .endl							; UNIT SPRITES
 
@@ -741,35 +750,44 @@ WSHIPX	= $00
 
 .local	MOVESHIP					; PROCEDURE
 
-; optimize OK (JOY), line = 22
+; ---------------------  ASM Block 056  ---------------------
+
+ sta WSYNC 
+
+; optimize OK (JOY), line = 20
+
+	lda #$0F
+	sta GLOBALS.COLBK
+
+; optimize OK (JOY), line = 21
 
 	lda #$0C
 	sta GLOBALS.BTMP1
 
-; optimize OK (JOY), line = 23
+; optimize OK (JOY), line = 22
 
 	lda #$01
 	sta GLOBALS.B1I
 
-l_00DD
+l_00DB
 ; --- ForToDoCondition
 
-; optimize OK (JOY), line = 24
+; optimize OK (JOY), line = 23
 
 	lda JOYDIRECTION
 	and GLOBALS.BTMP1
 	sta @CASETMP_0003
 	cmp #$04
-	jne l_00FC
+	jne l_00FA
 @
 
-; optimize OK (JOY), line = 26
+; optimize OK (JOY), line = 25
 
 	lda SPRITES.BHPOSP1
 	cmp #$B0
-	jcs l_010E
+	jcs l_010C
 
-; optimize OK (JOY), line = 27
+; optimize OK (JOY), line = 26
 
 	lda SPRITES.WSHIPX
 	add #$02
@@ -782,29 +800,27 @@ l_00DD
 	lda SPRITES.WSHIPX+1
 	sta GLOBALS.HPOSP01+1
 
-; optimize OK (JOY), line = 28
+; optimize OK (JOY), line = 27
 
-	lda GLOBALS.RTCLOK
-	and #$01
-	cmp #$01
-	jne l_012B
-	inc BCANNONX
-l_012B
-l_010E
+	lda GLOBALS.ODDCOUNTER
+	jeq l_011F
+	inc SPRITES.BCANNONX
+l_011F
+l_010C
 
 	jmp a_0003
-l_00FC
+l_00FA
 	cmp #$08
-	jne l_013D
+	jne l_0131
 @
 
-; optimize OK (JOY), line = 32
+; optimize OK (JOY), line = 31
 
 	lda SPRITES.BHPOSP0
 	cmp #$31
-	jcc l_014F
+	jcc l_0143
 
-; optimize OK (JOY), line = 33
+; optimize OK (JOY), line = 32
 
 	lda SPRITES.WSHIPX
 	sub #$02
@@ -817,96 +833,89 @@ l_00FC
 	lda SPRITES.WSHIPX+1
 	sta GLOBALS.HPOSP01+1
 
-; optimize OK (JOY), line = 34
+; optimize OK (JOY), line = 33
 
-	lda GLOBALS.RTCLOK
-	and #$01
-	cmp #$01
-	jne l_016C
-	dec BCANNONX
-l_016C
-l_014F
+	lda GLOBALS.ODDCOUNTER
+	jeq l_0156
+	dec SPRITES.BCANNONX
+l_0156
+l_0143
 
 	jmp a_0003
-l_013D
+l_0131
 	cmp #$02
-	jne l_017E
+	jne l_0168
 @
 
-; optimize OK (JOY), line = 38
+; optimize OK (JOY), line = 37
 
 	lda SPRITES.BSHIPY
 	cmp #$21
-	jcc l_0190
+	jcc l_017A
 
-; optimize OK (JOY), line = 39
+; optimize OK (JOY), line = 38
 
-	add #$04
-	sta SPRITES.BSHIPYCLEAR
-
-; optimize OK (JOY), line = 40
-
-	lda SPRITES.BSHIPY
 	sub #$04
 	sta SPRITES.BSHIPY
-	lda WCANNONY
+	lda SPRITES.WCANNONY
 	sub #$14
-	sta WCANNONY
+	sta SPRITES.WCANNONY
 	scs
-	dec WCANNONY+1
+	dec SPRITES.WCANNONY+1
 
-; optimize FAIL ('SPRITES.COPYSHIP', JOY), line = 41
+; optimize FAIL ('SPRITES.COPYSHIP', JOY), line = 39
 
 	jsr SPRITES.COPYSHIP
-l_0190
+l_017A
 
 	jmp a_0003
-l_017E
+l_0168
 	cmp #$01
-	jne l_01A9
+	jne l_0189
 @
 
-; optimize OK (JOY), line = 45
+; optimize OK (JOY), line = 43
 
 	lda SPRITES.BSHIPY
 	cmp #$A8
-	jcs l_01BB
+	jcs l_019B
 
-; optimize OK (JOY), line = 46
-
-	sta SPRITES.BSHIPYCLEAR
-
-; optimize OK (JOY), line = 47
+; optimize OK (JOY), line = 44
 
 	add #$04
 	sta SPRITES.BSHIPY
-	lda WCANNONY
+	lda SPRITES.WCANNONY
 	add #$14
-	sta WCANNONY
+	sta SPRITES.WCANNONY
 	scc
-	inc WCANNONY+1
+	inc SPRITES.WCANNONY+1
 
-; optimize FAIL ('SPRITES.COPYSHIP', JOY), line = 48
+; optimize FAIL ('SPRITES.COPYSHIP', JOY), line = 45
 
 	jsr SPRITES.COPYSHIP
-l_01BB
+l_019B
 
-l_01A9
+l_0189
 a_0003
 
-; optimize OK (JOY), line = 52
+; optimize OK (JOY), line = 49
 
 	lda #$03
 	sta GLOBALS.BTMP1
 
 ; --- ForToDoEpilog
 	dec GLOBALS.B1I
-	jpl l_00DD
-l_00EB
+	jpl l_00DB
+l_00E9
+
+; optimize OK (JOY), line = 51
+
+	lda #$00
+	sta GLOBALS.COLBK
 
 ; ------------------------------------------------------------
 
-@FORTMP_00DA	= $00
+@FORTMP_00D8	= $00
 @CASETMP_0003	= DATAORIGIN+$000F
 
 @VarData	= @CASETMP_0003
@@ -932,72 +941,76 @@ l_00EB
 
 ; ------------------------------------------------------------
 
-BCANNONX	= $04
-WCANNONY	= $05
-JOYDIRECTION	= $07
+JOYDIRECTION	= $06
 
 .endl							; UNIT JOY
 
 .local	VBI						; PROCEDURE | INTERRUPT
 
-; ---------------------  ASM Block 056  ---------------------
+; ---------------------  ASM Block 057  ---------------------
 
  phr 
 
-; optimize OK (main.pas), line = 23
+; optimize OK (main.pas), line = 22
+
+	lda GLOBALS.RTCLOK
+	and #$01
+	sta GLOBALS.ODDCOUNTER
+
+; optimize OK (main.pas), line = 26
 
 	lda GLOBALS.RTCLOK
 	and #$03
-	jne l_01F2
+	jne l_01DA
 
-; optimize OK (main.pas), line = 24
+; optimize OK (main.pas), line = 27
 
 	lda GLOBALS.TRIG0
-	jne l_0205
+	jne l_01ED
 	lda GLOBALS.WDL2LMS
-	add JOY.BCANNONX
+	add SPRITES.BCANNONX
 	sta :STACKORIGIN+9
 	lda GLOBALS.WDL2LMS+1
 	adc #$00
 	sta :STACKORIGIN+STACKWIDTH+9
 	lda :STACKORIGIN+9
-	add JOY.WCANNONY
+	add SPRITES.WCANNONY
 	tay
 	lda :STACKORIGIN+STACKWIDTH+9
-	adc JOY.WCANNONY+1
+	adc SPRITES.WCANNONY+1
 	sta :bp+1
 	lda #$02
 	sta (:bp),y
-l_0205
-l_01F2
+l_01ED
+l_01DA
 
-; optimize OK (main.pas), line = 27
+; optimize OK (main.pas), line = 30
 
 	lda GLOBALS.WDL2LMS+1
 	cmp #$E0
-	jcc l_022A
+	jcc l_0212
 	bne @+
 	lda GLOBALS.WDL2LMS
 	cmp #$01
-	jcc l_022A
+	jcc l_0212
 @
 	dew GLOBALS.WDL2LMS
-	jmp l_0238
-l_022A
+	jmp l_0220
+l_0212
 	lda #$3F
 	sta GLOBALS.WDL2LMS
 	lda #$EC
 	sta GLOBALS.WDL2LMS+1
-l_0238
+l_0220
 
-; optimize OK (main.pas), line = 29
+; optimize OK (main.pas), line = 32
 
 	lda GLOBALS.WDL2LMS
 	sta GLOBALS.WTMP1
 	lda GLOBALS.WDL2LMS+1
 	sta GLOBALS.WTMP1+1
 
-; ---------------------  ASM Block 057  ---------------------
+; ---------------------  ASM Block 058  ---------------------
 
 
         ldx #GAME_SCREEN_ROWS
@@ -1013,7 +1026,7 @@ l_0238
         bpl clr
   
 
-; ---------------------  ASM Block 058  ---------------------
+; ---------------------  ASM Block 059  ---------------------
 
  plr 
 	rti						; ret
@@ -1021,56 +1034,25 @@ l_0238
 
 .local	JOYHANDLER					; PROCEDURE | INTERRUPT
 
-; ---------------------  ASM Block 059  ---------------------
+; ---------------------  ASM Block 060  ---------------------
 
  phr 
 
-; ---------------------  ASM Block 060  ---------------------
+; optimize OK (main.pas), line = 56
 
- sta WSYNC 
-
-; optimize OK (main.pas), line = 53
-
-	lda #$0F
-	sta GLOBALS.COLBK
-
-; optimize OK (main.pas), line = 55
-
-	lda GLOBALS.RTCLOK
-	and #$01
-	jne l_025F
-
-; optimize OK (main.pas), line = 57
-
+	lda GLOBALS.ODDCOUNTER
+	jne l_023C
 	lda GLOBALS.PORTA
 	sta JOY.JOYDIRECTION
-
-; optimize OK (main.pas), line = 58
-
-	and #$0F
-	cmp #$0F
-	jeq l_027C
+l_023C
 	jsr JOY.MOVESHIP
-l_027C
-	jmp l_0289
-l_025F
 
-; optimize FAIL ('JOY.MOVESHIP', main.pas), line = 60
-
-	jsr JOY.MOVESHIP
-l_0289
-
-; optimize FAIL ('SYS.SETDLI', main.pas), line = 62
+; optimize FAIL ('SYS.SETDLI', main.pas), line = 58
 
 	inx
 	mva PSTARS :STACKORIGIN,x
 	mva PSTARS+1 :STACKORIGIN+STACKWIDTH,x
 	jsr SYS.SETDLI
-
-; optimize OK (main.pas), line = 64
-
-	lda #$00
-	sta GLOBALS.COLBK
 
 ; ---------------------  ASM Block 061  ---------------------
 
@@ -1084,41 +1066,41 @@ l_0289
 
  phr 
 
-; optimize OK (main.pas), line = 73
+; optimize OK (main.pas), line = 67
 
 	lda #$7C
 	sta GLOBALS.B1I
 
-l_029E
+l_0256
 ; --- ForToDoCondition
 
 ; ---------------------  ASM Block 063  ---------------------
 
  sta WSYNC 
 
-; optimize OK (main.pas), line = 75
+; optimize OK (main.pas), line = 69
 
 	ldy GLOBALS.B1I
 	lda adr.ASTARS,y
 	sta GLOBALS.HPOSM3
 
-; optimize OK (main.pas), line = 76
+; optimize OK (main.pas), line = 70
 
 	lda adr.ASTARS,y
 	sub adr.ASPEED,y
 	sta adr.ASTARS,y
 
-; optimize OK (main.pas), line = 77
+; optimize OK (main.pas), line = 71
 
 	lda SYSTEM.RND
 	sta GLOBALS.COLPM3
 
 ; --- ForToDoEpilog
 	dec GLOBALS.B1I
-	jpl l_029E
-l_02AC
+	jpl l_0256
+l_0264
 
-; optimize FAIL ('SYS.SETDLI', main.pas), line = 80
+; optimize FAIL ('SYS.SETDLI', main.pas), line = 74
 
 	inx
 	mva PJOY :STACKORIGIN,x
@@ -1131,25 +1113,25 @@ l_02AC
 
 ; ------------------------------------------------------------
 
-@FORTMP_029B	= $00
+@FORTMP_0253	= $00
 	rti						; ret
 .endl
 
 .local	INIT						; PROCEDURE
 
-; optimize FAIL ('SYSTEM.PAUSE_0067', main.pas), line = 87
+; optimize FAIL ('SYSTEM.PAUSE_0067', main.pas), line = 81
 
 	jsr SYSTEM.PAUSE_0067
 	lda #$00
 	sta GLOBALS.DMACTL
 	jsr SYS.SYSTEMOFF
 
-; optimize OK (main.pas), line = 89
+; optimize OK (main.pas), line = 83
 
 	lda #$18
 	sta GLOBALS.CHBAS
 
-; optimize OK (main.pas), line = 91
+; optimize OK (main.pas), line = 85
 
 	lda #$3F
 	sta :edx
@@ -1163,21 +1145,21 @@ l_02AC
 	sta :eax
 	jsr @fill
 
-; optimize OK (main.pas), line = 93
+; optimize OK (main.pas), line = 87
 
 	lda #$7C
 	sta GLOBALS.B1I
 
-l_02E7
+l_029F
 ; --- ForToDoCondition
 
-; optimize OK (main.pas), line = 94
+; optimize OK (main.pas), line = 88
 
 	ldy GLOBALS.B1I
 	lda SYSTEM.RND
 	sta adr.ASTARS,y
 
-; optimize OK (main.pas), line = 95
+; optimize OK (main.pas), line = 89
 
 	and #$03
 	add #$01
@@ -1185,10 +1167,10 @@ l_02E7
 
 ; --- ForToDoEpilog
 	dec GLOBALS.B1I
-	jpl l_02E7
-l_02F5
+	jpl l_029F
+l_02AD
 
-; optimize OK (main.pas), line = 98
+; optimize OK (main.pas), line = 92
 
 	lda GLOBALS.PACTL
 	ora #$04
@@ -1196,7 +1178,7 @@ l_02F5
 	jsr SPRITES.INIT
 	jsr GR.MODE2
 
-; optimize OK (main.pas), line = 99
+; optimize OK (main.pas), line = 93
 
 	lda #$00
 	sta GLOBALS.COLBK
@@ -1208,7 +1190,7 @@ l_02F5
 	lda #$00
 	sta GLOBALS.COLPF3
 
-; optimize OK (main.pas), line = 100
+; optimize OK (main.pas), line = 94
 
 	lda <JOYHANDLER
 	sta PJOY
@@ -1219,10 +1201,10 @@ l_02F5
 	lda >STARS
 	sta PSTARS+1
 
-; optimize OK (main.pas), line = 102
+; optimize OK (main.pas), line = 96
 
 	lda #$03
-	sta JOY.BCANNONX
+	sta SPRITES.BCANNONX
 	sta :ecx
 	lda SPRITES.BSHIPY
 	sta :eax
@@ -1232,25 +1214,25 @@ l_02F5
 	imulCL
 	eif
 	lda :eax
-	sta JOY.WCANNONY
+	sta SPRITES.WCANNONY
 	lda :eax+1
-	sta JOY.WCANNONY+1
+	sta SPRITES.WCANNONY+1
 
-; optimize FAIL ('SYS.SETVBI', main.pas), line = 104
+; optimize FAIL ('SYS.SETVBI', main.pas), line = 98
 
 	inx
 	mva <VBI :STACKORIGIN,x
 	mva >VBI :STACKORIGIN+STACKWIDTH,x
 	jsr SYS.SETVBI
 
-; optimize FAIL ('SYS.SETDLI', main.pas), line = 105
+; optimize FAIL ('SYS.SETDLI', main.pas), line = 99
 
 	inx
 	mva <JOYHANDLER :STACKORIGIN,x
 	mva >JOYHANDLER :STACKORIGIN+STACKWIDTH,x
 	jsr SYS.SETDLI
 
-; optimize FAIL ('SYSTEM.PAUSE_0067', main.pas), line = 107
+; optimize FAIL ('SYSTEM.PAUSE_0067', main.pas), line = 101
 
 	jsr SYSTEM.PAUSE_0067
 	lda #$3E
@@ -1258,7 +1240,7 @@ l_02F5
 
 ; ------------------------------------------------------------
 
-@FORTMP_02E4	= $00
+@FORTMP_029C	= $00
 @exit
 	.ifdef @new
 	lda <@VarData
@@ -1272,16 +1254,16 @@ l_02F5
 .endl
 l_0007
 
-; optimize FAIL ('INIT', main.pas), line = 111
+; optimize FAIL ('INIT', main.pas), line = 105
 
 	jsr INIT
 
 ; --- RepeatUntilProlog
-l_0352
+l_030A
 
-; optimize OK (main.pas), line = 112
+; optimize OK (main.pas), line = 106
 
-	jmp l_0352
+	jmp l_030A
 
 ; ------------------------------------------------------------
 

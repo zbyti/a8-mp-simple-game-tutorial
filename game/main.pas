@@ -18,6 +18,9 @@ var
 procedure vbi; interrupt;
 begin
   asm { phr };
+
+  oddCounter := boolean(RTCLOK and 1);
+
   //------------------> test <-------------------
 
   if (RTCLOK and %11) = 0 then begin
@@ -50,18 +53,9 @@ procedure joyHandler; interrupt;
 begin
   asm { phr };
 
-  asm { sta WSYNC }; COLBK := 15;
-
-  if (RTCLOK and %1) = 0 then
-    begin
-      joyDirection := PORTA;
-      if (joyDirection and %1111) <> %1111 then moveShip;
-    end
-  else moveShip;
+  if not oddCounter then joyDirection := PORTA; moveShip;
 
   setDli(pStars);
-
-  COLBK := 0;
 
   asm { plr };
 end;
