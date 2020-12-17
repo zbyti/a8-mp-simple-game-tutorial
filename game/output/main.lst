@@ -24,7 +24,7 @@ Source: const.inc
      6 = 0008			GFX_SHIP_SEG        = 8;                          // ship gfx 10 byte segment, 10B for P0 & 10B for P1
      8 = 1800			GFX_FONTS_ADR       = $1800;
     10 = 1100			DL_2                = $1100;                      // display list memory start address for ANTIC mode 2
-    11 = EC3F			GAME_LMS            = $efff - $3c0;               // Load Memory Scan address
+    11 = ED57			GAME_LMS            = $efff - (17 * 40);          // Load Memory Scan address
     12 = E000			GAME_LMS_END        = $e000;
     13 = 0011			GAME_SCREEN_ROWS    = 17;
     15 = 0E0E			SHIP_COL            = $0e0e;
@@ -40,7 +40,7 @@ Source: const.inc
     26 = 0001			JOY_DOWN            = %0001;
      3 1100			dl2
      4 1100 F0 70 F0		    .byte $f0,$70,$f0
-     5 1103 42 3F EC		    .byte $42,a(GAME_LMS)
+     5 1103 42 57 ED		    .byte $42,a(GAME_LMS)
      6 1106 02 02 02 02 02 02 + :17 .byte 2
      7 1117 41 00 11		    .byte $41,a(dl2)
     23 					.print '$R RCASM   ',main.GLOBALS.DL_2,'..',main.GLOBALS.DL_2+len-1," 'res/gr_dl.asm'"
@@ -336,7 +336,7 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    361 = 0008			GFX_SHIP_SEG	= $08
    362 = 1800			GFX_FONTS_ADR	= $1800
    363 = 1100			DL_2	= $1100
-   364 = EC3F			GAME_LMS	= $EC3F
+   364 = ED57			GAME_LMS	= $ED57
    365 = E000			GAME_LMS_END	= $E000
    366 = 0011			GAME_SCREEN_ROWS	= $11
    367 = 0E0E			SHIP_COL	= $0E0E
@@ -962,9 +962,9 @@ Macro: UNITINITIALIZATION [Source: main.a65]
    985 22DA AD 04 11 D0 03 CE + 	dew GLOBALS.WDL2LMS
    986 22E5 4C F2 22			jmp l_0201
    987 22E8			l_01F3
-   988 22E8 A9 3F			lda #$3F
+   988 22E8 A9 57			lda #$57
    989 22EA 8D 04 11			sta GLOBALS.WDL2LMS
-   990 22ED A9 EC			lda #$EC
+   990 22ED A9 ED			lda #$ED
    991 22EF 8D 05 11			sta GLOBALS.WDL2LMS+1
    992 22F2			l_0201
    993
@@ -1098,9 +1098,9 @@ Macro: UNITINITIALIZATION [Source: main.a65]
   1121
   1122 				; optimize OK (main.pas), line = 86
   1123
-  1124 2388 A9 3F			lda #$3F
+  1124 2388 A9 57			lda #$57
   1125 238A 85 88			sta :edx
-  1126 238C A9 EC			lda #$EC
+  1126 238C A9 ED			lda #$ED
   1127 238E 85 89			sta :edx+1
   1128 2390 A9 C0			lda #$C0
   1129 2392 85 8C			sta :ecx
@@ -1241,7 +1241,7 @@ Macro: UNITINITIALIZATION [Source: main.a65]
   1264 = 0008			GFX_SHIP_SEG	= $08
   1265 = 1800			GFX_FONTS_ADR	= $1800
   1266 = 1100			DL_2	= $1100
-  1267 = EC3F			GAME_LMS	= $EC3F
+  1267 = ED57			GAME_LMS	= $ED57
   1268 = E000			GAME_LMS_END	= $E000
   1269 = 0011			GAME_SCREEN_ROWS	= $11
   1270 = 0E0E			SHIP_COL	= $0E0E

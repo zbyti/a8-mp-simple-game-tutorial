@@ -8,7 +8,7 @@ GFX_SHIP_SEG        = 8;                          // ship gfx 10 byte segment, 1
 GFX_FONTS_ADR       = $1800;
 
 DL_2                = $1100;                      // display list memory start address for ANTIC mode 2
-GAME_LMS            = $efff - $3c0;               // Load Memory Scan address
+GAME_LMS            = $efff - (17 * 40);          // Load Memory Scan address
 GAME_LMS_END        = $e000;
 GAME_SCREEN_ROWS    = 17;
 

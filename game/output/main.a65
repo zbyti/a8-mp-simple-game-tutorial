@@ -361,7 +361,7 @@ GFX_SHIP_ADR	= $1000
 GFX_SHIP_SEG	= $08
 GFX_FONTS_ADR	= $1800
 DL_2	= $1100
-GAME_LMS	= $EC3F
+GAME_LMS	= $ED57
 GAME_LMS_END	= $E000
 GAME_SCREEN_ROWS	= $11
 SHIP_COL	= $0E0E
@@ -985,9 +985,9 @@ l_01B7
 	dew GLOBALS.WDL2LMS
 	jmp l_0201
 l_01F3
-	lda #$3F
+	lda #$57
 	sta GLOBALS.WDL2LMS
-	lda #$EC
+	lda #$ED
 	sta GLOBALS.WDL2LMS+1
 l_0201
 
@@ -1121,9 +1121,9 @@ l_0245
 
 ; optimize OK (main.pas), line = 86
 
-	lda #$3F
+	lda #$57
 	sta :edx
-	lda #$EC
+	lda #$ED
 	sta :edx+1
 	lda #$C0
 	sta :ecx
@@ -1264,7 +1264,7 @@ GFX_SHIP_ADR	= $1000
 GFX_SHIP_SEG	= $08
 GFX_FONTS_ADR	= $1800
 DL_2	= $1100
-GAME_LMS	= $EC3F
+GAME_LMS	= $ED57
 GAME_LMS_END	= $E000
 GAME_SCREEN_ROWS	= $11
 SHIP_COL	= $0E0E
