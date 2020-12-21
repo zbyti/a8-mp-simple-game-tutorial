@@ -23,10 +23,6 @@ uses globals;
 
 procedure copyShip; assembler;
 asm {
-        sta WSYNC
-        mva #$f COLBAK
-
-
         ldy #>P0_ADR
         sty p0Ship+2
         sty clrP0+2
@@ -67,9 +63,6 @@ clrP0:  sta P0_ADR,y
 clrP1:  sta P1_ADR,y
         dey
         bpl clrP0
-
-        mva #0 COLBAK
-
 };
 end;
 

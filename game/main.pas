@@ -13,7 +13,6 @@ const
 var
   aStars : array[0..124] of byte absolute $1200;
   aSpeed : array[0..124] of byte absolute $127d;
-  pJoy, pStars : pointer;
 
 procedure vbi; interrupt;
 begin
@@ -56,9 +55,10 @@ begin
 
   if not oddCounter then joyDirection := PORTA; moveShip;
 
-  setDli(pStars);
-
-  asm { plr };
+  asm {
+    mwa #STARS __dlijmp+1
+    plr
+  };
 end;
 
 procedure stars; interrupt;
@@ -72,9 +72,10 @@ begin
     COLPM3 := RND;
   end;
 
-  setDli(pJoy);
-
-  asm { plr };
+  asm {
+    mwa #JOYHANDLER __dlijmp+1
+    plr
+  };
 end;
 
 procedure init;
@@ -92,7 +93,6 @@ begin
 
   PACTL := PACTL or %100; sprites.init; mode2;
   COLBK := $00; COLPF0 := $00; COLPF1 := $0f; COLPF2 := $02; COLPF3 := $00;
-  pJoy := @joyHandler; pStars := @stars;
 
   bCannonX := 6; wCannonY := bShipY * 3;
 
