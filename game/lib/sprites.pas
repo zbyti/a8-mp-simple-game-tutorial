@@ -23,19 +23,27 @@ uses globals;
 
 procedure copyShip; assembler;
 asm {
+        sta WSYNC
+        mva #$f COLBAK
+
+
         ldy #>P0_ADR
-        sty GLOBALS.WTMP1+1
+        sty p0Ship+2
+        sty clrP0+2
         iny
-        sty GLOBALS.WTMP2+1
+        sty p1Ship+2
+        sty clrP1+2
 
         ldy BSHIPY
-        sty GLOBALS.WTMP1
-        sty GLOBALS.WTMP2
+        sty p0Ship+1
+        sty p1Ship+1
 
         ;move
         ldy #GFX_SHIP_SEG-1
-@:      mva GFX_SHIP_ADR,y (GLOBALS.WTMP1),y
-        mva GFX_SHIP_ADR+GFX_SHIP_SEG,y (GLOBALS.WTMP2),y
+@:      lda GFX_SHIP_ADR,y
+p0Ship: sta P0_ADR,y
+        lda GFX_SHIP_ADR+GFX_SHIP_SEG,y
+p1Ship: sta P1_ADR,y
         dey
         bpl @-
 
@@ -50,15 +58,18 @@ asm {
         bne @+1
 @:      tya
         sub #SHIP_Y_STEP
-@:      sta GLOBALS.WTMP1
-        sta GLOBALS.WTMP2
+@:      sta clrP0+1
+        sta clrP1+1
 
         lda #0
         ldy #GFX_SHIP_SEG-SHIP_Y_STEP-1
-@:      sta (GLOBALS.WTMP1),y
-        sta (GLOBALS.WTMP2),y
+clrP0:  sta P0_ADR,y
+clrP1:  sta P1_ADR,y
         dey
-        bpl @-
+        bpl clrP0
+
+        mva #0 COLBAK
+
 };
 end;
 

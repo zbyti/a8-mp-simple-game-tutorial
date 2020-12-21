@@ -607,19 +607,27 @@ A	= DATAORIGIN+$000D
 ; ---------------------  ASM Block 055  ---------------------
 
 
+        sta WSYNC
+        mva #$f COLBAK
+
+
         ldy #>P0_ADR
-        sty GLOBALS.WTMP1+1
+        sty p0Ship+2
+        sty clrP0+2
         iny
-        sty GLOBALS.WTMP2+1
+        sty p1Ship+2
+        sty clrP1+2
 
         ldy BSHIPY
-        sty GLOBALS.WTMP1
-        sty GLOBALS.WTMP2
+        sty p0Ship+1
+        sty p1Ship+1
 
         ;move
         ldy #GFX_SHIP_SEG-1
-@:      mva GFX_SHIP_ADR,y (GLOBALS.WTMP1),y
-        mva GFX_SHIP_ADR+GFX_SHIP_SEG,y (GLOBALS.WTMP2),y
+@:      lda GFX_SHIP_ADR,y
+p0Ship: sta P0_ADR,y
+        lda GFX_SHIP_ADR+GFX_SHIP_SEG,y
+p1Ship: sta P1_ADR,y
         dey
         bpl @-
 
@@ -634,15 +642,18 @@ A	= DATAORIGIN+$000D
         bne @+1
 @:      tya
         sub #SHIP_Y_STEP
-@:      sta GLOBALS.WTMP1
-        sta GLOBALS.WTMP2
+@:      sta clrP0+1
+        sta clrP1+1
 
         lda #0
         ldy #GFX_SHIP_SEG-SHIP_Y_STEP-1
-@:      sta (GLOBALS.WTMP1),y
-        sta (GLOBALS.WTMP2),y
+clrP0:  sta P0_ADR,y
+clrP1:  sta P1_ADR,y
         dey
-        bpl @-
+        bpl clrP0
+
+        mva #0 COLBAK
+
 
 @exit
 	.ifdef @new
@@ -658,7 +669,7 @@ A	= DATAORIGIN+$000D
 
 .local	INIT						; PROCEDURE
 
-; optimize OK (SPRITES), line = 69
+; optimize OK (SPRITES), line = 80
 
 	.LOCAL
 	ldy #$00
@@ -668,18 +679,18 @@ fill	:10 sta $1300+#*$80,y
 	bpl fill
 	.ENDL
 
-; optimize OK (SPRITES), line = 70
+; optimize OK (SPRITES), line = 81
 
 	ldy #256-$90
 	lda #$FF
 	sta:rne $1320+$90-256,y+
 
-; optimize OK (SPRITES), line = 72
+; optimize OK (SPRITES), line = 83
 
 	lda #$10
 	sta GLOBALS.PMBASE
 
-; optimize OK (SPRITES), line = 73
+; optimize OK (SPRITES), line = 84
 
 	lda #$0A
 	sta GLOBALS.COLPM3
@@ -687,7 +698,7 @@ fill	:10 sta $1300+#*$80,y
 	sta GLOBALS.COLPM01
 	sta GLOBALS.COLPM01+1
 
-; optimize OK (SPRITES), line = 74
+; optimize OK (SPRITES), line = 85
 
 	lda #$30
 	sta BHPOSP0
@@ -698,7 +709,7 @@ fill	:10 sta $1300+#*$80,y
 	lda WSHIPX+1
 	sta GLOBALS.HPOSP01+1
 
-; optimize OK (SPRITES), line = 75
+; optimize OK (SPRITES), line = 86
 
 	lda #$50
 	sta BSHIPY
@@ -710,7 +721,7 @@ fill	:10 sta $1300+#*$80,y
 	lda #$03
 	sta GLOBALS.GRACTL
 
-; optimize FAIL ('COPYSHIP', SPRITES), line = 77
+; optimize FAIL ('COPYSHIP', SPRITES), line = 88
 
 	jsr COPYSHIP
 @exit
